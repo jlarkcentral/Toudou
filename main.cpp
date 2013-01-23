@@ -7,7 +7,7 @@ int main(int argc, char *argv[])
     MainWindow w;
     w.show();
 
-    int i = 5;
+    int i = 5; // test perso uniquement pour le commit
     
     return a.exec();
 }
