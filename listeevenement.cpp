@@ -40,5 +40,5 @@ void ListeEvenement::addEvenement(Evenement unEvenement)
 
 void ListeEvenement::delEvenement(int index)
 {
-    liste.erase(index);
+    //liste.erase(index);
 }
