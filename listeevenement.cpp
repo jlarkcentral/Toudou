@@ -42,3 +42,13 @@ void ListeEvenement::delEvenement(int index)
 {
     //liste.erase(index);
 }
+
+string ListeEvenement::getDate()
+{
+    return date;
+}
+
+void ListeEvenement::setDate(string uneDate)
+{
+    date = uneDate;
+}

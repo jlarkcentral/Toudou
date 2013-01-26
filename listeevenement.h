@@ -12,11 +12,8 @@ using namespace std;
 class ListeEvenement
 {
 public:
-    vector<Evenement> liste;
-    string titre;
-    bool fini;
-
     ListeEvenement(string unTitre);
+    ~ListeEvenement();
 
     vector<Evenement> getListe();
 
@@ -28,6 +25,16 @@ public:
 
     bool getFini();
     void setFini(bool unBool);
+
+    string getDate();
+    void setDate(string Date);
+
+
+private:
+    vector<Evenement> liste;
+    string titre;
+    bool fini;
+    string date;
 };
 
 #endif // LISTEEVENEMENT_H

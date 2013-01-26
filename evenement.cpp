@@ -1,8 +1,9 @@
 #include "evenement.h"
 
-Evenement::Evenement(string uneTache)
+Evenement::Evenement(string uneTache, string uneDate)
 {
     tache = uneTache;
+    date = uneDate;
 }
 
 string Evenement::getTache()
@@ -23,4 +24,14 @@ bool Evenement::getFini()
 void Evenement::setFini(bool unBool)
 {
     fini = unBool;
+}
+
+string Evenement::getDate()
+{
+    return date;
+}
+
+void Evenement::setDate(string uneDate)
+{
+    date = uneDate;
 }

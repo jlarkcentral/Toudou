@@ -7,17 +7,23 @@ using namespace std;
 
 class Evenement
 {
-public:
-    string tache;
-    bool fini;
 
-    Evenement(string uneTache);
+public:
+    Evenement(string uneTache, string uneDate);
 
     string getTache();
     void setTache(string uneTache);
 
     bool getFini();
     void setFini(bool unBool);
+
+    string getDate();
+    void setDate(string Date);
+
+private:
+    string tache;
+    bool fini;
+    string date;
 };
 
 #endif // EVENEMENT_H
