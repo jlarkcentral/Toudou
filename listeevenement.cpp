@@ -24,7 +24,7 @@ bool ListeEvenement::getFini()
 void ListeEvenement::setFini(bool unBool)
 {
     fini = unBool;
-    for (uint i = 0; i<evenements.size(); i++){
+    for (uint i = 0; i < evenements.size(); i++){
         evenements.at(i).setFini(unBool);
     }
 }
@@ -71,7 +71,9 @@ void ListeEvenement::setDate(string uneDate)
 
 void ListeEvenement::delEvenementsFinis()
 {
-    for(vector<Evenement>::iterator it = evenements.begin(); it != evenements.end(); ++it) {
-
+    for (uint i = 0; i < evenements.size(); i++){
+        if(evenements.at(i).getFini()){
+            evenements.erase(evenements.begin()+i);
+        }
     }
 }
