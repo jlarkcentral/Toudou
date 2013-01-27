@@ -1,8 +1,9 @@
 #include "listeevenement.h"
 
-ListeEvenement::ListeEvenement(string unTitre)
+ListeEvenement::ListeEvenement(string unTitre, string uneDate)
 {
     titre = unTitre;
+    date = uneDate;
 }
 
 string ListeEvenement::getTitre()
@@ -23,22 +24,37 @@ bool ListeEvenement::getFini()
 void ListeEvenement::setFini(bool unBool)
 {
     fini = unBool;
-    for (uint i = 0; i<liste.size(); i++){
-        liste.at(i).setFini(unBool);
+    for (uint i = 0; i<evenements.size(); i++){
+        evenements.at(i).setFini(unBool);
     }
 }
 
-vector<Evenement> ListeEvenement::getListe()
+vector<Evenement> ListeEvenement::getEvenements()
 {
-    return liste;
+    return evenements;
 }
 
 void ListeEvenement::addEvenement(Evenement unEvenement)
 {
-    liste.push_back(unEvenement);
+    evenements.push_back(unEvenement);
 }
 
 void ListeEvenement::delEvenement(int index)
+{
+    //liste.erase(index);
+}
+
+vector<ListeEvenement> ListeEvenement::getListes()
+{
+    return listes;
+}
+
+void ListeEvenement::addListeEvenement(ListeEvenement uneListe)
+{
+    listes.push_back(uneListe);
+}
+
+void ListeEvenement::delListeEvenement(int index)
 {
     //liste.erase(index);
 }
@@ -51,4 +67,11 @@ string ListeEvenement::getDate()
 void ListeEvenement::setDate(string uneDate)
 {
     date = uneDate;
+}
+
+void ListeEvenement::delEvenementsFinis()
+{
+    for(vector<Evenement>::iterator it = evenements.begin(); it != evenements.end(); ++it) {
+
+    }
 }

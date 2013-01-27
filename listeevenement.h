@@ -12,13 +12,17 @@ using namespace std;
 class ListeEvenement
 {
 public:
-    ListeEvenement(string unTitre);
-    ~ListeEvenement();
+    ListeEvenement(string unTitre,string uneDate);
 
-    vector<Evenement> getListe();
+    vector<Evenement> getEvenements();
 
     void addEvenement(Evenement unEvenement);
     void delEvenement(int index);
+
+    vector<ListeEvenement> getListes();
+
+    void addListeEvenement(ListeEvenement uneListe);
+    void delListeEvenement(int index);
 
     string getTitre();
     void setTitre(string unTitre);
@@ -29,9 +33,12 @@ public:
     string getDate();
     void setDate(string Date);
 
+    void delEvenementsFinis();
+
 
 private:
-    vector<Evenement> liste;
+    vector<Evenement> evenements;
+    vector<ListeEvenement> listes;
     string titre;
     bool fini;
     string date;
