@@ -2,6 +2,7 @@
 #define EVENEMENT_H
 
 #include <string>
+#include <vector>
 
 using namespace std;
 
@@ -20,10 +21,15 @@ public:
     string getDate();
     void setDate(string Date);
 
+    vector<Evenement> getPrecondition();
+
+    void addPrecondition(Evenement unEvenement);
+
 private:
     string tache;
     bool fini;
     string date;
+    vector<Evenement> precondition;
 };
 
 #endif // EVENEMENT_H

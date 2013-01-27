@@ -35,3 +35,13 @@ void Evenement::setDate(string uneDate)
 {
     date = uneDate;
 }
+
+vector<Evenement> Evenement::getPrecondition()
+{
+    return precondition;
+}
+
+void Evenement::addPrecondition(Evenement unEvenement)
+{
+    precondition.push_back(unEvenement);
+}
