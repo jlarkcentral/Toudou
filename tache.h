@@ -1,16 +1,16 @@
-#ifndef EVENEMENT_H
-#define EVENEMENT_H
+#ifndef TACHE_H
+#define TACHE_H
 
 #include <string>
 #include <vector>
 
 using namespace std;
 
-class Evenement
+class Tache
 {
 
 public:
-    Evenement(string uneTache, string uneDate);
+    Tache(string uneTache);
 
     string getTache();
     void setTache(string uneTache);
@@ -21,15 +21,16 @@ public:
     string getDate();
     void setDate(string Date);
 
-    vector<Evenement> getPrecondition();
+    vector<Tache> getPreconditions();
 
-    void addPrecondition(Evenement unEvenement);
+    void addPrecondition(Tache uneTache);
 
 private:
     string tache;
     bool fini;
     string date;
-    vector<Evenement> precondition;
+    vector<Tache> preconditions;
+    vector<Tache> sousTaches;
 };
 
-#endif // EVENEMENT_H
+#endif // TACHE_H
