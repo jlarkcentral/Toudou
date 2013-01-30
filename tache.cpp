@@ -22,6 +22,11 @@ bool Tache::getFini()
 
 void Tache::setFini(bool unBool)
 {
+    for (int i = 0; i < preconditions.size() ;i++){
+        if (!preconditions.at(i).getFini()){
+            return;
+        }
+    }
     fini = unBool;
 }
 
