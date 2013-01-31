@@ -1,24 +1,25 @@
 #include "firstwindow.h"
-#include "ui_firstwindow.h"
-#include <QGridLayout>
 #include <QLabel>
 #include <QTreeWidget>
 #include <unistd.h>
 #include <QPushButton>
+#include "tache.h"
+#include "widget_infos.h"
 
 FirstWindow::FirstWindow(QWidget *parent) :
-    QMainWindow(parent),
-    ui(new Ui::FirstWindow)
+    QMainWindow(parent)
 {
-    ui->setupUi(this);
     drawerOpened = false;
 
     // Taille fenêtre
-    setFixedWidth(400);
+    setFixedWidth(420);
 
     // Layout principal (grid)
-    QGridLayout * mainLayout = new QGridLayout();
-    ui->centralwidget->setLayout(mainLayout);
+    QWidget * centralwidget = new QWidget(this);
+    setCentralWidget(centralwidget);
+    mainLayout = new QGridLayout();
+    mainLayout->setSizeConstraint(QLayout::SetFixedSize);
+    centralwidget->setLayout(mainLayout);
 
     // Entête fenêtre (title + icon)
     setWindowTitle("Toudou");
@@ -45,7 +46,7 @@ FirstWindow::FirstWindow(QWidget *parent) :
 
     // TreeWidget
     QTreeWidget * arbo = new QTreeWidget();
-    arbo->header()->setVisible(false);
+    arbo->setHeaderHidden(true);
     arbo->setStyleSheet("font-weight : bold; font-size : 18px; ");
     QTreeWidgetItem * item = new QTreeWidgetItem();
     item->setText(0,"Truc");
@@ -82,11 +83,11 @@ FirstWindow::FirstWindow(QWidget *parent) :
     QPushButton * newbutton = new QPushButton("Nouveau");
     pagelayout->addWidget(newbutton);
     QObject::connect(newbutton,SIGNAL(clicked()),this,SLOT(openDrawer()));
+
 }
 
 FirstWindow::~FirstWindow()
 {
-    delete ui;
 }
 
 
@@ -98,9 +99,18 @@ void FirstWindow::openDrawer()
         for(int i=0 ; i<15 ; i++)
         {
             usleep(10000);
-            size += 25;
+            size += 20;
             setFixedWidth(size);
         }
+
+        // TEST : tâche
+        Tache * t = new Tache("Ma jolie tâche");
+        t->setDate("7 février 2013");
+        t->setFini(false);
+
+        Widget_infos * infos = new Widget_infos(t);
+        mainLayout->addWidget(infos,2,1,1,1);
+
         drawerOpened = true;
     }
 }

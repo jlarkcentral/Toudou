@@ -3,21 +3,36 @@
 
 #include <QWidget>
 #include <QLabel>
+#include "tache.h"
+#include <iostream>
 
-namespace Ui {
-class Widget_infos;
-}
+using namespace std;
+
 
 class Widget_infos : public QWidget
 {
     Q_OBJECT
     
 public:
-    explicit Widget_infos(QWidget *parent = 0);
+    explicit Widget_infos(Tache * t, QWidget *parent = 0);
     ~Widget_infos();
+
+    QLabel* getName();
+    void setName(string s);
+
+    QLabel* getParent();
+    void setParent(string s);
+
+    QLabel* getDate();
+    void setDate(string s);
+
+    QLabel* getTimeleft();
+    void setTimeleft(string s);
+
+    QLabel* getType();
+    void setType(string s);
     
 private:
-    Ui::Widget_infos *ui;
     QLabel * name;
     QLabel * parent;
     QLabel * date;

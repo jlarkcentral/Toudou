@@ -21,6 +21,4 @@ HEADERS  += mainwindow.h \
     firstwindow.h \
     widget_infos.h
 
-FORMS    += mainwindow.ui \
-    firstwindow.ui \
-    widget_infos.ui
+FORMS    += mainwindow.ui

@@ -33,3 +33,5 @@
 - warning si coche la tâche 3 avant 1 et 2, + phrase rouge dans le recap
 - limiter le nb de caracteres pour le nom, si + d'info mettre dans les notes
 - possibilité de vider les tâches effectuées
+
+- attribut tache : parent. Quand on ajoute une sous-tache, il faut lui préciser sa tache parente (peut être utile pour l'affichage des informations ?)

@@ -23,6 +23,8 @@ public:
 
     vector<Tache> getPreconditions();
 
+    vector<Tache> getSousTaches();
+
     void addPrecondition(Tache uneTache);
 
 private:

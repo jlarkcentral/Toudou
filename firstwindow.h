@@ -2,10 +2,10 @@
 #define FIRSTWINDOW_H
 
 #include <QMainWindow>
+#include <QGridLayout>
+#include <iostream>
 
-namespace Ui {
-class FirstWindow;
-}
+using namespace std;
 
 class FirstWindow : public QMainWindow
 {
@@ -16,8 +16,8 @@ public:
     ~FirstWindow();
     
 private:
-    Ui::FirstWindow *ui;
     bool drawerOpened;
+    QGridLayout * mainLayout;
 
 public slots:
     void openDrawer();

@@ -40,6 +40,11 @@ vector<Tache> Tache::getPreconditions()
     return preconditions;
 }
 
+vector<Tache> Tache::getSousTaches()
+{
+    return sousTaches;
+}
+
 void Tache::addPrecondition(Tache uneTache)
 {
     preconditions.push_back(uneTache);
