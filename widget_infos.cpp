@@ -1,5 +1,6 @@
-#include "widget_infos.h"
 #include <QVBoxLayout>
+
+#include "widget_infos.h"
 
 Widget_infos::Widget_infos(Tache * t, QWidget *parent) :
     QWidget(parent)
