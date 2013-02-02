@@ -108,10 +108,25 @@ void FirstWindow::openDrawer()
         t->setDate("7 février 2013");
         t->setFini(false);
 
-        Widget_infos * infos = new Widget_infos(t);
+        Widget_infos * infos = new Widget_infos(t,this);
         mainLayout->addWidget(infos,2,1,1,1);
 
         drawerOpened = true;
     }
 }
 
+void FirstWindow::closeDrawer()
+{
+    if (drawerOpened)
+    {
+        int size = width();
+        for(int i=0 ; i<15 ; i++)
+        {
+            usleep(10000);
+            size -= 20;
+            setFixedWidth(size);
+        }
+
+        drawerOpened = false;
+    }
+}

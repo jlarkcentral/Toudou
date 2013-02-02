@@ -21,6 +21,7 @@ private:
 
 public slots:
     void openDrawer();
+    void closeDrawer();
 
 signals:
 };

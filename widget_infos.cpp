@@ -8,7 +8,7 @@ Widget_infos::Widget_infos(Tache * t, QWidget *parent) :
     this->setLayout(mainlayout);
 
     name = new QLabel(QString::fromStdString(t->getTache()));
-    parent = new QLabel("En attente");
+    //parent = new QLabel("En attente");
     date = new QLabel(QString::fromStdString(t->getDate()));
     timeleft = new QLabel("A faire");
     type = new QLabel();
@@ -24,10 +24,16 @@ Widget_infos::Widget_infos(Tache * t, QWidget *parent) :
     name->setStyleSheet("font-weight : bold; font-size : 18px; ");
 
     mainlayout->addWidget(name);
-    mainlayout->addWidget(parent);
+    //mainlayout->addWidget(parent);
     mainlayout->addWidget(date);
     mainlayout->addWidget(timeleft);
     mainlayout->addWidget(type);
+
+
+    // Bouton Nouveau
+    QPushButton * boutonAjout = new QPushButton("Ajouter");
+    mainlayout->addWidget(boutonAjout);
+    QObject::connect(boutonAjout,SIGNAL(clicked()),parent,SLOT(closeDrawer()));
 }
 
 Widget_infos::~Widget_infos()

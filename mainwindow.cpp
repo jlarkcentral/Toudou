@@ -32,3 +32,18 @@ void MainWindow::openDrawer()
         drawerOpened = true;
     }
 }
+
+void MainWindow::closeDrawer()
+{
+    if (drawerOpened)
+    {
+        int size = width();
+        for(int i=0 ; i<15 ; i++)
+        {
+            usleep(10000);
+            size -= 25;
+            setFixedWidth(size);
+        }
+        drawerOpened = false;
+    }
+}

@@ -3,7 +3,11 @@
 
 #include <QWidget>
 #include <QLabel>
+#include <QPushButton>
+
+#include "firstwindow.h"
 #include "tache.h"
+
 #include <iostream>
 
 using namespace std;
@@ -38,6 +42,8 @@ private:
     QLabel * date;
     QLabel * timeleft;
     QLabel * type;
+
+public slots:
 };
 
 #endif // WIDGET_INFOS_H
