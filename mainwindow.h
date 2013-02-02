@@ -17,6 +17,12 @@ public:
     
 private:
     Ui::MainWindow *ui;
+    bool drawerOpened;
+
+public slots:
+    void openDrawer();
+
+signals:
 };
 
 #endif // MAINWINDOW_H
