@@ -98,21 +98,11 @@ FirstWindow::~FirstWindow()
 {
 }
 
-
+// popup ajout d une nouvelle tache
 void FirstWindow::popAjout()
 {
     Widget_ajout * w_a = new Widget_ajout(this);
     w_a->show();
-}
-
-void FirstWindow::addTache()
-{
-    //Tache * maTache = new Tache(uneTache);
-    // data : ajout de maTache dans le modele...
-    QTreeWidgetItem * item = new QTreeWidgetItem();
-    item->setCheckState(0,Qt::Unchecked);
-    item->setText(0,"uneTache");
-    arbo->addTopLevelItem(item);
 }
 
 

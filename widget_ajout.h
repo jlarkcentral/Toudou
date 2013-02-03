@@ -21,8 +21,8 @@ public:
     Widget_ajout(FirstWindow * fw ,QWidget *parent = 0);
     ~Widget_ajout();
 
-    QLabel* getName();
-    void setName(string s);
+    QString getName();
+    void setName(QString s);
 
     QLabel* getParent();
     void setParent(string s);
@@ -39,13 +39,14 @@ public:
     FirstWindow * firstW;
 
 private:
-    QLabel * name;
+    QLineEdit * name;
     QLabel * parent;
     QLabel * date;
     QLabel * timeleft;
     QLabel * type;
 
 public slots:
+    void addTache();
 };
 
 #endif // WIDGET_AJOUT_H

@@ -19,6 +19,7 @@ public:
     explicit FirstWindow(QWidget *parent = 0);
     ~FirstWindow();
 
+    // l'arborescence devient un parametre global pour y acceder dans les slots
     QTreeWidget * arbo;
     
 private:
@@ -29,7 +30,7 @@ private:
 public slots:
     void openDrawer();
     void closeDrawer();
-    void addTache();
+    //void addTache();
     void popAjout();
 };
 
