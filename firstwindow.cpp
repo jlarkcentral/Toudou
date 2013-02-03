@@ -47,13 +47,18 @@ FirstWindow::FirstWindow(QWidget *parent) :
     mainLayout->addWidget(onglets,2,0,1,1);
 
     // TreeWidget
-    QTreeWidget * arbo = new QTreeWidget();
+    //QTreeWidget * arbo = new QTreeWidget();
+    arbo = new QTreeWidget();
     arbo->setHeaderHidden(true);
     arbo->setStyleSheet("font-weight : bold; font-size : 18px; ");
+
     QTreeWidgetItem * item = new QTreeWidgetItem();
+    item->setCheckState(0,Qt::Unchecked);
     item->setText(0,"Truc");
+    item->setFlags(item->flags() | (Qt::ItemIsEditable));
     arbo->addTopLevelItem(item);
-    QTreeWidgetItem * item2 = new QTreeWidgetItem();
+
+    /*QTreeWidgetItem * item2 = new QTreeWidgetItem();
     item2->setText(0,"Troussepinette");
     arbo->addTopLevelItem(item2);
     QTreeWidgetItem * item3 = new QTreeWidgetItem();
@@ -65,7 +70,7 @@ FirstWindow::FirstWindow(QWidget *parent) :
     QTreeWidgetItem * item5 = new QTreeWidgetItem(item3);
     item5->setText(0,"Couteau");
     arbo->addTopLevelItem(item5);
-
+*/
     // insertion arbo dans premier onglet
     QWidget * page = new QWidget();
     QVBoxLayout * pagelayout = new QVBoxLayout();
@@ -84,12 +89,22 @@ FirstWindow::FirstWindow(QWidget *parent) :
     // Bouton Nouveau
     QPushButton * newbutton = new QPushButton("Nouveau");
     pagelayout->addWidget(newbutton);
-    QObject::connect(newbutton,SIGNAL(clicked()),this,SLOT(openDrawer()));
+    QObject::connect(newbutton,SIGNAL(clicked()),this,SLOT(addTache()));
 
 }
 
 FirstWindow::~FirstWindow()
 {
+}
+
+void FirstWindow::addTache()
+{
+    //Tache * maTache = new Tache(uneTache);
+    // data : ajout de maTache dans le modele...
+    QTreeWidgetItem * item = new QTreeWidgetItem();
+    item->setCheckState(0,Qt::Unchecked);
+    item->setText(0,"uneTache");
+    arbo->addTopLevelItem(item);
 }
 
 
