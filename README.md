@@ -46,4 +46,8 @@ permettrait d avoir sur une fenetre :
 -> et ensuite des menus que l'on peut découvrir-cacher où l'on choisit la date, les preconditions ... (un menu date, un menu preconditions...)
 -> comme ca une fois la tache ajoutee on ne voit plus que la liste des to-do.
 
-a faire ; la liste en "expanding" en plein ecran (au moins en hauteur)
+a faire ; 
+- la liste en "expanding" en plein ecran (au moins en hauteur)
+- le bouton "nouveau..." de FirstWindow , pourrait etre sur l'arbre et devrait etre en 2 endroits :
+un bouton nouvelle tache et un bouton nouvelle sous tache
+(mais perso j ai pas trouvé pour rajouter un QPushButton sur le QTreeWidget)
