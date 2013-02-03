@@ -1,24 +1,25 @@
-#ifndef WIDGET_INFOS_H
-#define WIDGET_INFOS_H
+#ifndef WIDGET_AJOUT_H
+#define WIDGET_AJOUT_H
 
 #include <QWidget>
 #include <QLabel>
 #include <QPushButton>
 
 #include "tache.h"
+#include "firstwindow.h"
 
 #include <iostream>
 
 using namespace std;
 
 
-class Widget_infos : public QWidget
+class Widget_ajout : public QWidget
 {
     Q_OBJECT
-    
+
 public:
-    explicit Widget_infos(Tache * t, QWidget *parent = 0);
-    ~Widget_infos();
+    Widget_ajout(FirstWindow * fw ,QWidget *parent = 0);
+    ~Widget_ajout();
 
     QLabel* getName();
     void setName(string s);
@@ -34,7 +35,9 @@ public:
 
     QLabel* getType();
     void setType(string s);
-    
+
+    FirstWindow * firstW;
+
 private:
     QLabel * name;
     QLabel * parent;
@@ -45,4 +48,4 @@ private:
 public slots:
 };
 
-#endif // WIDGET_INFOS_H
+#endif // WIDGET_AJOUT_H

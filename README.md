@@ -35,3 +35,15 @@
 - possibilité de vider les tâches effectuées
 
 - attribut tache : parent. Quand on ajoute une sous-tache, il faut lui préciser sa tache parente (peut être utile pour l'affichage des informations ?)
+
+
+////
+
+
+popup finalement ? :s
+permettrait d avoir sur une fenetre :
+- une ligne simple par defaut pour entrer le nom du to-do
+-> et ensuite des menus que l'on peut découvrir-cacher où l'on choisit la date, les preconditions ... (un menu date, un menu preconditions...)
+-> comme ca une fois la tache ajoutee on ne voit plus que la liste des to-do.
+
+a faire ; la liste en "expanding" en plein ecran (au moins en hauteur)

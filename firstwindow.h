@@ -7,6 +7,8 @@
 
 #include <iostream>
 
+#include "widget_infos.h"
+
 using namespace std;
 
 class FirstWindow : public QMainWindow
@@ -28,6 +30,7 @@ public slots:
     void openDrawer();
     void closeDrawer();
     void addTache();
+    void popAjout();
 };
 
 #endif // FIRSTWINDOW_H

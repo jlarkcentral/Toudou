@@ -7,6 +7,7 @@
 #include "firstwindow.h"
 #include "tache.h"
 #include "widget_infos.h"
+#include "widget_ajout.h"
 
 FirstWindow::FirstWindow(QWidget *parent) :
     QMainWindow(parent)
@@ -89,12 +90,19 @@ FirstWindow::FirstWindow(QWidget *parent) :
     // Bouton Nouveau
     QPushButton * newbutton = new QPushButton("Nouveau");
     pagelayout->addWidget(newbutton);
-    QObject::connect(newbutton,SIGNAL(clicked()),this,SLOT(addTache()));
+    QObject::connect(newbutton,SIGNAL(clicked()),this,SLOT(popAjout()));
 
 }
 
 FirstWindow::~FirstWindow()
 {
+}
+
+
+void FirstWindow::popAjout()
+{
+    Widget_ajout * w_a = new Widget_ajout(this);
+    w_a->show();
 }
 
 void FirstWindow::addTache()
