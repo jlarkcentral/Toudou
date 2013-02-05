@@ -103,7 +103,7 @@ void Widget_ajout::addTache()
     firstW->arbo->addTopLevelItem(item);
     firstW->arbo->setItemWidget(item,3,plus);
     firstW->arbo->setItemWidget(item,4,suppr);
-    QObject::connect(plus,SIGNAL(clicked()),firstW,SLOT(popAjout());
+    QObject::connect(plus,SIGNAL(clicked()),firstW,SLOT(popAjout()));
 
 
     // Fermeture de la fenêtre une fois la tâche ajoutée
