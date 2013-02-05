@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QLabel>
 #include <QPushButton>
+#include <QGroupBox>
 
 #include "tache.h"
 #include "firstwindow.h"
@@ -44,9 +45,13 @@ private:
     QLabel * date;
     QLabel * timeleft;
     QLabel * type;
+    QPushButton * details;
+    bool details_aff;
+    QGroupBox * groupbox_date;
 
 public slots:
     void addTache();
+    void afficherDate();
 };
 
 #endif // WIDGET_AJOUT_H
