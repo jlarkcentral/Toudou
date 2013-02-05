@@ -17,7 +17,9 @@ Widget_ajout::Widget_ajout(FirstWindow *fw, QWidget *parent) :
 
     QVBoxLayout * mainlayout = new QVBoxLayout();
     this->setLayout(mainlayout);
-    this->setWindowFlags(Qt::Popup);
+    //this->setWindowFlags(Qt::Popup);
+    this->setWindowTitle("Ajout d'une tache");
+    this->setFixedWidth(300);
 
     QLabel * nameLabel = new QLabel("Tache : ");
     name = new QLineEdit("Nouvelle tache");
@@ -86,7 +88,23 @@ void Widget_ajout::addTache()
     QTreeWidgetItem * item = new QTreeWidgetItem();
     item->setCheckState(0,Qt::Unchecked);
     item->setText(0,name->text());
+    item->setText(1,"Date");
+    item->setText(2,"Heure");
+
+    QPushButton * plus = new QPushButton("+");
+    //plus->setStyleSheet("background-image : url(img/plus.png); background-repeat : no-repeat");
+    plus->setAutoFillBackground(true);
+    //plus->setFixedWidth(34);
+
+    QPushButton * suppr = new QPushButton("X");
+    suppr->setAutoFillBackground(true);
+    //suppr->setFixedWidth(34);
+
     firstW->arbo->addTopLevelItem(item);
+    firstW->arbo->setItemWidget(item,3,plus);
+    firstW->arbo->setItemWidget(item,4,suppr);
+    QObject::connect(plus,SIGNAL(clicked()),firstW,SLOT(popAjout());
+
 
     // Fermeture de la fenêtre une fois la tâche ajoutée
     this->close();

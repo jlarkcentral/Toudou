@@ -16,13 +16,13 @@ FirstWindow::FirstWindow(QWidget *parent) :
     drawerOpened = false;
 
     // Taille fenêtre
-    setFixedWidth(420);
+    setMinimumWidth(400);
 
     // Layout principal (grid)
     QWidget * centralwidget = new QWidget(this);
     setCentralWidget(centralwidget);
     mainLayout = new QGridLayout();
-    mainLayout->setSizeConstraint(QLayout::SetFixedSize);
+    //mainLayout->setSizeConstraint(QLayout::SetFixedSize);
     centralwidget->setLayout(mainLayout);
 
     // Entête fenêtre (title + icon)
@@ -45,34 +45,41 @@ FirstWindow::FirstWindow(QWidget *parent) :
 
     // Onglets
     QTabWidget * onglets = new QTabWidget();
-    onglets->setFixedWidth(400);
+    //onglets->setFixedWidth(400);
     mainLayout->addWidget(onglets,2,0,1,1);
 
     // TreeWidget
     //QTreeWidget * arbo = new QTreeWidget();
     arbo = new QTreeWidget();
+    //arbo->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
     QHeaderView * header = arbo->header();
     header->setResizeMode(QHeaderView::ResizeToContents);
+    header->setResizeMode(0,QHeaderView::Stretch);
+    //header->setResizeMode(1,QHeaderView::Stretch);
+    //header->setResizeMode(2,QHeaderView::Stretch);
+    header->setResizeMode(3,QHeaderView::Fixed);
+    header->setResizeMode(4,QHeaderView::Fixed);
+    header->setStretchLastSection(false);
     arbo->setHeaderHidden(true);
     arbo->setStyleSheet("font-weight : bold; font-size : 18px; ");
-    arbo->setColumnCount(2);
+    arbo->setColumnCount(5);
 
-    QTreeWidgetItem * item = new QTreeWidgetItem();
-    item->setCheckState(0,Qt::Unchecked);
-    item->setText(0,"Truc");
+    //QTreeWidgetItem * item = new QTreeWidgetItem();
+    //item->setCheckState(0,Qt::Unchecked);
+    //item->setText(0,"Truc");
+    //item->setText(1,"Date");
     // Test insertion bouton
-    QPushButton * plus = new QPushButton();
-    plus->setStyleSheet("background-image : url(img/plus.png); background-repeat : no-repeat");
-    plus->setAutoFillBackground(true);
-    plus->setFixedWidth(34);
-    item->setFlags(item->flags() | (Qt::ItemIsEditable));
-    arbo->addTopLevelItem(item);
-    arbo->setItemWidget(item,1,plus); // ATTENTION : à faire après avoir placé l'item dans l'arbre, sinon marche pas
+    //QPushButton * plus = new QPushButton();
+    //plus->setStyleSheet("background-image : url(img/plus.png); background-repeat : no-repeat");
+    //plus->setAutoFillBackground(true);
+    //plus->setFixedWidth(34);
+    //arbo->addTopLevelItem(item);
+    //arbo->setItemWidget(item,2,plus); // ATTENTION : à faire après avoir placé l'item dans l'arbre, sinon marche pas
 
     // Test
-    QObject::connect(arbo,SIGNAL(itemClicked(QTreeWidgetItem*,int)),this,SLOT(popAjout(QTreeWidgetItem*,int)));
+    //QObject::connect(arbo,SIGNAL(itemClicked(QTreeWidgetItem*,int)),this,SLOT(popAjout(QTreeWidgetItem*,int)));
 
-    /*QTreeWidgetItem * item2 = new QTreeWidgetItem();
+    QTreeWidgetItem * item2 = new QTreeWidgetItem();
     item2->setText(0,"Troussepinette");
     arbo->addTopLevelItem(item2);
     QTreeWidgetItem * item3 = new QTreeWidgetItem();
@@ -84,11 +91,12 @@ FirstWindow::FirstWindow(QWidget *parent) :
     QTreeWidgetItem * item5 = new QTreeWidgetItem(item3);
     item5->setText(0,"Couteau");
     arbo->addTopLevelItem(item5);
-*/
+
     // insertion arbo dans premier onglet
     QWidget * page = new QWidget();
     QVBoxLayout * pagelayout = new QVBoxLayout();
     page->setLayout(pagelayout);
+    page->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
     pagelayout->addWidget(arbo);
     onglets->addTab(page,"Toutes les tâches");
 
