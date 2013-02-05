@@ -31,7 +31,8 @@ public slots:
     void openDrawer();
     void closeDrawer();
     //void addTache();
-    void popAjout();
+    void popAjout(); // déclenché si bouton "Nouveau"
+    void popAjout(QTreeWidgetItem* i, int column); // déclenché si clic sur le "+" dans l'arbo
 };
 
 #endif // FIRSTWINDOW_H

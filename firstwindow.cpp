@@ -3,6 +3,7 @@
 #include <QLabel>
 #include <QTreeWidget>
 #include <QPushButton>
+#include <QHeaderView>
 
 #include "firstwindow.h"
 #include "tache.h"
@@ -50,14 +51,26 @@ FirstWindow::FirstWindow(QWidget *parent) :
     // TreeWidget
     //QTreeWidget * arbo = new QTreeWidget();
     arbo = new QTreeWidget();
+    QHeaderView * header = arbo->header();
+    header->setResizeMode(QHeaderView::ResizeToContents);
     arbo->setHeaderHidden(true);
     arbo->setStyleSheet("font-weight : bold; font-size : 18px; ");
+    arbo->setColumnCount(2);
 
     QTreeWidgetItem * item = new QTreeWidgetItem();
     item->setCheckState(0,Qt::Unchecked);
     item->setText(0,"Truc");
+    // Test insertion bouton
+    QPushButton * plus = new QPushButton();
+    plus->setStyleSheet("background-image : url(img/plus.png); background-repeat : no-repeat");
+    plus->setAutoFillBackground(true);
+    plus->setFixedWidth(34);
     item->setFlags(item->flags() | (Qt::ItemIsEditable));
     arbo->addTopLevelItem(item);
+    arbo->setItemWidget(item,1,plus); // ATTENTION : à faire après avoir placé l'item dans l'arbre, sinon marche pas
+
+    // Test
+    QObject::connect(arbo,SIGNAL(itemClicked(QTreeWidgetItem*,int)),this,SLOT(popAjout(QTreeWidgetItem*,int)));
 
     /*QTreeWidgetItem * item2 = new QTreeWidgetItem();
     item2->setText(0,"Troussepinette");
@@ -103,6 +116,16 @@ void FirstWindow::popAjout()
 {
     Widget_ajout * w_a = new Widget_ajout(this);
     w_a->show();
+}
+
+
+void FirstWindow::popAjout(QTreeWidgetItem* i, int column)
+{
+    if (column == 1)
+    {
+        Widget_ajout * w_a = new Widget_ajout(this);
+        w_a->show();
+    }
 }
 
 

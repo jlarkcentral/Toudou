@@ -40,4 +40,7 @@ void Widget_ajout::addTache()
     item->setCheckState(0,Qt::Unchecked);
     item->setText(0,name->text());
     firstW->arbo->addTopLevelItem(item);
+
+    // Fermeture de la fenêtre une fois la tâche ajoutée
+    this->close();
 }
