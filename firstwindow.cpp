@@ -51,6 +51,7 @@ FirstWindow::FirstWindow(QWidget *parent) :
     // TreeWidget
     //QTreeWidget * arbo = new QTreeWidget();
     arbo = new QTreeWidget();
+    itemCourant = arbo->itemAt(0,0);
     //arbo->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
     QHeaderView * header = arbo->header();
     header->setResizeMode(QHeaderView::ResizeToContents);
@@ -77,7 +78,7 @@ FirstWindow::FirstWindow(QWidget *parent) :
     //arbo->setItemWidget(item,2,plus); // ATTENTION : à faire après avoir placé l'item dans l'arbre, sinon marche pas
 
     // Test
-    //QObject::connect(arbo,SIGNAL(itemClicked(QTreeWidgetItem*,int)),this,SLOT(popAjout(QTreeWidgetItem*,int)));
+    //QObject::connect(arbo,SIGNAL(itemClicked(QTreeWidgetItem*,int)),this,SLOT(currentItemChange(QTreeWidgetItem*,int)));
 
     QTreeWidgetItem * item2 = new QTreeWidgetItem();
     item2->setText(0,"Troussepinette");
@@ -127,15 +128,17 @@ void FirstWindow::popAjout()
 }
 
 
-void FirstWindow::popAjout(QTreeWidgetItem* i, int column)
+void FirstWindow::popAjout(QTreeWidgetItem* i)
 {
-    if (column == 1)
-    {
-        Widget_ajout * w_a = new Widget_ajout(this);
-        w_a->show();
-    }
+    itemCourant = i;
+    Widget_ajout * w_a = new Widget_ajout(this);
+    w_a->show();
 }
 
+void FirstWindow::currentItemChange(QTreeWidgetItem* i)
+{
+    itemCourant = i;
+}
 
 void FirstWindow::openDrawer()
 {

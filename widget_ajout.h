@@ -39,6 +39,7 @@ public:
 
     FirstWindow * firstW;
 
+
 private:
     QLineEdit * name;
     QLabel * parent;

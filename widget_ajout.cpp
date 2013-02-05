@@ -85,7 +85,7 @@ void Widget_ajout::addTache()
 {
     //Tache * maTache = new Tache(uneTache);
     // data : ajout de maTache dans le modele...
-    QTreeWidgetItem * item = new QTreeWidgetItem();
+    QTreeWidgetItem * item = new QTreeWidgetItem(firstW->itemCourant);
     item->setCheckState(0,Qt::Unchecked);
     item->setText(0,name->text());
     item->setText(1,"Date");
@@ -104,7 +104,7 @@ void Widget_ajout::addTache()
     firstW->arbo->setItemWidget(item,3,plus);
     firstW->arbo->setItemWidget(item,4,suppr);
     QObject::connect(plus,SIGNAL(clicked()),firstW,SLOT(popAjout()));
-
+    QObject::connect(plus,SIGNAL(clicked()),firstW,SLOT(popAjout()));
 
     // Fermeture de la fenêtre une fois la tâche ajoutée
     this->close();
