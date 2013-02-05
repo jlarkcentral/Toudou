@@ -1,6 +1,7 @@
 
 #include <QVBoxLayout>
 #include <QLineEdit>
+#include <QCalendarWidget>
 
 #include "widget_ajout.h"
 
@@ -12,13 +13,26 @@ Widget_ajout::Widget_ajout(FirstWindow *fw, QWidget *parent) :
 
     QVBoxLayout * mainlayout = new QVBoxLayout();
     this->setLayout(mainlayout);
+    this->setWindowFlags(Qt::Popup);
 
+    QLabel * nameLabel = new QLabel("Tache : ");
     name = new QLineEdit("Nouvelle tache");
     name->setMaxLength(100);
+    mainlayout->addWidget(nameLabel);
     mainlayout->addWidget(name);
 
     //parent = new QLabel("En attente");
-    date = new QLabel();
+
+    // layout pour la date : afficher avec un dérouleur
+    QVBoxLayout * dateLayout = new QVBoxLayout();
+    date = new QLabel("Date");
+    dateLayout->addWidget(date);
+    QCalendarWidget * calendar = new QCalendarWidget();
+    dateLayout->addWidget(calendar);
+    mainlayout->addLayout(dateLayout);
+
+    // idem pour preconditions
+
     timeleft = new QLabel("A faire");
     type = new QLabel();
 
@@ -26,6 +40,7 @@ Widget_ajout::Widget_ajout(FirstWindow *fw, QWidget *parent) :
     QPushButton * boutonAjout = new QPushButton("Ajouter");
     mainlayout->addWidget(boutonAjout);
     QObject::connect(boutonAjout,SIGNAL(clicked()),this,SLOT(addTache()));
+    QObject::connect(boutonAjout,SIGNAL(clicked()),this,SLOT(close()));
 }
 
 Widget_ajout::~Widget_ajout()
