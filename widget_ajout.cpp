@@ -106,8 +106,12 @@ void Widget_ajout::addTache()
     QTreeWidgetItem * item = new QTreeWidgetItem(firstW->currentItem);
     item->setCheckState(0,Qt::Unchecked);
     item->setText(0,name->text());
-    item->setText(1,calendar->selectedDate().toString());
-    item->setText(2,"Heure");
+    if (details_aff){
+        item->setText(1,calendar->selectedDate().toString());
+        item->setTextColor(1,QColor(152,152,152));
+        item->setText(2,"Heure");
+        item->setTextColor(2, QColor(125,125,125));
+    }
 
     // en attendant une meilleure solution : l'ajout d'un QPushButton "cache" la colonne cliquable.
     // solution : afficher une icone ?
@@ -136,7 +140,7 @@ void Widget_ajout::addTache()
 
 void Widget_ajout::afficherDate()
 {
-    std::cout << details_aff << std::endl;
+    //std::cout << details_aff << std::endl;
     if (!details_aff)
     {
         groupbox_date->setVisible(true);
