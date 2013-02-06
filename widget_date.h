@@ -8,6 +8,7 @@
 #include <QRadioButton>
 #include <QCalendarWidget>
 #include <QTimeEdit>
+#include <QComboBox>
 
 
 class widget_date : public QWidget

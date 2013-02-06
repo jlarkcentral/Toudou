@@ -1,28 +1,43 @@
 
 #include <QVBoxLayout>
 #include <QLineEdit>
-#include <QCalendarWidget>
 #include <QToolBox>
 #include <QGroupBox>
+#include <QTreeWidgetItem>
 
 #include "widget_ajout.h"
 
 
-Widget_ajout::Widget_ajout(FirstWindow *fw, QWidget *parent) :
+Widget_ajout::Widget_ajout(FirstWindow *fw,QWidget *parent) :
     QWidget(parent)
 {
+    // attributs utiles
     firstW = fw;
 
     date_aff = false;
 
+    // seul le widget_ajout a le focus
+    firstW->setDisabled(true);
+
+    // Layout du widget ajout
     QVBoxLayout * mainlayout = new QVBoxLayout();
     this->setLayout(mainlayout);
-    //this->setWindowFlags(Qt::Popup);
     this->setWindowTitle("Ajout d'une tache");
     this->setFixedWidth(300);
     this->setFixedHeight(150);
 
-    QLabel * nameLabel = new QLabel("Tache : ");
+    // centre le widget
+    this->setWindowFlags(Qt::Sheet | Qt::WindowStaysOnTopHint);
+
+
+    // Titre pour le champ nom de la Tache - "tache" ou "sous tache de XXX"
+    QLabel * nameLabel;
+    if (firstW->currentItem == firstW->arbo->invisibleRootItem()){
+        nameLabel = new QLabel("Nouvelle tache : ");
+    }
+    else{
+        nameLabel = new QLabel("Sous-tache de " + firstW->currentItem->text(0) + " :");
+    }
     name = new QLineEdit("Nouvelle tache");
     name->setMaxLength(100);
     mainlayout->addWidget(nameLabel);
@@ -31,6 +46,13 @@ Widget_ajout::Widget_ajout(FirstWindow *fw, QWidget *parent) :
     //parent = new QLabel("En attente");
 
 
+    // layout pour la date : afficher avec un dÃ©rouleur
+    /*QVBoxLayout * dateLayout = new QVBoxLayout();
+    date = new QLabel("Date");
+    dateLayout->addWidget(date);
+    calendar = new QCalendarWidget();
+    dateLayout->addWidget(calendar);*/
+    //mainlayout->addLayout(dateLayout);
 
     // idem pour preconditions
 
@@ -67,6 +89,8 @@ Widget_ajout::Widget_ajout(FirstWindow *fw, QWidget *parent) :
     groupbox_date->setVisible(false);
     mainlayout->addWidget(groupbox_date);*/
 
+    QObject::connect(this,SIGNAL(WidgetClosed()),firstW,SLOT(resetDisable()));
+
 }
 
 Widget_ajout::~Widget_ajout()
@@ -75,30 +99,42 @@ Widget_ajout::~Widget_ajout()
 // fonction d ajout dans le modele et dans l arborescence de la nouvelle tache
 void Widget_ajout::addTache()
 {
-    //Tache * maTache = new Tache(uneTache);
+
+    //Tache * maTache = new Tache(name->text());
     // data : ajout de maTache dans le modele...
-    QTreeWidgetItem * item = new QTreeWidgetItem(firstW->itemCourant);
+
+    QTreeWidgetItem * item = new QTreeWidgetItem(firstW->currentItem);
     item->setCheckState(0,Qt::Unchecked);
     item->setText(0,name->text());
-    item->setText(1,"Date");
-    item->setText(2,"Heure");
+    if (date_aff){
+        item->setText(1,calendar->selectedDate().toString());
+        item->setTextColor(1,QColor(152,152,152));
+        item->setText(2,"Heure");
+        item->setTextColor(2, QColor(125,125,125));
+    }
 
-    QPushButton * plus = new QPushButton("+");
+    // en attendant une meilleure solution : l'ajout d'un QPushButton "cache" la colonne cliquable.
+    // solution : afficher une icone ?
+    item->setText(3,"[+]");
+    item->setText(4,"[X]");
+
+    //QPushButton * plus = new QPushButton("+");
     //plus->setStyleSheet("background-image : url(img/plus.png); background-repeat : no-repeat");
-    plus->setAutoFillBackground(true);
+    //plus->setAutoFillBackground(true);
     //plus->setFixedWidth(34);
 
-    QPushButton * suppr = new QPushButton("X");
-    suppr->setAutoFillBackground(true);
+    //QPushButton * suppr = new QPushButton("X");
+    //suppr->setAutoFillBackground(true);
     //suppr->setFixedWidth(34);
 
     firstW->arbo->addTopLevelItem(item);
-    firstW->arbo->setItemWidget(item,3,plus);
-    firstW->arbo->setItemWidget(item,4,suppr);
-    QObject::connect(plus,SIGNAL(clicked()),firstW,SLOT(popAjout()));
-    QObject::connect(plus,SIGNAL(clicked()),firstW,SLOT(popAjout()));
+    //firstW->arbo->setItemWidget(item,3,plus);
+    //firstW->arbo->setItemWidget(item,4,suppr);
+
 
     // Fermeture de la fenêtre une fois la tâche ajoutée
+    firstW->currentItem = firstW->arbo->invisibleRootItem();
+    firstW->setDisabled(false);
     this->close();
 }
 
@@ -120,4 +156,10 @@ void Widget_ajout::afficherDate()
         this->setFixedHeight(150);
         this->setFixedWidth(300);
     }
+}
+
+void Widget_ajout::closeEvent(QCloseEvent *event)
+{
+      emit WidgetClosed();
+      event->accept();
 }

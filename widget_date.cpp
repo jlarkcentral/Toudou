@@ -30,7 +30,7 @@ widget_date::widget_date(QWidget *parent) :
     // Choix rel
     relwidget = new QWidget();
     QFormLayout * rellayout = new QFormLayout();
-
+    //QComboBox *
 
     // Connect boutons choix -- widget correspondant
     QObject::connect(dateabs,SIGNAL(clicked()),this,SLOT(afficher_abs()));
