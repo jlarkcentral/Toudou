@@ -21,20 +21,18 @@ public:
 
     // l'arborescence devient un parametre global pour y acceder dans les slots
     QTreeWidget * arbo;
-    QTreeWidgetItem * itemCourant;
+    QTreeWidgetItem * currentItem;
     
 private:
-    bool drawerOpened;
+    //bool drawerOpened;
     QGridLayout * mainLayout;
 
-
 public slots:
-    void openDrawer();
-    void closeDrawer();
-    //void addTache();
-    void popAjout(); // déclenché si bouton "Nouveau"
-    void popAjout(QTreeWidgetItem* is); // déclenché si clic sur le "+" dans l'arbo
-    void currentItemChange(QTreeWidgetItem* i);
+    //void openDrawer();
+    //void closeDrawer();
+    void popup(); // déclenché si bouton "Nouveau"
+    void popup(QTreeWidgetItem* i, int n); // déclenché si clic sur le "+" dans l'arbo
+    void resetDisable();
 };
 
 #endif // FIRSTWINDOW_H

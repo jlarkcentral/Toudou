@@ -11,7 +11,7 @@ class Tache
 
 public:
     Tache(string uneTache);
-
+    Tache();
     string getTache();
     void setTache(string uneTache);
 

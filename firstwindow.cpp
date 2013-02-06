@@ -13,7 +13,7 @@
 FirstWindow::FirstWindow(QWidget *parent) :
     QMainWindow(parent)
 {
-    drawerOpened = false;
+    //drawerOpened = false;
 
     // Taille fenêtre
     setMinimumWidth(400);
@@ -49,15 +49,11 @@ FirstWindow::FirstWindow(QWidget *parent) :
     mainLayout->addWidget(onglets,2,0,1,1);
 
     // TreeWidget
-    //QTreeWidget * arbo = new QTreeWidget();
     arbo = new QTreeWidget();
-    itemCourant = arbo->itemAt(0,0);
-    //arbo->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
+    currentItem = arbo->invisibleRootItem();
     QHeaderView * header = arbo->header();
     header->setResizeMode(QHeaderView::ResizeToContents);
     header->setResizeMode(0,QHeaderView::Stretch);
-    //header->setResizeMode(1,QHeaderView::Stretch);
-    //header->setResizeMode(2,QHeaderView::Stretch);
     header->setResizeMode(3,QHeaderView::Fixed);
     header->setResizeMode(4,QHeaderView::Fixed);
     header->setStretchLastSection(false);
@@ -65,33 +61,8 @@ FirstWindow::FirstWindow(QWidget *parent) :
     arbo->setStyleSheet("font-weight : bold; font-size : 18px; ");
     arbo->setColumnCount(5);
 
-    //QTreeWidgetItem * item = new QTreeWidgetItem();
-    //item->setCheckState(0,Qt::Unchecked);
-    //item->setText(0,"Truc");
-    //item->setText(1,"Date");
-    // Test insertion bouton
-    //QPushButton * plus = new QPushButton();
-    //plus->setStyleSheet("background-image : url(img/plus.png); background-repeat : no-repeat");
-    //plus->setAutoFillBackground(true);
-    //plus->setFixedWidth(34);
-    //arbo->addTopLevelItem(item);
-    //arbo->setItemWidget(item,2,plus); // ATTENTION : à faire après avoir placé l'item dans l'arbre, sinon marche pas
+    QObject::connect(arbo,SIGNAL(itemClicked(QTreeWidgetItem*,int)),this,SLOT(popup(QTreeWidgetItem*,int)));
 
-    // Test
-    //QObject::connect(arbo,SIGNAL(itemClicked(QTreeWidgetItem*,int)),this,SLOT(currentItemChange(QTreeWidgetItem*,int)));
-
-    QTreeWidgetItem * item2 = new QTreeWidgetItem();
-    item2->setText(0,"Troussepinette");
-    arbo->addTopLevelItem(item2);
-    QTreeWidgetItem * item3 = new QTreeWidgetItem();
-    item3->setText(0,"Prout");
-    arbo->addTopLevelItem(item3);
-    QTreeWidgetItem * item4 = new QTreeWidgetItem(item3);
-    item4->setText(0,"Fourchette");
-    arbo->addTopLevelItem(item4);
-    QTreeWidgetItem * item5 = new QTreeWidgetItem(item3);
-    item5->setText(0,"Couteau");
-    arbo->addTopLevelItem(item5);
 
     // insertion arbo dans premier onglet
     QWidget * page = new QWidget();
@@ -112,7 +83,8 @@ FirstWindow::FirstWindow(QWidget *parent) :
     // Bouton Nouveau
     QPushButton * newbutton = new QPushButton("Nouveau");
     pagelayout->addWidget(newbutton);
-    QObject::connect(newbutton,SIGNAL(clicked()),this,SLOT(popAjout()));
+    QObject::connect(newbutton,SIGNAL(clicked()),this,SLOT(popup()));
+
 
 }
 
@@ -121,61 +93,71 @@ FirstWindow::~FirstWindow()
 }
 
 // popup ajout d une nouvelle tache
-void FirstWindow::popAjout()
+void FirstWindow::popup()
 {
+    currentItem = arbo->invisibleRootItem();
     Widget_ajout * w_a = new Widget_ajout(this);
     w_a->show();
 }
 
-
-void FirstWindow::popAjout(QTreeWidgetItem* i)
+// popup ajout ou delete suivant l'endroit du clic sur la tache dans le QTreeWidgetItem
+void FirstWindow::popup(QTreeWidgetItem* i,int n)
 {
-    itemCourant = i;
-    Widget_ajout * w_a = new Widget_ajout(this);
-    w_a->show();
-}
-
-void FirstWindow::currentItemChange(QTreeWidgetItem* i)
-{
-    itemCourant = i;
-}
-
-void FirstWindow::openDrawer()
-{
-    if (!drawerOpened)
-    {
-        int size = width();
-        for(int i=0 ; i<15 ; i++)
-        {
-            usleep(10000);
-            size += 20;
-            setFixedWidth(size);
-        }
-
-        // TEST : tâche
-        Tache * t = new Tache("Ma jolie tâche");
-        t->setDate("7 février 2013");
-        t->setFini(false);
-
-        Widget_infos * infos = new Widget_infos(t,this);
-        mainLayout->addWidget(infos,2,1,1,1);
-
-        drawerOpened = true;
+    if (n == 3 ){
+        currentItem = i;
+        arbo->expandItem(currentItem);
+        Widget_ajout * w_a = new Widget_ajout(this);
+        w_a->show();
+    }
+    else if (n == 4){
+        currentItem = i;
+        // ajouter un popup de confirmation ...
+        delete(currentItem);
     }
 }
 
-void FirstWindow::closeDrawer()
+void FirstWindow::resetDisable()
 {
-    if (drawerOpened)
-    {
-        int size = width();
-        for(int i=0 ; i<15 ; i++)
-        {
-            usleep(10000);
-            size -= 20;
-            setFixedWidth(size);
-        }
-
-        drawerOpened = false;
-    }
+    this->setDisabled(false);
 }
+
+
+//void FirstWindow::openDrawer()
+//{
+//    if (!drawerOpened)
+//    {
+//        int size = width();
+//        for(int i=0 ; i<15 ; i++)
+//        {
+//            usleep(10000);
+//            size += 20;
+//            setFixedWidth(size);
+//        }
+
+//        // TEST : tâche
+//        Tache * t = new Tache("Ma jolie tâche");
+//        t->setDate("7 février 2013");
+//        t->setFini(false);
+
+//        Widget_infos * infos = new Widget_infos(t,this);
+//        mainLayout->addWidget(infos,2,1,1,1);
+
+//        drawerOpened = true;
+//    }
+//}
+
+//void FirstWindow::closeDrawer()
+//{
+//    if (drawerOpened)
+//    {
+//        int size = width();
+//        for(int i=0 ; i<15 ; i++)
+//        {
+//            usleep(10000);
+//            size -= 20;
+//            setFixedWidth(size);
+//        }
+
+//        drawerOpened = false;
+//    }
+//}

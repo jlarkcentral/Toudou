@@ -5,6 +5,8 @@
 #include <QLabel>
 #include <QPushButton>
 #include <QGroupBox>
+#include <QCloseEvent>
+#include <QCalendarWidget>
 
 #include "tache.h"
 #include "firstwindow.h"
@@ -39,20 +41,26 @@ public:
 
     FirstWindow * firstW;
 
-
 private:
     QLineEdit * name;
     QLabel * parent;
     QLabel * date;
+    QCalendarWidget * calendar;
     QLabel * timeleft;
     QLabel * type;
     QPushButton * details;
     bool details_aff;
     QGroupBox * groupbox_date;
 
+signals:
+    void WidgetClosed();
+
 public slots:
     void addTache();
     void afficherDate();
+
+protected:
+    void closeEvent(QCloseEvent *event);
 };
 
 #endif // WIDGET_AJOUT_H
