@@ -13,13 +13,14 @@ Widget_ajout::Widget_ajout(FirstWindow *fw, QWidget *parent) :
 {
     firstW = fw;
 
-    details_aff = false;
+    date_aff = false;
 
     QVBoxLayout * mainlayout = new QVBoxLayout();
     this->setLayout(mainlayout);
     //this->setWindowFlags(Qt::Popup);
     this->setWindowTitle("Ajout d'une tache");
     this->setFixedWidth(300);
+    this->setFixedHeight(150);
 
     QLabel * nameLabel = new QLabel("Tache : ");
     name = new QLineEdit("Nouvelle tache");
@@ -29,13 +30,7 @@ Widget_ajout::Widget_ajout(FirstWindow *fw, QWidget *parent) :
 
     //parent = new QLabel("En attente");
 
-    // layout pour la date : afficher avec un dÃ©rouleur
-    QVBoxLayout * dateLayout = new QVBoxLayout();
-    date = new QLabel("Date");
-    dateLayout->addWidget(date);
-    QCalendarWidget * calendar = new QCalendarWidget();
-    dateLayout->addWidget(calendar);
-    //mainlayout->addLayout(dateLayout);
+
 
     // idem pour preconditions
 
@@ -48,32 +43,29 @@ Widget_ajout::Widget_ajout(FirstWindow *fw, QWidget *parent) :
     QObject::connect(boutonAjout,SIGNAL(clicked()),this,SLOT(addTache()));
     QObject::connect(boutonAjout,SIGNAL(clicked()),this,SLOT(close()));
 
-    // essais toolbox
-    /*QWidget * details_date = new QWidget();
-    details_date->setLayout(dateLayout);
-    QToolBox * tools = new QToolBox();
-    tools->addItem(details_date,"Détails date");
-    mainlayout->addWidget(tools);*/
+    // menu date  dépliable
+    QWidget * widget_date_plus= new QWidget();
+    QHBoxLayout * layout_date_plus = new QHBoxLayout();
+    date_plus = new QPushButton("+");
+    date_plus->setFixedWidth(20);
+    layout_date_plus->addWidget(date_plus);
+    QLabel * afficher_date = new QLabel("Ajouter une échéance");
+    layout_date_plus->addWidget(afficher_date);
+    widget_date_plus->setLayout(layout_date_plus);
+    mainlayout->addWidget(widget_date_plus);
 
-    // menu dépliable
-    QWidget * widget_details = new QWidget();
-    QHBoxLayout * layout_details = new QHBoxLayout();
-    details = new QPushButton("+");
-    details->setFixedWidth(20);
-    layout_details->addWidget(details);
-    QLabel * afficher = new QLabel("Options avancées");
-    layout_details->addWidget(afficher);
-    widget_details->setLayout(layout_details);
-    mainlayout->addWidget(widget_details);
+    dates = new widget_date();
+    mainlayout->addWidget(dates);
+    dates->setVisible(false);
 
-    QObject::connect(details,SIGNAL(clicked()),this,SLOT(afficherDate()));
+    QObject::connect(date_plus,SIGNAL(clicked()),this,SLOT(afficherDate()));
 
     // essais groupbox
-    groupbox_date = new QGroupBox("Gestion de date");
+    /*groupbox_date = new QGroupBox("Gestion de date");
     groupbox_date->setLayout(dateLayout);
     groupbox_date->setFlat(true);
     groupbox_date->setVisible(false);
-    mainlayout->addWidget(groupbox_date);
+    mainlayout->addWidget(groupbox_date);*/
 
 }
 
@@ -112,18 +104,20 @@ void Widget_ajout::addTache()
 
 void Widget_ajout::afficherDate()
 {
-    std::cout << details_aff << std::endl;
-    if (!details_aff)
+    if (!date_aff)
     {
-        groupbox_date->setVisible(true);
-        details->setText("-");
-        details_aff = true;
+        dates->setVisible(true);
+        date_plus->setText("-");
+        date_aff = true;
+        this->setFixedHeight(600);
+        this->setFixedWidth(500);
     }
     else
     {
-        groupbox_date->setVisible(false);
-        details->setText("+");
-        details_aff = false;
-        // TODO : redimensionner la fenêtre
+        dates->setVisible(false);
+        date_plus->setText("+");
+        date_aff = false;
+        this->setFixedHeight(150);
+        this->setFixedWidth(300);
     }
 }

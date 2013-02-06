@@ -5,9 +5,11 @@
 #include <QLabel>
 #include <QPushButton>
 #include <QGroupBox>
+#include <QFormLayout>
 
 #include "tache.h"
 #include "firstwindow.h"
+#include "widget_date.h"
 
 #include <iostream>
 
@@ -46,9 +48,9 @@ private:
     QLabel * date;
     QLabel * timeleft;
     QLabel * type;
-    QPushButton * details;
-    bool details_aff;
-    QGroupBox * groupbox_date;
+    QPushButton * date_plus;
+    bool date_aff;
+    widget_date * dates;
 
 public slots:
     void addTache();

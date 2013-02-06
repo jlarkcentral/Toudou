@@ -14,9 +14,13 @@ SOURCES += main.cpp\
     tache.cpp \
     firstwindow.cpp \
     widget_infos.cpp \
-    widget_ajout.cpp
+    widget_ajout.cpp \
+    widget_date.cpp
 
 HEADERS  += tache.h \
     firstwindow.h \
     widget_infos.h \
-    widget_ajout.h
+    widget_ajout.h \
+    widget_date.h
+
+FORMS +=
