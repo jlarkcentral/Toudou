@@ -62,7 +62,8 @@ FirstWindow::FirstWindow(QWidget *parent) :
     arbo->setColumnCount(5);
 
     QObject::connect(arbo,SIGNAL(itemClicked(QTreeWidgetItem*,int)),this,SLOT(popup(QTreeWidgetItem*,int)));
-
+    QObject::connect(arbo,SIGNAL(itemChanged(QTreeWidgetItem*,int)),this,SLOT(tacheChecked(QTreeWidgetItem*,int)));
+    // FAIRE UN SLOT POUR RAYER LE TEXTE
 
     // insertion arbo dans premier onglet
     QWidget * page = new QWidget();
@@ -121,6 +122,14 @@ void FirstWindow::resetDisable()
     this->setDisabled(false);
 }
 
+void FirstWindow::tacheChecked(QTreeWidgetItem * item, int n)
+{/*
+    if (n==0){
+        if (item->checkState(0)==Qt::Checked){
+            item->setText(0,"test");
+        }
+    }*/
+}
 
 //void FirstWindow::openDrawer()
 //{

@@ -33,6 +33,7 @@ public slots:
     void popup(); // déclenché si bouton "Nouveau"
     void popup(QTreeWidgetItem* i, int n); // déclenché si clic sur le "+" dans l'arbo
     void resetDisable();
+    void tacheChecked(QTreeWidgetItem* item,int n);
 };
 
 #endif // FIRSTWINDOW_H

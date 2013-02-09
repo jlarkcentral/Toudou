@@ -38,11 +38,12 @@ Widget_ajout::Widget_ajout(FirstWindow *fw,QWidget *parent) :
     else{
         nameLabel = new QLabel("Sous-tache de " + firstW->currentItem->text(0) + " :");
     }
-    name = new QLineEdit("Nouvelle tache");
+    name = new QLineEdit();
     name->setMaxLength(100);
+    name->setPlaceholderText("Nouvelle tache");
     mainlayout->addWidget(nameLabel);
     mainlayout->addWidget(name);
-
+    QObject::connect(name,SIGNAL(textEdited(QString)),this,SLOT(textEdited(QString)));
     //parent = new QLabel("En attente");
 
 
@@ -60,7 +61,8 @@ Widget_ajout::Widget_ajout(FirstWindow *fw,QWidget *parent) :
     type = new QLabel();
 
     // Bouton Nouveau
-    QPushButton * boutonAjout = new QPushButton("Ajouter");
+    boutonAjout = new QPushButton("Ajouter");
+    boutonAjout->setDisabled(true);
     mainlayout->addWidget(boutonAjout);
     QObject::connect(boutonAjout,SIGNAL(clicked()),this,SLOT(addTache()));
     QObject::connect(boutonAjout,SIGNAL(clicked()),this,SLOT(close()));
@@ -99,10 +101,6 @@ Widget_ajout::~Widget_ajout()
 // fonction d ajout dans le modele et dans l arborescence de la nouvelle tache
 void Widget_ajout::addTache()
 {
-
-    //Tache * maTache = new Tache(name->text());
-    // data : ajout de maTache dans le modele...
-
     QTreeWidgetItem * item = new QTreeWidgetItem(firstW->currentItem);
     item->setCheckState(0,Qt::Unchecked);
     item->setText(0,name->text());
@@ -116,7 +114,9 @@ void Widget_ajout::addTache()
     // en attendant une meilleure solution : l'ajout d'un QPushButton "cache" la colonne cliquable.
     // solution : afficher une icone ?
     item->setText(3,"[+]");
+    //item->
     item->setText(4,"[X]");
+
 
     //QPushButton * plus = new QPushButton("+");
     //plus->setStyleSheet("background-image : url(img/plus.png); background-repeat : no-repeat");
@@ -130,7 +130,6 @@ void Widget_ajout::addTache()
     firstW->arbo->addTopLevelItem(item);
     //firstW->arbo->setItemWidget(item,3,plus);
     //firstW->arbo->setItemWidget(item,4,suppr);
-
 
     // Fermeture de la fenêtre une fois la tâche ajoutée
     firstW->currentItem = firstW->arbo->invisibleRootItem();
@@ -162,4 +161,14 @@ void Widget_ajout::closeEvent(QCloseEvent *event)
 {
       emit WidgetClosed();
       event->accept();
+}
+
+void Widget_ajout::textEdited(QString s)
+{
+    if (s != ""){
+        boutonAjout->setEnabled(true);
+    }
+    else {
+        boutonAjout->setEnabled(false);
+    }
 }
