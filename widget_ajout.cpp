@@ -107,7 +107,7 @@ void Widget_ajout::addTache()
     item->setCheckState(0,Qt::Unchecked);
     item->setText(0,name->text());
     if (date_aff){
-        item->setText(1,calendar->selectedDate().toString());
+        item->setText(1,"Date");
         item->setTextColor(1,QColor(152,152,152));
         item->setText(2,"Heure");
         item->setTextColor(2, QColor(125,125,125));
