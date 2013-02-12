@@ -1,9 +1,11 @@
 #include <unistd.h>
+#include <iostream>
 
 #include <QLabel>
 #include <QTreeWidget>
 #include <QPushButton>
 #include <QHeaderView>
+#include <QMenuBar>
 
 #include "firstwindow.h"
 #include "tache.h"
@@ -13,6 +15,7 @@
 FirstWindow::FirstWindow(QWidget *parent) :
     QMainWindow(parent)
 {
+    boolTest = false;
     //drawerOpened = false;
 
     // Taille fenêtre
@@ -27,6 +30,14 @@ FirstWindow::FirstWindow(QWidget *parent) :
 
     // Entête fenêtre (title + icon)
     setWindowTitle("Toudou");
+
+    //Barre des menus
+    QMenuBar * bar = new QMenuBar(0);
+    bar->setNativeMenuBar(true);
+    bar->addMenu("Fichier");
+    bar->addMenu("Affichage");
+
+    setMenuBar(bar);
 
     // Titre
     QLabel * title = new QLabel("Gestionnaire de tâches");
@@ -62,7 +73,7 @@ FirstWindow::FirstWindow(QWidget *parent) :
     arbo->setColumnCount(5);
 
     QObject::connect(arbo,SIGNAL(itemClicked(QTreeWidgetItem*,int)),this,SLOT(popup(QTreeWidgetItem*,int)));
-    QObject::connect(arbo,SIGNAL(itemChanged(QTreeWidgetItem*,int)),this,SLOT(tacheChecked(QTreeWidgetItem*,int)));
+    //QObject::connect(arbo,SIGNAL(itemChanged(QTreeWidgetItem*,int)),this,SLOT(tacheChecked(QTreeWidgetItem*,int)));
     // FAIRE UN SLOT POUR RAYER LE TEXTE
 
     // insertion arbo dans premier onglet
@@ -85,6 +96,21 @@ FirstWindow::FirstWindow(QWidget *parent) :
     QPushButton * newbutton = new QPushButton("Nouveau");
     pagelayout->addWidget(newbutton);
     QObject::connect(newbutton,SIGNAL(clicked()),this,SLOT(popup()));
+;
+
+    // Bouton Sauvegarder
+    QPushButton * savebutton = new QPushButton("Sauvegarder");
+    //QObject::connect(savebutton,SIGNAL(clicked()),this,SLOT(popup()));
+
+    // Bouton Charger
+    QPushButton * loadbutton = new QPushButton("Charger");
+    //QObject::connect(loadbutton,SIGNAL(clicked()),this,SLOT(popup()));
+
+    QHBoxLayout * saveAndLoadLayout = new QHBoxLayout();
+    saveAndLoadLayout->addWidget(savebutton);
+    saveAndLoadLayout->addWidget(loadbutton);
+
+    pagelayout->addLayout(saveAndLoadLayout);
 
 
 }
@@ -124,11 +150,17 @@ void FirstWindow::resetDisable()
 
 void FirstWindow::tacheChecked(QTreeWidgetItem * item, int n)
 {/*
-    if (n==0){
-        if (item->checkState(0)==Qt::Checked){
-            item->setText(0,"test");
+    if (!boolTest){
+        if (n==0){
+            if (item->checkState(0)==Qt::Checked){
+                QString nameChecked = ;
+                item->setText(0,nameChecked);
+                cout << item->text(0).toStdString() << endl;
+                boolTest = true;
+            }
         }
-    }*/
+    }
+    */
 }
 
 //void FirstWindow::openDrawer()

@@ -22,6 +22,8 @@ public:
     // l'arborescence devient un parametre global pour y acceder dans les slots
     QTreeWidget * arbo;
     QTreeWidgetItem * currentItem;
+
+    bool boolTest;
     
 private:
     //bool drawerOpened;

@@ -3,6 +3,11 @@
 
 #include <string>
 #include <vector>
+#include <iostream>
+#include <fstream>
+
+#define TIXML_USE_STL
+#include "tinyxml.h"
 
 using namespace std;
 
@@ -26,6 +31,9 @@ public:
     vector<Tache> getSousTaches();
 
     void addPrecondition(Tache uneTache);
+
+    void xmlToTache();
+    void tacheToXml();
 
 private:
     string tache;
