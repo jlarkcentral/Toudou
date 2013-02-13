@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QGridLayout>
 #include <QTreeWidget>
+#include <QIcon>
 
 #include <iostream>
 
@@ -23,7 +24,9 @@ public:
     QTreeWidget * arbo;
     QTreeWidgetItem * currentItem;
 
-    bool boolTest;
+    bool * boolTest;
+    QIcon * plusIcon;
+    QIcon * supprIcon;
     
 private:
     //bool drawerOpened;
@@ -36,6 +39,7 @@ public slots:
     void popup(QTreeWidgetItem* i, int n); // déclenché si clic sur le "+" dans l'arbo
     void resetDisable();
     void tacheChecked(QTreeWidgetItem* item,int n);
+    void showIcons(QTreeWidgetItem* item,int n);
 };
 
 #endif // FIRSTWINDOW_H

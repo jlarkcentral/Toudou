@@ -49,7 +49,7 @@ FirstWindow::FirstWindow(QWidget *parent) :
 
     // Logo
     QLabel * logo = new QLabel();
-    QPixmap logoresource("img/toudou.gif");
+    QPixmap logoresource("../Toudou/img/toudou.gif");
     logo->setPixmap(logoresource);
     logo->setAlignment(Qt::AlignCenter);
     mainLayout->addWidget(logo,1,0,1,2);
@@ -69,11 +69,14 @@ FirstWindow::FirstWindow(QWidget *parent) :
     header->setResizeMode(4,QHeaderView::Fixed);
     header->setStretchLastSection(false);
     arbo->setHeaderHidden(true);
+    arbo->setMouseTracking(true);
     arbo->setStyleSheet("font-weight : bold; font-size : 18px; ");
     arbo->setColumnCount(5);
 
     QObject::connect(arbo,SIGNAL(itemClicked(QTreeWidgetItem*,int)),this,SLOT(popup(QTreeWidgetItem*,int)));
     //QObject::connect(arbo,SIGNAL(itemChanged(QTreeWidgetItem*,int)),this,SLOT(tacheChecked(QTreeWidgetItem*,int)));
+
+    QObject::connect(arbo,SIGNAL(itemEntered(QTreeWidgetItem*,int)),this,SLOT(showIcons(QTreeWidgetItem*,int)));
     // FAIRE UN SLOT POUR RAYER LE TEXTE
 
     // insertion arbo dans premier onglet
@@ -96,7 +99,7 @@ FirstWindow::FirstWindow(QWidget *parent) :
     QPushButton * newbutton = new QPushButton("Nouveau");
     pagelayout->addWidget(newbutton);
     QObject::connect(newbutton,SIGNAL(clicked()),this,SLOT(popup()));
-;
+    ;
 
     // Bouton Sauvegarder
     QPushButton * savebutton = new QPushButton("Sauvegarder");
@@ -111,6 +114,8 @@ FirstWindow::FirstWindow(QWidget *parent) :
     saveAndLoadLayout->addWidget(loadbutton);
 
     pagelayout->addLayout(saveAndLoadLayout);
+
+    plusIcon = new QIcon("../Toudou/img/plus.png");
 
 
 }
@@ -163,42 +168,19 @@ void FirstWindow::tacheChecked(QTreeWidgetItem * item, int n)
     */
 }
 
-//void FirstWindow::openDrawer()
-//{
-//    if (!drawerOpened)
-//    {
-//        int size = width();
-//        for(int i=0 ; i<15 ; i++)
-//        {
-//            usleep(10000);
-//            size += 20;
-//            setFixedWidth(size);
-//        }
-
-//        // TEST : tâche
-//        Tache * t = new Tache("Ma jolie tâche");
-//        t->setDate("7 février 2013");
-//        t->setFini(false);
-
-//        Widget_infos * infos = new Widget_infos(t,this);
-//        mainLayout->addWidget(infos,2,1,1,1);
-
-//        drawerOpened = true;
-//    }
-//}
-
-//void FirstWindow::closeDrawer()
-//{
-//    if (drawerOpened)
-//    {
-//        int size = width();
-//        for(int i=0 ; i<15 ; i++)
-//        {
-//            usleep(10000);
-//            size -= 20;
-//            setFixedWidth(size);
-//        }
-
-//        drawerOpened = false;
-//    }
-//}
+void FirstWindow::showIcons(QTreeWidgetItem *item, int n)
+{
+    for(int i=0;i<arbo->topLevelItemCount(); ++i){
+        QTreeWidgetItem * topchild = arbo->topLevelItem(i);
+        topchild->setText(3,"");
+        topchild->setText(4,"");
+        for(int j=0;j<topchild->childCount(); ++j){
+            QTreeWidgetItem * subChild = topchild->child(j);
+            subChild->setText(3,"");
+            subChild->setText(4,"");
+        }
+    }
+    //item->setIcon(3,*plusIcon);
+    item->setText(3,"[+]");
+    item->setText(4,"[X]");
+}

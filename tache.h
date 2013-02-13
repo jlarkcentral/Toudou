@@ -17,8 +17,8 @@ class Tache
 public:
     Tache(string uneTache);
     Tache();
-    string getTache();
-    void setTache(string uneTache);
+    string getNom();
+    void setNom(string uneTache);
 
     bool getFini();
     void setFini(bool unBool);
@@ -36,7 +36,7 @@ public:
     void tacheToXml();
 
 private:
-    string tache;
+    string nom;
     bool fini;
     string date;
     vector<Tache> preconditions;

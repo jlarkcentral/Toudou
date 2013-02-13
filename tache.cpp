@@ -4,17 +4,17 @@ using namespace std;
 
 Tache::Tache(string uneTache)
 {
-    tache = uneTache;
+    nom = uneTache;
 }
 
-string Tache::getTache()
+string Tache::getNom()
 {
-    return tache;
+    return nom;
 }
 
-void Tache::setTache(string uneTache)
+void Tache::setNom(string uneTache)
 {
-    tache = uneTache;
+    nom = uneTache;
 }
 
 bool Tache::getFini()
@@ -59,18 +59,16 @@ void Tache::xmlToTache()
 
 void Tache::tacheToXml()
 {
-    ofstream myfile;
-      myfile.open ("../Toudou/xml/example.xml");
-      myfile << "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\n";
+    TiXmlDocument doc("../Toudou/xml/"+nom+".xml");
 
-      TiXmlDocument doc("../Toudou/xml/example.xml");
-      if(!doc.LoadFile()){
-          cerr << "erreur lors du chargement" << endl;
-          cerr << "error #" << doc.ErrorId() << " : " << doc.ErrorDesc() << endl;
-          return;
-      }
-      // DOC tinyxml -> ajout root puis noeud depuis liste sous taches
+    TiXmlDeclaration * decl = new TiXmlDeclaration( "1.0", "", "" );
+    TiXmlElement * element = new TiXmlElement( nom );
+    TiXmlText * text = new TiXmlText( "World" );
+    element->LinkEndChild( text );
+    doc.LinkEndChild( decl );
+    doc.LinkEndChild( element );
+    doc.SaveFile();
 
-      myfile.close();
+    // DOC tinyxml -> ajout root puis noeud depuis liste sous taches
 
 }

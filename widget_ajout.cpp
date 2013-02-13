@@ -113,9 +113,9 @@ void Widget_ajout::addTache()
 
     // en attendant une meilleure solution : l'ajout d'un QPushButton "cache" la colonne cliquable.
     // solution : afficher une icone ?
-    item->setText(3,"[+]");
+    //item->setText(3,"[+]");
     //item->
-    item->setText(4,"[X]");
+    //item->setText(4,"[X]");
 
 
     //QPushButton * plus = new QPushButton("+");

@@ -10,8 +10,8 @@ int main(int argc, char *argv[])
     FirstWindow w;
     w.show();
 
-    //Tache * t = new Tache("fdsfd");
-    //t->tacheToXml();
+    Tache * t = new Tache("fdsfd");
+    t->tacheToXml();
     
 
     return a.exec();
