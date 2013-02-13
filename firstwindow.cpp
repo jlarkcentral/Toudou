@@ -6,6 +6,8 @@
 #include <QPushButton>
 #include <QHeaderView>
 #include <QMenuBar>
+#include <QDialog>
+#include <QMessageBox>
 
 #include "firstwindow.h"
 #include "tache.h"
@@ -15,7 +17,6 @@
 FirstWindow::FirstWindow(QWidget *parent) :
     QMainWindow(parent)
 {
-    boolTest = false;
     //drawerOpened = false;
 
     // Taille fenêtre
@@ -74,7 +75,7 @@ FirstWindow::FirstWindow(QWidget *parent) :
     arbo->setColumnCount(5);
 
     QObject::connect(arbo,SIGNAL(itemClicked(QTreeWidgetItem*,int)),this,SLOT(popup(QTreeWidgetItem*,int)));
-    //QObject::connect(arbo,SIGNAL(itemChanged(QTreeWidgetItem*,int)),this,SLOT(tacheChecked(QTreeWidgetItem*,int)));
+    QObject::connect(arbo,SIGNAL(itemChanged(QTreeWidgetItem*,int)),this,SLOT(tacheChecked(QTreeWidgetItem*,int)));
 
     QObject::connect(arbo,SIGNAL(itemEntered(QTreeWidgetItem*,int)),this,SLOT(showIcons(QTreeWidgetItem*,int)));
     // FAIRE UN SLOT POUR RAYER LE TEXTE
@@ -143,9 +144,22 @@ void FirstWindow::popup(QTreeWidgetItem* i,int n)
     }
     else if (n == 4){
         currentItem = i;
-        // ajouter un popup de confirmation ...
-        delete(currentItem);
+        // popup de confirmation
+        QMessageBox * supprDiag = new QMessageBox();
+        supprDiag->setWindowTitle("Supprimer...");
+        supprDiag->addButton("Ok",QMessageBox::AcceptRole);
+        supprDiag->addButton("Annuler",QMessageBox::RejectRole);
+        supprDiag->setText("La tache " + i->text(0) + " va etre supprimee");
+        supprDiag->show();
+        // le signal est bien "rejected", c est un bug Qt
+        QObject::connect(supprDiag,SIGNAL(rejected()),this,SLOT(deleteItem()));
     }
+}
+
+void FirstWindow::deleteItem()
+{
+    cout << "YOUPLA" << endl;
+    delete(currentItem);
 }
 
 void FirstWindow::resetDisable()
@@ -154,18 +168,13 @@ void FirstWindow::resetDisable()
 }
 
 void FirstWindow::tacheChecked(QTreeWidgetItem * item, int n)
-{/*
-    if (!boolTest){
-        if (n==0){
-            if (item->checkState(0)==Qt::Checked){
-                QString nameChecked = ;
-                item->setText(0,nameChecked);
-                cout << item->text(0).toStdString() << endl;
-                boolTest = true;
-            }
+{
+    if (n==0){
+        if (item->checkState(0)==Qt::Checked){
+            item->setTextColor(0,QColor(98,188,98));
+            cout << item->text(0).toStdString() << endl;
         }
     }
-    */
 }
 
 void FirstWindow::showIcons(QTreeWidgetItem *item, int n)

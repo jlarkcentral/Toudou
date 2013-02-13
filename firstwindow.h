@@ -24,7 +24,6 @@ public:
     QTreeWidget * arbo;
     QTreeWidgetItem * currentItem;
 
-    bool * boolTest;
     QIcon * plusIcon;
     QIcon * supprIcon;
     
@@ -40,6 +39,7 @@ public slots:
     void resetDisable();
     void tacheChecked(QTreeWidgetItem* item,int n);
     void showIcons(QTreeWidgetItem* item,int n);
+    void deleteItem();
 };
 
 #endif // FIRSTWINDOW_H
