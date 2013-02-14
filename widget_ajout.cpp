@@ -163,6 +163,7 @@ void Widget_ajout::closeEvent(QCloseEvent *event)
       event->accept();
 }
 
+// desactiver le bouton Ajouter quand le nom de la tache est vide
 void Widget_ajout::textEdited(QString s)
 {
     if (s != ""){

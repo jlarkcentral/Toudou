@@ -10,6 +10,7 @@ int main(int argc, char *argv[])
     FirstWindow w;
     w.show();
 
+    // test xml
     Tache * t = new Tache("fdsfd");
     t->tacheToXml();
     

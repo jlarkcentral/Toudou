@@ -17,8 +17,6 @@
 FirstWindow::FirstWindow(QWidget *parent) :
     QMainWindow(parent)
 {
-    //drawerOpened = false;
-
     // Taille fenêtre
     setMinimumWidth(400);
 
@@ -37,7 +35,6 @@ FirstWindow::FirstWindow(QWidget *parent) :
     bar->setNativeMenuBar(true);
     bar->addMenu("Fichier");
     bar->addMenu("Affichage");
-
     setMenuBar(bar);
 
     // Titre
@@ -74,9 +71,9 @@ FirstWindow::FirstWindow(QWidget *parent) :
     arbo->setStyleSheet("font-weight : bold; font-size : 18px; ");
     arbo->setColumnCount(5);
 
+    // signaux - slots de l'arbre
     QObject::connect(arbo,SIGNAL(itemClicked(QTreeWidgetItem*,int)),this,SLOT(popup(QTreeWidgetItem*,int)));
     QObject::connect(arbo,SIGNAL(itemChanged(QTreeWidgetItem*,int)),this,SLOT(tacheChecked(QTreeWidgetItem*,int)));
-
     QObject::connect(arbo,SIGNAL(itemEntered(QTreeWidgetItem*,int)),this,SLOT(showIcons(QTreeWidgetItem*,int)));
     // FAIRE UN SLOT POUR RAYER LE TEXTE
 
@@ -100,15 +97,14 @@ FirstWindow::FirstWindow(QWidget *parent) :
     QPushButton * newbutton = new QPushButton("Nouveau");
     pagelayout->addWidget(newbutton);
     QObject::connect(newbutton,SIGNAL(clicked()),this,SLOT(popup()));
-    ;
 
     // Bouton Sauvegarder
     QPushButton * savebutton = new QPushButton("Sauvegarder");
-    //QObject::connect(savebutton,SIGNAL(clicked()),this,SLOT(popup()));
+    //QObject::connect(savebutton,SIGNAL(clicked()),this,SLOT(popupSave()));
 
     // Bouton Charger
     QPushButton * loadbutton = new QPushButton("Charger");
-    //QObject::connect(loadbutton,SIGNAL(clicked()),this,SLOT(popup()));
+    //QObject::connect(loadbutton,SIGNAL(clicked()),this,SLOT(popupLoad()));
 
     QHBoxLayout * saveAndLoadLayout = new QHBoxLayout();
     saveAndLoadLayout->addWidget(savebutton);
@@ -116,7 +112,7 @@ FirstWindow::FirstWindow(QWidget *parent) :
 
     pagelayout->addLayout(saveAndLoadLayout);
 
-    plusIcon = new QIcon("../Toudou/img/plus.png");
+    //plusIcon = new QIcon("../Toudou/img/plus.png");
 
 
 }
@@ -137,12 +133,14 @@ void FirstWindow::popup()
 void FirstWindow::popup(QTreeWidgetItem* i,int n)
 {
     if (n == 3 ){
+        // Ajout
         currentItem = i;
         arbo->expandItem(currentItem);
         Widget_ajout * w_a = new Widget_ajout(this);
         w_a->show();
     }
     else if (n == 4){
+        // Suppression
         currentItem = i;
         // popup de confirmation
         QMessageBox * supprDiag = new QMessageBox();
@@ -158,7 +156,6 @@ void FirstWindow::popup(QTreeWidgetItem* i,int n)
 
 void FirstWindow::deleteItem()
 {
-    cout << "YOUPLA" << endl;
     delete(currentItem);
 }
 
@@ -172,11 +169,11 @@ void FirstWindow::tacheChecked(QTreeWidgetItem * item, int n)
     if (n==0){
         if (item->checkState(0)==Qt::Checked){
             item->setTextColor(0,QColor(98,188,98));
-            cout << item->text(0).toStdString() << endl;
         }
     }
 }
 
+// les icones + et X apparaissent en "mouseover"
 void FirstWindow::showIcons(QTreeWidgetItem *item, int n)
 {
     for(int i=0;i<arbo->topLevelItemCount(); ++i){
