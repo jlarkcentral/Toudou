@@ -1,9 +1,13 @@
 #include <unistd.h>
+#include <iostream>
 
 #include <QLabel>
 #include <QTreeWidget>
 #include <QPushButton>
 #include <QHeaderView>
+#include <QMenuBar>
+#include <QDialog>
+#include <QMessageBox>
 
 #include "firstwindow.h"
 #include "tache.h"
@@ -13,8 +17,6 @@
 FirstWindow::FirstWindow(QWidget *parent) :
     QMainWindow(parent)
 {
-    //drawerOpened = false;
-
     // Taille fenêtre
     setMinimumWidth(400);
 
@@ -28,6 +30,13 @@ FirstWindow::FirstWindow(QWidget *parent) :
     // Entête fenêtre (title + icon)
     setWindowTitle("Toudou");
 
+    //Barre des menus
+    QMenuBar * bar = new QMenuBar(0);
+    bar->setNativeMenuBar(true);
+    bar->addMenu("Fichier");
+    bar->addMenu("Affichage");
+    setMenuBar(bar);
+
     // Titre
     QLabel * title = new QLabel("Gestionnaire de tâches");
     title->setAlignment(Qt::AlignCenter);
@@ -38,7 +47,7 @@ FirstWindow::FirstWindow(QWidget *parent) :
 
     // Logo
     QLabel * logo = new QLabel();
-    QPixmap logoresource("img/toudou.gif");
+    QPixmap logoresource("../Toudou/img/toudou.gif");
     logo->setPixmap(logoresource);
     logo->setAlignment(Qt::AlignCenter);
     mainLayout->addWidget(logo,1,0,1,2);
@@ -58,11 +67,15 @@ FirstWindow::FirstWindow(QWidget *parent) :
     header->setResizeMode(4,QHeaderView::Fixed);
     header->setStretchLastSection(false);
     arbo->setHeaderHidden(true);
+    arbo->setMouseTracking(true);
     arbo->setStyleSheet("font-weight : bold; font-size : 18px; ");
     arbo->setColumnCount(5);
 
+    // signaux - slots de l'arbre
     QObject::connect(arbo,SIGNAL(itemClicked(QTreeWidgetItem*,int)),this,SLOT(popup(QTreeWidgetItem*,int)));
-
+    QObject::connect(arbo,SIGNAL(itemChanged(QTreeWidgetItem*,int)),this,SLOT(tacheChecked(QTreeWidgetItem*,int)));
+    QObject::connect(arbo,SIGNAL(itemEntered(QTreeWidgetItem*,int)),this,SLOT(showIcons(QTreeWidgetItem*,int)));
+    // FAIRE UN SLOT POUR RAYER LE TEXTE
 
     // insertion arbo dans premier onglet
     QWidget * page = new QWidget();
@@ -85,6 +98,22 @@ FirstWindow::FirstWindow(QWidget *parent) :
     pagelayout->addWidget(newbutton);
     QObject::connect(newbutton,SIGNAL(clicked()),this,SLOT(popup()));
 
+    // Bouton Sauvegarder
+    QPushButton * savebutton = new QPushButton("Sauvegarder");
+    //QObject::connect(savebutton,SIGNAL(clicked()),this,SLOT(popupSave()));
+
+    // Bouton Charger
+    QPushButton * loadbutton = new QPushButton("Charger");
+    //QObject::connect(loadbutton,SIGNAL(clicked()),this,SLOT(popupLoad()));
+
+    QHBoxLayout * saveAndLoadLayout = new QHBoxLayout();
+    saveAndLoadLayout->addWidget(savebutton);
+    saveAndLoadLayout->addWidget(loadbutton);
+
+    pagelayout->addLayout(saveAndLoadLayout);
+
+    //plusIcon = new QIcon("../Toudou/img/plus.png");
+
 
 }
 
@@ -104,16 +133,30 @@ void FirstWindow::popup()
 void FirstWindow::popup(QTreeWidgetItem* i,int n)
 {
     if (n == 3 ){
+        // Ajout
         currentItem = i;
         arbo->expandItem(currentItem);
         Widget_ajout * w_a = new Widget_ajout(this);
         w_a->show();
     }
     else if (n == 4){
+        // Suppression
         currentItem = i;
-        // ajouter un popup de confirmation ...
-        delete(currentItem);
+        // popup de confirmation
+        QMessageBox * supprDiag = new QMessageBox();
+        supprDiag->setWindowTitle("Supprimer...");
+        supprDiag->addButton("Ok",QMessageBox::AcceptRole);
+        supprDiag->addButton("Annuler",QMessageBox::RejectRole);
+        supprDiag->setText("La tache " + i->text(0) + " va etre supprimee");
+        supprDiag->show();
+        // le signal est bien "rejected", c est un bug Qt
+        QObject::connect(supprDiag,SIGNAL(rejected()),this,SLOT(deleteItem()));
     }
+}
+
+void FirstWindow::deleteItem()
+{
+    delete(currentItem);
 }
 
 void FirstWindow::resetDisable()
@@ -121,43 +164,29 @@ void FirstWindow::resetDisable()
     this->setDisabled(false);
 }
 
+void FirstWindow::tacheChecked(QTreeWidgetItem * item, int n)
+{
+    if (n==0){
+        if (item->checkState(0)==Qt::Checked){
+            item->setTextColor(0,QColor(98,188,98));
+        }
+    }
+}
 
-//void FirstWindow::openDrawer()
-//{
-//    if (!drawerOpened)
-//    {
-//        int size = width();
-//        for(int i=0 ; i<15 ; i++)
-//        {
-//            usleep(10000);
-//            size += 20;
-//            setFixedWidth(size);
-//        }
-
-//        // TEST : tâche
-//        Tache * t = new Tache("Ma jolie tâche");
-//        t->setDate("7 février 2013");
-//        t->setFini(false);
-
-//        Widget_infos * infos = new Widget_infos(t,this);
-//        mainLayout->addWidget(infos,2,1,1,1);
-
-//        drawerOpened = true;
-//    }
-//}
-
-//void FirstWindow::closeDrawer()
-//{
-//    if (drawerOpened)
-//    {
-//        int size = width();
-//        for(int i=0 ; i<15 ; i++)
-//        {
-//            usleep(10000);
-//            size -= 20;
-//            setFixedWidth(size);
-//        }
-
-//        drawerOpened = false;
-//    }
-//}
+// les icones + et X apparaissent en "mouseover"
+void FirstWindow::showIcons(QTreeWidgetItem *item, int n)
+{
+    for(int i=0;i<arbo->topLevelItemCount(); ++i){
+        QTreeWidgetItem * topchild = arbo->topLevelItem(i);
+        topchild->setText(3,"");
+        topchild->setText(4,"");
+        for(int j=0;j<topchild->childCount(); ++j){
+            QTreeWidgetItem * subChild = topchild->child(j);
+            subChild->setText(3,"");
+            subChild->setText(4,"");
+        }
+    }
+    //item->setIcon(3,*plusIcon);
+    item->setText(3,"[+]");
+    item->setText(4,"[X]");
+}

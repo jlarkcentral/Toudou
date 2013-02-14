@@ -8,7 +8,7 @@ Widget_infos::Widget_infos(Tache * t, QWidget *parent) :
     QVBoxLayout * mainlayout = new QVBoxLayout();
     this->setLayout(mainlayout);
 
-    name = new QLabel(QString::fromStdString(t->getTache()));
+    name = new QLabel(QString::fromStdString(t->getNom()));
     //parent = new QLabel("En attente");
     date = new QLabel(QString::fromStdString(t->getDate()));
     timeleft = new QLabel("A faire");
@@ -19,7 +19,7 @@ Widget_infos::Widget_infos(Tache * t, QWidget *parent) :
     }
     else
     {
-        setType("Liste de tâches");
+        setType("Liste de tches");
     }
 
     name->setStyleSheet("font-weight : bold; font-size : 18px; ");

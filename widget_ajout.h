@@ -42,6 +42,7 @@ public:
     void setType(string s);
 
     FirstWindow * firstW;
+    QPushButton * boutonAjout;
 
 private:
     QLineEdit * name;
@@ -60,6 +61,7 @@ signals:
 public slots:
     void addTache();
     void afficherDate();
+    void textEdited(QString s);
 
 protected:
     void closeEvent(QCloseEvent *event);

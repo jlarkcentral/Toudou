@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QGridLayout>
 #include <QTreeWidget>
+#include <QIcon>
 
 #include <iostream>
 
@@ -21,7 +22,13 @@ public:
 
     // l'arborescence devient un parametre global pour y acceder dans les slots
     QTreeWidget * arbo;
+    // l'objet courant dans l'arbre
     QTreeWidgetItem * currentItem;
+
+    //icone "ajouter une sous-tache"
+    QIcon * plusIcon;
+    // icone supprimer la tache
+    QIcon * supprIcon;
     
 private:
     //bool drawerOpened;
@@ -32,7 +39,10 @@ public slots:
     //void closeDrawer();
     void popup(); // déclenché si bouton "Nouveau"
     void popup(QTreeWidgetItem* i, int n); // déclenché si clic sur le "+" dans l'arbo
-    void resetDisable();
+    void resetDisable(); // la fenetre principale revient active apres le popup Ajout
+    void tacheChecked(QTreeWidgetItem* item,int n); // action quand la tache est checkée
+    void showIcons(QTreeWidgetItem* item,int n); // affiche les icones "plus" et "supprimer" quand on passe la souris
+    void deleteItem(); // supprimer une tache
 };
 
 #endif // FIRSTWINDOW_H
