@@ -145,7 +145,7 @@ void Widget_ajout::afficherDate()
         dates->setVisible(true);
         date_plus->setText("-");
         date_aff = true;
-        this->setFixedHeight(600);
+        this->setFixedHeight(500);
         this->setFixedWidth(500);
     }
     else

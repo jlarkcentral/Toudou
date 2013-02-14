@@ -5,10 +5,12 @@
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QFormLayout>
+#include <QGridLayout>
 #include <QRadioButton>
 #include <QCalendarWidget>
 #include <QTimeEdit>
 #include <QComboBox>
+#include <QSpinBox>
 
 
 class widget_date : public QWidget

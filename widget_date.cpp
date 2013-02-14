@@ -29,8 +29,26 @@ widget_date::widget_date(QWidget *parent) :
 
     // Choix rel
     relwidget = new QWidget();
-    QFormLayout * rellayout = new QFormLayout();
-    //QComboBox *
+    QGridLayout * rellayout = new QGridLayout();
+    QSpinBox * spin = new QSpinBox();
+    spin->setMinimum(1);
+    spin->setMaximum(12);
+    rellayout->addWidget(spin,0,0);
+    QComboBox * unit = new QComboBox();
+    unit->addItem("minute(s)");
+    unit->addItem("heure(s)");
+    unit->addItem("jour(s)");
+    unit->addItem("semaine(s)");
+    unit->addItem("mois");
+    rellayout->addWidget(unit,0,1);
+    QComboBox * avapr = new QComboBox();
+    avapr->addItem("avant");
+    avapr->addItem("après");
+    rellayout->addWidget(avapr,0,2);
+    // TODO : Ajouter widget pour selectionner la tache
+    relwidget->setLayout(rellayout);
+    mainlayout->addWidget(relwidget);
+    relwidget->setVisible(false);
 
     // Connect boutons choix -- widget correspondant
     QObject::connect(dateabs,SIGNAL(clicked()),this,SLOT(afficher_abs()));
@@ -51,10 +69,12 @@ widget_date::~widget_date()
 void widget_date::afficher_abs()
 {
     abswidget->setVisible(true);
+    relwidget->setVisible(false);
 }
 
 
 void widget_date::afficher_rel()
 {
     abswidget->setVisible(false);
+    relwidget->setVisible(true);
 }
