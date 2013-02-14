@@ -27,13 +27,17 @@ public:
     void setDate(string Date);
 
     vector<Tache> getPreconditions();
-
-    vector<Tache> getSousTaches();
-
     void addPrecondition(Tache uneTache);
 
+    vector<Tache> getSousTaches();
+    void addSousTache(Tache uneTache);
+
     void xmlToTache();
-    void tacheToXml();
+    void createXml();
+
+    void addTacheInXml(TiXmlDocument doc, TiXmlElement *element);
+
+    void display();
 
 private:
     string nom;

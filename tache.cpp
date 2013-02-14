@@ -52,23 +52,60 @@ void Tache::addPrecondition(Tache uneTache)
     preconditions.push_back(uneTache);
 }
 
+void Tache::addSousTache(Tache uneTache)
+{
+    sousTaches.push_back(uneTache);
+}
+
 void Tache::xmlToTache()
 {
 
 }
 
-void Tache::tacheToXml()
+void Tache::createXml()
 {
     TiXmlDocument doc("../Toudou/xml/"+nom+".xml");
 
     TiXmlDeclaration * decl = new TiXmlDeclaration( "1.0", "", "" );
-    TiXmlElement * element = new TiXmlElement( nom );
-    TiXmlText * text = new TiXmlText( "World" );
-    element->LinkEndChild( text );
     doc.LinkEndChild( decl );
-    doc.LinkEndChild( element );
+    TiXmlElement * firstElement = new TiXmlElement( "racine" );
+    doc.LinkEndChild( firstElement );
+
+    addTacheInXml(doc,firstElement);
+
     doc.SaveFile();
 
-    // DOC tinyxml -> ajout root puis noeud depuis liste sous taches
+}
 
+void Tache::addTacheInXml(TiXmlDocument doc,TiXmlElement * element)
+{
+    TiXmlElement * newElement = new TiXmlElement("tache");
+    element->LinkEndChild( newElement );
+    TiXmlText * text = new TiXmlText( nom);
+    newElement->LinkEndChild( text );
+
+    for (int i=0 ; i<sousTaches.size() ; i++){
+        Tache sousTache = sousTaches.at(i);
+        //sousTache.addTacheInXml(doc,newElement);
+        TiXmlElement * newnewElement = new TiXmlElement("tache");
+        newElement->LinkEndChild( newnewElement );
+        TiXmlText * newtext = new TiXmlText( sousTache.getNom());
+        newnewElement->LinkEndChild( newtext );
+
+        for (int i=0 ; i<sousTache.getSousTaches().size() ; i++){
+            Tache soussousTache = sousTache.getSousTaches().at(i);
+            soussousTache.addTacheInXml(doc,newnewElement);
+        }
+    }
+
+    doc.SaveFile();
+}
+
+void Tache::display()
+{
+    cout << nom << endl;
+    for (int i=0 ; i<getSousTaches().size() ; i++){
+        Tache st = getSousTaches().at(i);
+        st.display();
+    }
 }

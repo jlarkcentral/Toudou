@@ -170,6 +170,9 @@ void FirstWindow::tacheChecked(QTreeWidgetItem * item, int n)
         if (item->checkState(0)==Qt::Checked){
             item->setTextColor(0,QColor(98,188,98));
         }
+        else if (item->checkState(0)==Qt::Unchecked){
+            item->setTextColor(0,QColor(0,0,0));
+        }
     }
 }
 
