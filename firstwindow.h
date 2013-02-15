@@ -29,6 +29,9 @@ public:
     QIcon * plusIcon;
     // icone supprimer la tache
     QIcon * supprIcon;
+
+    // effacer les icones
+    void eraseIcons(QTreeWidgetItem * item);
     
 private:
     //bool drawerOpened;

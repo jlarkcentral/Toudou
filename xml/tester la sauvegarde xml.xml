@@ -1,8 +1,8 @@
 <?xml version="1.0" ?>
 <racine>
-    <tache>tester la sauvegarde xml
-        <tache>faire des trucs</tache>
-        <tache>blibli</tache>
-        <tache>blabla</tache>
+    <tache nom="tester la sauvegarde xml" date="">
+        <tache nom="faire des trucs" date="date de faire des trucs" />
+        <tache nom="blibli" date="date de blibli" />
+        <tache nom="blabla" date="date de blabla" />
     </tache>
 </racine>

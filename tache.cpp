@@ -80,32 +80,30 @@ void Tache::createXml()
 void Tache::addTacheInXml(TiXmlDocument doc,TiXmlElement * element)
 {
     TiXmlElement * newElement = new TiXmlElement("tache");
+    newElement->SetAttribute("nom",nom);
+    newElement->SetAttribute("date",date);
     element->LinkEndChild( newElement );
-    TiXmlText * text = new TiXmlText( nom);
-    newElement->LinkEndChild( text );
+
 
     for (int i=0 ; i<sousTaches.size() ; i++){
         Tache sousTache = sousTaches.at(i);
-        //sousTache.addTacheInXml(doc,newElement);
-        TiXmlElement * newnewElement = new TiXmlElement("tache");
-        newElement->LinkEndChild( newnewElement );
-        TiXmlText * newtext = new TiXmlText( sousTache.getNom());
-        newnewElement->LinkEndChild( newtext );
-
-        for (int i=0 ; i<sousTache.getSousTaches().size() ; i++){
-            Tache soussousTache = sousTache.getSousTaches().at(i);
-            soussousTache.addTacheInXml(doc,newnewElement);
-        }
+        sousTache.addTacheInXml(doc,newElement);
     }
-
     doc.SaveFile();
 }
 
+
+// fonction bac a sable pour regler la recursion
 void Tache::display()
 {
     cout << nom << endl;
-    for (int i=0 ; i<getSousTaches().size() ; i++){
-        Tache * st = getSousTaches().at(i);
-        st->display();
+    cout << date << endl;
+    //cout << "nombre de sous taches de " << nom << " : " << sousTaches.size() << endl;
+    for (int i=0 ; i<sousTaches.size() ; i++){
+        Tache st = sousTaches.at(i);
+        st.display();
+        cout << "dans la boucle" << endl;
     }
+    return;
 }
+

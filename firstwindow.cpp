@@ -181,15 +181,19 @@ void FirstWindow::showIcons(QTreeWidgetItem *item, int n)
 {
     for(int i=0;i<arbo->topLevelItemCount(); ++i){
         QTreeWidgetItem * topchild = arbo->topLevelItem(i);
-        topchild->setText(3,"");
-        topchild->setText(4,"");
-        for(int j=0;j<topchild->childCount(); ++j){
-            QTreeWidgetItem * subChild = topchild->child(j);
-            subChild->setText(3,"");
-            subChild->setText(4,"");
-        }
+        eraseIcons(topchild);
     }
-    //item->setIcon(3,*plusIcon);
     item->setText(3,"[+]");
     item->setText(4,"[X]");
+}
+
+void FirstWindow::eraseIcons(QTreeWidgetItem * item)
+{
+    item->setText(3,"");
+    item->setText(4,"");
+    for(int j=0;j<item->childCount(); ++j){
+        QTreeWidgetItem * subItem = item->child(j);
+        eraseIcons(subItem);
+    }
+
 }
