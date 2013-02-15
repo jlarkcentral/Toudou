@@ -31,7 +31,7 @@ FirstWindow::FirstWindow(QWidget *parent) :
     setWindowTitle("Toudou");
 
     //Barre des menus
-    QMenuBar * bar = new QMenuBar(0);
+    QMenuBar * bar = new QMenuBar();
     bar->setNativeMenuBar(true);
     bar->addMenu("Fichier");
     bar->addMenu("Affichage");
@@ -99,11 +99,11 @@ FirstWindow::FirstWindow(QWidget *parent) :
     QObject::connect(newbutton,SIGNAL(clicked()),this,SLOT(popup()));
 
     // Bouton Sauvegarder
-    QPushButton * savebutton = new QPushButton("Sauvegarder");
+    QPushButton * savebutton = new QPushButton("Sauvegarder sous...");
     //QObject::connect(savebutton,SIGNAL(clicked()),this,SLOT(popupSave()));
 
     // Bouton Charger
-    QPushButton * loadbutton = new QPushButton("Charger");
+    QPushButton * loadbutton = new QPushButton("Charger...");
     //QObject::connect(loadbutton,SIGNAL(clicked()),this,SLOT(popupLoad()));
 
     QHBoxLayout * saveAndLoadLayout = new QHBoxLayout();
