@@ -1,0 +1,8 @@
+<?xml version="1.0" ?>
+<racine>
+    <tache>tester la sauvegarde xml
+        <tache>faire des trucs</tache>
+        <tache>blibli</tache>
+        <tache>blabla</tache>
+    </tache>
+</racine>

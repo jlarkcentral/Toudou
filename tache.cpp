@@ -105,7 +105,7 @@ void Tache::display()
 {
     cout << nom << endl;
     for (int i=0 ; i<getSousTaches().size() ; i++){
-        Tache st = getSousTaches().at(i);
-        st.display();
+        Tache * st = getSousTaches().at(i);
+        st->display();
     }
 }
