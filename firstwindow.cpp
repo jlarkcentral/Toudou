@@ -2,12 +2,14 @@
 #include <iostream>
 
 #include <QLabel>
+#include <QLineEdit>
 #include <QTreeWidget>
 #include <QPushButton>
 #include <QHeaderView>
 #include <QMenuBar>
 #include <QDialog>
 #include <QMessageBox>
+#include <QFileDialog>
 
 #include "firstwindow.h"
 #include "tache.h"
@@ -100,7 +102,7 @@ FirstWindow::FirstWindow(QWidget *parent) :
 
     // Bouton Sauvegarder
     QPushButton * savebutton = new QPushButton("Sauvegarder sous...");
-    //QObject::connect(savebutton,SIGNAL(clicked()),this,SLOT(popupSave()));
+    QObject::connect(savebutton,SIGNAL(clicked()),this,SLOT(sauvegarderSous()));
 
     // Bouton Charger
     QPushButton * loadbutton = new QPushButton("Charger...");
@@ -187,6 +189,7 @@ void FirstWindow::showIcons(QTreeWidgetItem *item, int n)
     item->setText(4,"[X]");
 }
 
+// on efface les icones des lignes qui ne sont pas en mouseover
 void FirstWindow::eraseIcons(QTreeWidgetItem * item)
 {
     item->setText(3,"");
@@ -196,4 +199,54 @@ void FirstWindow::eraseIcons(QTreeWidgetItem * item)
         eraseIcons(subItem);
     }
 
+}
+
+// sauvegarder la liste courante sous un nom
+void FirstWindow::sauvegarderSous()
+{/*
+    QWidget * sauvegardeWidget = new QWidget();
+    QGridLayout * sauvGrid = new QGridLayout();
+    QLabel * nomFichier = new QLabel("Sauvegarder la liste sous...");
+    QLineEdit * nomFichierEdit = new QLineEdit();
+    QPushButton * ok = new QPushButton("Sauvegarder");
+    QPushButton * annuler = new QPushButton("Annuler");
+
+    sauvGrid->addWidget(nomFichier,0,0);
+    sauvGrid->addWidget(nomFichierEdit,1,0);
+    sauvGrid->addWidget(ok,2,0);
+    sauvGrid->addWidget(annuler,2,2);
+
+    sauvegardeWidget->setLayout(sauvGrid);
+    sauvegardeWidget->setWindowTitle("Sauvegarder sous...");
+
+    // centre le widget
+    sauvegardeWidget->setWindowFlags(Qt::Sheet | Qt::WindowStaysOnTopHint);
+    setDisabled(true);
+
+    sauvegardeWidget->show();
+
+    setDisabled(false);
+*/
+    // Code à utiliser si on implemente une fenetre "enregistrer sous..."
+    /*
+    QString fichier=QFileDialog::getSaveFileName(this, "Enregister Sous", QString(), "Tous les fichiers (*.*)");
+
+    QFile file(fichier);
+
+    // Declare a printer
+    TiXmlPrinter printer;
+
+    TiXmlDocument pDoc = t->createXml();
+
+    // attach it to the document you want to convert in to a std::string
+    pDoc->Accept(&printer);
+
+    // Create a std::string and copy your document data in to the string
+    std::string str = printer.CStr();
+
+    QTextStream stream(&file);
+    stream << str;
+    stream.flush();
+    file.close();
+*/
 }

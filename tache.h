@@ -33,9 +33,9 @@ public:
     void addSousTache(Tache uneTache);
 
     void xmlToTache();
-    void createXml();
+    void createXml(string nomFichier);
 
-    void addTacheInXml(TiXmlDocument doc, TiXmlElement *element);
+    void addTacheInXml(TiXmlDocument doc, TiXmlElement * element);
 
     void display();
 

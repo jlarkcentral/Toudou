@@ -1,5 +1,15 @@
 	TOUDOU
 
+////// TINYXML  /////////
+
+- changer le makefile :
+
+LIBS  = $(SUBLIBS)  -L/usr/lib/i386-linux-gnu -lQtGui -lQtCore -lpthread /usr/lib/libtinyxml.so
+
+- faisable automatiquement ?? 
+
+
+	
 - Ouverture d'une liste de tâches avec double-clic (onglet?)
 - Bouton Nouveau, puis proposition : tâche simple, liste, liste ordonnée, template
 - Les options s'affichent au fur et à mesure des choix

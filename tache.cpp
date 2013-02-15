@@ -62,9 +62,9 @@ void Tache::xmlToTache()
 
 }
 
-void Tache::createXml()
+void Tache::createXml(string nomFichier)
 {
-    TiXmlDocument doc("../Toudou/xml/"+nom+".xml");
+    TiXmlDocument doc("../Toudou/xml/"+nomFichier+".xml");
 
     TiXmlDeclaration * decl = new TiXmlDeclaration( "1.0", "", "" );
     doc.LinkEndChild( decl );
@@ -83,7 +83,6 @@ void Tache::addTacheInXml(TiXmlDocument doc,TiXmlElement * element)
     newElement->SetAttribute("nom",nom);
     newElement->SetAttribute("date",date);
     element->LinkEndChild( newElement );
-
 
     for (int i=0 ; i<sousTaches.size() ; i++){
         Tache sousTache = sousTaches.at(i);

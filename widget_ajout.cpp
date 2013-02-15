@@ -66,6 +66,8 @@ Widget_ajout::Widget_ajout(FirstWindow *fw,QWidget *parent) :
     mainlayout->addWidget(boutonAjout);
     QObject::connect(boutonAjout,SIGNAL(clicked()),this,SLOT(addTache()));
     QObject::connect(boutonAjout,SIGNAL(clicked()),this,SLOT(close()));
+    QObject::connect(name,SIGNAL(returnPressed()),this,SLOT(addTache()));
+    QObject::connect(name,SIGNAL(returnPressed()),this,SLOT(close()));
 
     // menu date  dépliable
     QWidget * widget_date_plus= new QWidget();

@@ -31,7 +31,7 @@ int main(int argc, char *argv[])
     st1->addSousTache(*sst1);
     st1->addSousTache(*sst2);
 
-    t->createXml();
+    //t->createXml();
 
     //t->display();
     //cout << "############" << endl;

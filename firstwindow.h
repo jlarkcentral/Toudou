@@ -46,6 +46,7 @@ public slots:
     void tacheChecked(QTreeWidgetItem* item,int n); // action quand la tache est checkée
     void showIcons(QTreeWidgetItem* item,int n); // affiche les icones "plus" et "supprimer" quand on passe la souris
     void deleteItem(); // supprimer une tache
+    void sauvegarderSous();
 };
 
 #endif // FIRSTWINDOW_H
