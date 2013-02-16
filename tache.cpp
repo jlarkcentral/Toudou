@@ -54,7 +54,18 @@ void Tache::addPrecondition(Tache uneTache)
 
 void Tache::addSousTache(Tache *uneTache)
 {
+    uneTache->setTacheParent(this);
     sousTaches.push_back(uneTache);
+}
+
+void Tache::delSousTache(Tache * uneTache)
+{
+    for(int i=0 ; i<sousTaches.size() ; i++ ){
+        Tache * t = sousTaches.at(i);
+        if (t==uneTache){
+            sousTaches.erase(sousTaches.begin()+i);
+        }
+    }
 }
 
 QTreeWidgetItem* Tache::getMatchingItem()
@@ -65,6 +76,16 @@ QTreeWidgetItem* Tache::getMatchingItem()
 void Tache::setMatchingItem(QTreeWidgetItem *item)
 {
     matchingItem = item;
+}
+
+Tache* Tache::getTacheParent()
+{
+    return tacheParent;
+}
+
+void Tache::setTacheParent(Tache *uneTache)
+{
+    tacheParent = uneTache;
 }
 
 void Tache::xmlToTache()

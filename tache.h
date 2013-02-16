@@ -34,8 +34,13 @@ public:
     vector<Tache *> getSousTaches();
     void addSousTache(Tache * uneTache);
 
+    void delSousTache(Tache * uneTache);
+
     QTreeWidgetItem* getMatchingItem();
     void setMatchingItem(QTreeWidgetItem* item);
+
+    Tache* getTacheParent();
+    void setTacheParent(Tache* uneTache);
 
     void xmlToTache();
     void createXml(string nomFichier);
@@ -51,6 +56,7 @@ private:
     QTreeWidgetItem * matchingItem;
     vector<Tache> preconditions;
     vector<Tache*> sousTaches;
+    Tache * tacheParent;
 };
 
 #endif // TACHE_H

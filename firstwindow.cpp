@@ -127,7 +127,7 @@ FirstWindow::~FirstWindow()
 {
 }
 
-// popup ajout d une nouvelle tache
+// popup ajout d une nouvelle tache "topLevel"
 void FirstWindow::popup()
 {
     currentItem = arbo->invisibleRootItem();
@@ -164,6 +164,8 @@ void FirstWindow::popup(QTreeWidgetItem* i,int n)
 
 void FirstWindow::deleteItem()
 {
+    defineCurrentTache(currentItem,racine);
+    currentTache->getTacheParent()->delSousTache(currentTache);
     delete(currentItem);
 }
 
@@ -220,8 +222,6 @@ void FirstWindow::defineCurrentTache(QTreeWidgetItem *item,Tache * tacheRef)
         Tache * t = tacheRef->getSousTaches().at(i);
         if(t->getMatchingItem()==item){
             currentTache = t;
-            cout << "nouvelle tache courante definie : " << currentTache->getNom() << endl;
-            return;
         }
         else{
             defineCurrentTache(item,t);

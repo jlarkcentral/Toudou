@@ -46,10 +46,10 @@ private:
 public slots:
     //void openDrawer();
     //void closeDrawer();
-    void popup(); // déclenché si bouton "Nouveau"
-    void popup(QTreeWidgetItem* i, int n); // déclenché si clic sur le "+" dans l'arbo
+    void popup(); // dclench si bouton "Nouveau"
+    void popup(QTreeWidgetItem* i, int n); // dclench si clic sur le "+" dans l'arbo
     void resetDisable(); // la fenetre principale revient active apres le popup Ajout
-    void tacheChecked(QTreeWidgetItem* item,int n); // action quand la tache est checkée
+    void tacheChecked(QTreeWidgetItem* item,int n); // action quand la tache est checke
     void showIcons(QTreeWidgetItem* item,int n); // affiche les icones "plus" et "supprimer" quand on passe la souris
     void deleteItem(); // supprimer une tache
     void sauvegarderSous();
