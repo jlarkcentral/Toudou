@@ -26,11 +26,10 @@ FirstWindow::FirstWindow(QWidget *parent) :
     QWidget * centralwidget = new QWidget(this);
     setCentralWidget(centralwidget);
     mainLayout = new QGridLayout();
-    //mainLayout->setSizeConstraint(QLayout::SetFixedSize);
     centralwidget->setLayout(mainLayout);
 
     // Entête fenêtre (title + icon)
-    setWindowTitle("Toudou");
+    setWindowTitle("Gestionnaire de taches Toudou");
 
     //Barre des menus
     QMenuBar * bar = new QMenuBar(this);
@@ -97,7 +96,6 @@ FirstWindow::FirstWindow(QWidget *parent) :
     QObject::connect(arbo,SIGNAL(itemClicked(QTreeWidgetItem*,int)),this,SLOT(popup(QTreeWidgetItem*,int)));
     QObject::connect(arbo,SIGNAL(itemChanged(QTreeWidgetItem*,int)),this,SLOT(tacheChecked(QTreeWidgetItem*,int)));
     QObject::connect(arbo,SIGNAL(itemEntered(QTreeWidgetItem*,int)),this,SLOT(showIcons(QTreeWidgetItem*,int)));
-    // FAIRE UN SLOT POUR RAYER LE TEXTE
 
     // insertion arbo dans premier onglet
     QWidget * page = new QWidget();
@@ -108,11 +106,21 @@ FirstWindow::FirstWindow(QWidget *parent) :
     onglets->addTab(page,"Toutes les tâches");
 
     // Test second onglet
-    QPushButton * testbutton = new QPushButton("Achevées");
+    //QPushButton * testbutton = new QPushButton("Achevées");
+    arboAchevees = new QTreeWidget();
+    QHeaderView * headerAchevees = arboAchevees->header();
+    headerAchevees->setResizeMode(QHeaderView::ResizeToContents);
+    headerAchevees->setResizeMode(0,QHeaderView::Stretch);
+    headerAchevees->setStretchLastSection(false);
+    arboAchevees->setHeaderHidden(true);
+    arboAchevees->setMouseTracking(true);
+    arboAchevees->setStyleSheet("font-weight : bold; font-size : 18px; ");
+    arboAchevees->setColumnCount(3);
+
     QWidget * page2 = new QWidget();
     QVBoxLayout * pagelayout2 = new QVBoxLayout();
     page2->setLayout(pagelayout2);
-    pagelayout2->addWidget(testbutton);
+    pagelayout2->addWidget(arboAchevees);
     onglets->addTab(page2,"Achevées");
 
     // Bouton Nouveau
@@ -120,16 +128,16 @@ FirstWindow::FirstWindow(QWidget *parent) :
     pagelayout->addWidget(newbutton);
     QObject::connect(newbutton,SIGNAL(clicked()),this,SLOT(popup()));
 
-    // Bouton Sauvegarder
-    QPushButton * savebutton = new QPushButton("Sauvegarder sous...");
-    QObject::connect(savebutton,SIGNAL(clicked()),this,SLOT(sauvegarderSous()));
+    // Bouton Valider la tache finie
+    QPushButton * finishedbutton = new QPushButton("Valider les taches finies");
+    QObject::connect(finishedbutton,SIGNAL(clicked()),this,SLOT(confirmFinished()));
 
-    // Bouton Charger
+    // Bouton Charger // a changer
     QPushButton * loadbutton = new QPushButton("Charger...");
     QObject::connect(loadbutton,SIGNAL(clicked()),this,SLOT(chargerXml()));
 
     QHBoxLayout * saveAndLoadLayout = new QHBoxLayout();
-    saveAndLoadLayout->addWidget(savebutton);
+    saveAndLoadLayout->addWidget(finishedbutton);
     saveAndLoadLayout->addWidget(loadbutton);
 
     pagelayout->addLayout(saveAndLoadLayout);
@@ -137,9 +145,6 @@ FirstWindow::FirstWindow(QWidget *parent) :
     // initialisation de la tache racine
     racine = new Tache("Toutes les taches");
     racine->setMatchingItem(arbo->invisibleRootItem());
-
-    //plusIcon = new QIcon("../Toudou/img/plus.png");
-
 
 }
 
@@ -194,6 +199,7 @@ void FirstWindow::resetDisable()
     this->setDisabled(false);
 }
 
+// change la couleur du texte si la tache est cochee/decochee
 void FirstWindow::tacheChecked(QTreeWidgetItem * item, int n)
 {
     if (n==0){
@@ -250,6 +256,7 @@ void FirstWindow::defineCurrentTache(QTreeWidgetItem *item,Tache * tacheRef)
     }
 }
 
+// chargement de fichier xml en liste : pour l'instant fonctionne mal
 void FirstWindow::chargerXml()
 {
     QString fileName = QFileDialog::getOpenFileName(this, tr("Charger une liste"), "",tr("Fichiers Xml (*.xml);"));
@@ -275,6 +282,7 @@ void FirstWindow::tacheToTree(Tache * tacheRef)
     }
 }
 
+// actions selon la partie du menu "Liste" cliqué
 void FirstWindow::menuAction(QAction * action)
 {
     QString text = action->text();
@@ -289,5 +297,32 @@ void FirstWindow::menuAction(QAction * action)
     }
     else if(text=="Quitter"){
         close();
+    }
+}
+
+
+// basculer les taches "top level" vers l onglet achevees
+void FirstWindow::confirmFinished()
+{
+    for(int i=0 ; i<arbo->topLevelItemCount() ; i++){
+        QTreeWidgetItem * itemCourant = arbo->topLevelItem(i);
+        if(itemCourant->checkState(0)==Qt::Checked){
+            QTreeWidgetItem * toAdd = itemCourant->clone();
+            toAdd->setFlags( Qt::ItemIsSelectable | Qt::ItemIsEnabled );
+
+            confirmFinishedSubItems(toAdd);
+
+            arboAchevees->addTopLevelItem(toAdd);
+            delete(itemCourant);
+        }
+    }
+}
+
+void FirstWindow::confirmFinishedSubItems(QTreeWidgetItem * item)
+{
+    for(int j=0 ; j<item->childCount() ; j++){
+        QTreeWidgetItem * subItemCourant = item->child(j);
+        subItemCourant->setFlags( Qt::ItemIsSelectable | Qt::ItemIsEnabled );
+        confirmFinishedSubItems(subItemCourant);
     }
 }

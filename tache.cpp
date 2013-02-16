@@ -88,6 +88,7 @@ void Tache::setTacheParent(Tache *uneTache)
     tacheParent = uneTache;
 }
 
+// parse le fichier xml vers une structure de Tache : a revoir
 void Tache::xmlToTache(TiXmlDocument doc,QTreeWidget * tree)
 {
     TiXmlElement * element = doc.FirstChildElement()->FirstChildElement();
@@ -104,6 +105,7 @@ void Tache::xmlToTache(TiXmlDocument doc,QTreeWidget * tree)
     }
 }
 
+// fonction utile a xmlToTache : chaque element xml -> Tache
 void Tache::parseElementToTache(TiXmlElement * element,Tache * tache,QTreeWidgetItem * item)
 {
     TiXmlElement * elementChild = element->FirstChildElement();
@@ -122,7 +124,7 @@ void Tache::parseElementToTache(TiXmlElement * element,Tache * tache,QTreeWidget
     }
 }
 
-
+// initialiser le fichier xml
 void Tache::createXml(string nomFichier)
 {
     TiXmlDocument doc("../Toudou/xml/"+nomFichier+".xml");
@@ -138,6 +140,7 @@ void Tache::createXml(string nomFichier)
 
 }
 
+// remplir le fichier xml tache par tache
 void Tache::addTacheInXml(TiXmlDocument doc,TiXmlElement * element)
 {
     TiXmlElement * newElement = new TiXmlElement("tache");

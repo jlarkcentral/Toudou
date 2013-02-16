@@ -23,6 +23,6 @@ HEADERS  += tache.h \
     widget_infos.h \
     widget_ajout.h \
     widget_date.h \
-    widget_sauvegarde.h
+    widget_sauvegarde.h 
 
-FORMS +=
+FORMS += 
