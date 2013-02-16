@@ -12,9 +12,9 @@
 #include <QFileDialog>
 
 #include "firstwindow.h"
-#include "tache.h"
 #include "widget_infos.h"
 #include "widget_ajout.h"
+#include "widget_sauvegarde.h"
 
 FirstWindow::FirstWindow(QWidget *parent) :
     QMainWindow(parent)
@@ -203,50 +203,7 @@ void FirstWindow::eraseIcons(QTreeWidgetItem * item)
 
 // sauvegarder la liste courante sous un nom
 void FirstWindow::sauvegarderSous()
-{/*
-    QWidget * sauvegardeWidget = new QWidget();
-    QGridLayout * sauvGrid = new QGridLayout();
-    QLabel * nomFichier = new QLabel("Sauvegarder la liste sous...");
-    QLineEdit * nomFichierEdit = new QLineEdit();
-    QPushButton * ok = new QPushButton("Sauvegarder");
-    QPushButton * annuler = new QPushButton("Annuler");
-
-    sauvGrid->addWidget(nomFichier,0,0);
-    sauvGrid->addWidget(nomFichierEdit,1,0);
-    sauvGrid->addWidget(ok,2,0);
-    sauvGrid->addWidget(annuler,2,2);
-
-    sauvegardeWidget->setLayout(sauvGrid);
-    sauvegardeWidget->setWindowTitle("Sauvegarder sous...");
-
-    // centre le widget
-    sauvegardeWidget->setWindowFlags(Qt::Sheet | Qt::WindowStaysOnTopHint);
-    setDisabled(true);
-
-    sauvegardeWidget->show();
-
-    setDisabled(false);
-*/
-    // Code à utiliser si on implemente une fenetre "enregistrer sous..."
-    /*
-    QString fichier=QFileDialog::getSaveFileName(this, "Enregister Sous", QString(), "Tous les fichiers (*.*)");
-
-    QFile file(fichier);
-
-    // Declare a printer
-    TiXmlPrinter printer;
-
-    TiXmlDocument pDoc = t->createXml();
-
-    // attach it to the document you want to convert in to a std::string
-    pDoc->Accept(&printer);
-
-    // Create a std::string and copy your document data in to the string
-    std::string str = printer.CStr();
-
-    QTextStream stream(&file);
-    stream << str;
-    stream.flush();
-    file.close();
-*/
+{
+    widget_sauvegarde * ws = new widget_sauvegarde(this);
+    ws->show();
 }

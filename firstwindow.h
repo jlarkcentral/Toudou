@@ -9,6 +9,7 @@
 #include <iostream>
 
 #include "widget_infos.h"
+#include "tache.h"
 
 using namespace std;
 
@@ -29,6 +30,9 @@ public:
     QIcon * plusIcon;
     // icone supprimer la tache
     QIcon * supprIcon;
+
+    // tache a la racine de toutes les taches courantes
+    Tache * racine;
 
     // effacer les icones
     void eraseIcons(QTreeWidgetItem * item);
