@@ -5,6 +5,7 @@
 #include <QGridLayout>
 #include <QTreeWidget>
 #include <QIcon>
+#include <QAction>
 
 #include <iostream>
 
@@ -55,6 +56,7 @@ public slots:
     void sauvegarderSous();
     void chargerXml();
     void tacheToTree(Tache *tacheRef);
+    void menuAction(QAction* action);
 };
 
 #endif // FIRSTWINDOW_H

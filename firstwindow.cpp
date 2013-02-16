@@ -33,14 +33,34 @@ FirstWindow::FirstWindow(QWidget *parent) :
     setWindowTitle("Toudou");
 
     //Barre des menus
-    QMenuBar * bar = new QMenuBar();
-    bar->setNativeMenuBar(true);
-    bar->addMenu("Fichier");
-    bar->addMenu("Affichage");
-    setMenuBar(bar);
+    QMenuBar * bar = new QMenuBar(this);
+    bar->setFixedWidth(200);
+    QMenu* menuListe = new QMenu("Liste");
+    menuListe->addAction("Nouvelle tache");
+    menuListe->addSeparator();
+    menuListe->addAction("Sauvegarder la liste");
+    menuListe->addAction("Charger une liste");
+    menuListe->addSeparator();
+    menuListe->addAction("Quitter");
+
+    QObject::connect(menuListe,SIGNAL(triggered(QAction*)),this,SLOT(menuAction(QAction*)));
+
+    QMenu* menuAffichage = new QMenu("Affichage");
+    QMenu* menuLangue = new QMenu("Langue");
+    menuLangue->addAction("Francais");
+    menuLangue->addAction("English");
+    menuLangue->addAction("Deutsch");
+    menuLangue->addAction("Espanol");
+    menuAffichage->addMenu(menuLangue);
+    menuListe->addSeparator();
+    menuAffichage->addAction("Derouler la liste");
+    menuAffichage->addAction("Enrouler la liste");
+
+    bar->addMenu(menuListe);
+    bar->addMenu(menuAffichage);
 
     // Titre
-    QLabel * title = new QLabel("Gestionnaire de tâches");
+    QLabel * title = new QLabel("");
     title->setAlignment(Qt::AlignCenter);
     QFont titlefont("LMRomanUnsl10");
     title->setFont(titlefont);
@@ -48,11 +68,11 @@ FirstWindow::FirstWindow(QWidget *parent) :
     mainLayout->addWidget(title,0,0,1,2);
 
     // Logo
-    QLabel * logo = new QLabel();
-    QPixmap logoresource("../Toudou/img/toudou.gif");
-    logo->setPixmap(logoresource);
-    logo->setAlignment(Qt::AlignCenter);
-    mainLayout->addWidget(logo,1,0,1,2);
+    //    QLabel * logo = new QLabel();
+    //    QPixmap logoresource("../Toudou/img/toudou.gif");
+    //    logo->setPixmap(logoresource);
+    //    logo->setAlignment(Qt::AlignCenter);
+    //    mainLayout->addWidget(logo,1,0,1,2);
 
     // Onglets
     QTabWidget * onglets = new QTabWidget();
@@ -252,5 +272,22 @@ void FirstWindow::tacheToTree(Tache * tacheRef)
 {
     for(int i=0 ; tacheRef->getSousTaches().size() ; i++){
         QTreeWidgetItem * newItem = new QTreeWidgetItem(tacheRef->getMatchingItem());
+    }
+}
+
+void FirstWindow::menuAction(QAction * action)
+{
+    QString text = action->text();
+    if(text=="Nouvelle tache"){
+        popup();
+    }
+    else if(text=="Sauvegarder la liste"){
+        sauvegarderSous();
+    }
+    else if(text=="Charger une liste"){
+        chargerXml();
+    }
+    else if(text=="Quitter"){
+        close();
     }
 }
