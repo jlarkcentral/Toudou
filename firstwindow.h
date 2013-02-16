@@ -33,9 +33,11 @@ public:
 
     // tache a la racine de toutes les taches courantes
     Tache * racine;
+    Tache * currentTache;
 
     // effacer les icones
     void eraseIcons(QTreeWidgetItem * item);
+    void defineCurrentTache(QTreeWidgetItem * item, Tache *tacheRef);
     
 private:
     //bool drawerOpened;

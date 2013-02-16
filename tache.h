@@ -1,6 +1,8 @@
 #ifndef TACHE_H
 #define TACHE_H
 
+#include <QTreeWidgetItem>
+
 #include <string>
 #include <vector>
 #include <iostream>
@@ -29,8 +31,11 @@ public:
     vector<Tache> getPreconditions();
     void addPrecondition(Tache uneTache);
 
-    vector<Tache> getSousTaches();
-    void addSousTache(Tache uneTache);
+    vector<Tache *> getSousTaches();
+    void addSousTache(Tache * uneTache);
+
+    QTreeWidgetItem* getMatchingItem();
+    void setMatchingItem(QTreeWidgetItem* item);
 
     void xmlToTache();
     void createXml(string nomFichier);
@@ -43,8 +48,9 @@ private:
     string nom;
     bool fini;
     string date;
+    QTreeWidgetItem * matchingItem;
     vector<Tache> preconditions;
-    vector<Tache> sousTaches;
+    vector<Tache*> sousTaches;
 };
 
 #endif // TACHE_H

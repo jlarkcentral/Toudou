@@ -48,5 +48,6 @@ void widget_sauvegarde::closeEvent(QCloseEvent *event)
 
 void widget_sauvegarde::saveXml()
 {
-
+    firstW->racine->createXml(nomFichierEdit->text().toStdString());
+    this->close();
 }

@@ -14,6 +14,7 @@
 #include "firstwindow.h"
 #include "widget_infos.h"
 #include "widget_ajout.h"
+#include "tache.h"
 #include "widget_sauvegarde.h"
 
 FirstWindow::FirstWindow(QWidget *parent) :
@@ -114,6 +115,9 @@ FirstWindow::FirstWindow(QWidget *parent) :
 
     pagelayout->addLayout(saveAndLoadLayout);
 
+    // initialisation de la tache racine
+    racine = new Tache("Toutes les taches");
+
     //plusIcon = new QIcon("../Toudou/img/plus.png");
 
 
@@ -127,6 +131,7 @@ FirstWindow::~FirstWindow()
 void FirstWindow::popup()
 {
     currentItem = arbo->invisibleRootItem();
+    currentTache = racine;
     Widget_ajout * w_a = new Widget_ajout(this);
     w_a->show();
 }
@@ -137,6 +142,7 @@ void FirstWindow::popup(QTreeWidgetItem* i,int n)
     if (n == 3 ){
         // Ajout
         currentItem = i;
+        defineCurrentTache(i,racine);
         arbo->expandItem(currentItem);
         Widget_ajout * w_a = new Widget_ajout(this);
         w_a->show();
@@ -206,4 +212,19 @@ void FirstWindow::sauvegarderSous()
 {
     widget_sauvegarde * ws = new widget_sauvegarde(this);
     ws->show();
+}
+
+void FirstWindow::defineCurrentTache(QTreeWidgetItem *item,Tache * tacheRef)
+{
+    for(int i=0 ; i<tacheRef->getSousTaches().size() ; i++){
+        Tache * t = tacheRef->getSousTaches().at(i);
+        if(t->getMatchingItem()==item){
+            currentTache = t;
+            cout << "nouvelle tache courante definie : " << currentTache->getNom() << endl;
+            return;
+        }
+        else{
+            defineCurrentTache(item,t);
+        }
+    }
 }

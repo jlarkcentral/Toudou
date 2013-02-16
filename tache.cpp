@@ -42,7 +42,7 @@ vector<Tache> Tache::getPreconditions()
     return preconditions;
 }
 
-vector<Tache> Tache::getSousTaches()
+vector<Tache*> Tache::getSousTaches()
 {
     return sousTaches;
 }
@@ -52,9 +52,19 @@ void Tache::addPrecondition(Tache uneTache)
     preconditions.push_back(uneTache);
 }
 
-void Tache::addSousTache(Tache uneTache)
+void Tache::addSousTache(Tache *uneTache)
 {
     sousTaches.push_back(uneTache);
+}
+
+QTreeWidgetItem* Tache::getMatchingItem()
+{
+    return matchingItem;
+}
+
+void Tache::setMatchingItem(QTreeWidgetItem *item)
+{
+    matchingItem = item;
 }
 
 void Tache::xmlToTache()
@@ -85,24 +95,8 @@ void Tache::addTacheInXml(TiXmlDocument doc,TiXmlElement * element)
     element->LinkEndChild( newElement );
 
     for (int i=0 ; i<sousTaches.size() ; i++){
-        Tache sousTache = sousTaches.at(i);
-        sousTache.addTacheInXml(doc,newElement);
+        Tache * sousTache = sousTaches.at(i);
+        sousTache->addTacheInXml(doc,newElement);
     }
-    doc.SaveFile();
-}
-
-
-// fonction bac a sable pour regler la recursion
-void Tache::display()
-{
-    cout << nom << endl;
-    cout << date << endl;
-    //cout << "nombre de sous taches de " << nom << " : " << sousTaches.size() << endl;
-    for (int i=0 ; i<sousTaches.size() ; i++){
-        Tache st = sousTaches.at(i);
-        st.display();
-        cout << "dans la boucle" << endl;
-    }
-    return;
 }
 
