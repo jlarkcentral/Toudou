@@ -24,6 +24,7 @@ public:
 
     // l'arborescence devient un parametre global pour y acceder dans les slots
     QTreeWidget * arbo;
+    QTreeWidget * arboAchevees;
     // l'objet courant dans l'arbre
     QTreeWidgetItem * currentItem;
 
@@ -57,6 +58,7 @@ public slots:
     void chargerXml();
     void tacheToTree(Tache *tacheRef);
     void menuAction(QAction* action);
+    void confirmFinished();
 };
 
 #endif // FIRSTWINDOW_H

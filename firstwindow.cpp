@@ -108,11 +108,21 @@ FirstWindow::FirstWindow(QWidget *parent) :
     onglets->addTab(page,"Toutes les tâches");
 
     // Test second onglet
-    QPushButton * testbutton = new QPushButton("Achevées");
+    //QPushButton * testbutton = new QPushButton("Achevées");
+    arboAchevees = new QTreeWidget();
+    QHeaderView * headerAchevees = arboAchevees->header();
+    headerAchevees->setResizeMode(QHeaderView::ResizeToContents);
+    headerAchevees->setResizeMode(0,QHeaderView::Stretch);
+    headerAchevees->setStretchLastSection(false);
+    arboAchevees->setHeaderHidden(true);
+    arboAchevees->setMouseTracking(true);
+    arboAchevees->setStyleSheet("font-weight : bold; font-size : 18px; ");
+    arboAchevees->setColumnCount(3);
+
     QWidget * page2 = new QWidget();
     QVBoxLayout * pagelayout2 = new QVBoxLayout();
     page2->setLayout(pagelayout2);
-    pagelayout2->addWidget(testbutton);
+    pagelayout2->addWidget(arboAchevees);
     onglets->addTab(page2,"Achevées");
 
     // Bouton Nouveau
@@ -120,16 +130,16 @@ FirstWindow::FirstWindow(QWidget *parent) :
     pagelayout->addWidget(newbutton);
     QObject::connect(newbutton,SIGNAL(clicked()),this,SLOT(popup()));
 
-    // Bouton Sauvegarder
-    QPushButton * savebutton = new QPushButton("Sauvegarder sous...");
-    QObject::connect(savebutton,SIGNAL(clicked()),this,SLOT(sauvegarderSous()));
+    // Bouton Valider la tache finie
+    QPushButton * finishedbutton = new QPushButton("Valider les taches finies");
+    QObject::connect(finishedbutton,SIGNAL(clicked()),this,SLOT(confirmFinished()));
 
     // Bouton Charger
     QPushButton * loadbutton = new QPushButton("Charger...");
     QObject::connect(loadbutton,SIGNAL(clicked()),this,SLOT(chargerXml()));
 
     QHBoxLayout * saveAndLoadLayout = new QHBoxLayout();
-    saveAndLoadLayout->addWidget(savebutton);
+    saveAndLoadLayout->addWidget(finishedbutton);
     saveAndLoadLayout->addWidget(loadbutton);
 
     pagelayout->addLayout(saveAndLoadLayout);
@@ -289,5 +299,16 @@ void FirstWindow::menuAction(QAction * action)
     }
     else if(text=="Quitter"){
         close();
+    }
+}
+
+void FirstWindow::confirmFinished()
+{
+    for(int i=0 ; i<arbo->topLevelItemCount() ; i++){
+        QTreeWidgetItem * itemCourant = arbo->topLevelItem(i);
+        if(itemCourant->checkState(0)==Qt::Checked){
+            arboAchevees->addTopLevelItem(itemCourant);
+            //delete(itemCourant);
+        }
     }
 }
