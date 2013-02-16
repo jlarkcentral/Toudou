@@ -40,6 +40,7 @@ public:
     // effacer les icones
     void eraseIcons(QTreeWidgetItem * item);
     void defineCurrentTache(QTreeWidgetItem * item, Tache *tacheRef);
+    void confirmFinishedSubItems(QTreeWidgetItem * item);
     
 private:
     //bool drawerOpened;

@@ -307,8 +307,22 @@ void FirstWindow::confirmFinished()
     for(int i=0 ; i<arbo->topLevelItemCount() ; i++){
         QTreeWidgetItem * itemCourant = arbo->topLevelItem(i);
         if(itemCourant->checkState(0)==Qt::Checked){
-            arboAchevees->addTopLevelItem(itemCourant);
-            //delete(itemCourant);
+            QTreeWidgetItem * toAdd = itemCourant->clone();
+            toAdd->setFlags( Qt::ItemIsSelectable | Qt::ItemIsEnabled );
+
+            confirmFinishedSubItems(toAdd);
+
+            arboAchevees->addTopLevelItem(toAdd);
+            delete(itemCourant);
         }
+    }
+}
+
+void FirstWindow::confirmFinishedSubItems(QTreeWidgetItem * item)
+{
+    for(int j=0 ; j<item->childCount() ; j++){
+        QTreeWidgetItem * subItemCourant = item->child(j);
+        subItemCourant->setFlags( Qt::ItemIsSelectable | Qt::ItemIsEnabled );
+        confirmFinishedSubItems(subItemCourant);
     }
 }

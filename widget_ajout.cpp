@@ -113,25 +113,7 @@ void Widget_ajout::addTache()
         item->setTextColor(2, QColor(125,125,125));
     }
 
-    // en attendant une meilleure solution : l'ajout d'un QPushButton "cache" la colonne cliquable.
-    // solution : afficher une icone ?
-    //item->setText(3,"[+]");
-    //item->
-    //item->setText(4,"[X]");
-
-
-    //QPushButton * plus = new QPushButton("+");
-    //plus->setStyleSheet("background-image : url(img/plus.png); background-repeat : no-repeat");
-    //plus->setAutoFillBackground(true);
-    //plus->setFixedWidth(34);
-
-    //QPushButton * suppr = new QPushButton("X");
-    //suppr->setAutoFillBackground(true);
-    //suppr->setFixedWidth(34);
-
     firstW->arbo->addTopLevelItem(item);
-    //firstW->arbo->setItemWidget(item,3,plus);
-    //firstW->arbo->setItemWidget(item,4,suppr);
 
 
     // ajout de la tache dans le modele
