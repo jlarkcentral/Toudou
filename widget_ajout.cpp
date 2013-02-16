@@ -80,7 +80,7 @@ Widget_ajout::Widget_ajout(FirstWindow *fw,QWidget *parent) :
     widget_date_plus->setLayout(layout_date_plus);
     mainlayout->addWidget(widget_date_plus);
 
-    dates = new widget_date();
+    dates = new widget_date(firstW);
     mainlayout->addWidget(dates);
     dates->setVisible(false);
 

@@ -1,8 +1,10 @@
 #include "widget_date.h"
 
-widget_date::widget_date(QWidget *parent) :
+widget_date::widget_date(FirstWindow * fw, QWidget *parent) :
     QWidget(parent)
 {
+    FirstW = fw;
+
     QVBoxLayout * mainlayout = new QVBoxLayout();
     this->setLayout(mainlayout);
 
@@ -45,7 +47,25 @@ widget_date::widget_date(QWidget *parent) :
     avapr->addItem("avant");
     avapr->addItem("après");
     rellayout->addWidget(avapr,0,2);
-    // TODO : Ajouter widget pour selectionner la tache
+    // Tree
+    QTreeWidget * tree = new QTreeWidget();
+    QHeaderView * header = tree->header();
+    header->setResizeMode(QHeaderView::ResizeToContents);
+    header->setResizeMode(0,QHeaderView::Stretch);
+    header->setResizeMode(3,QHeaderView::Fixed);
+    header->setResizeMode(4,QHeaderView::Fixed);
+    header->setStretchLastSection(false);
+    tree->setHeaderHidden(true);
+    tree->setMouseTracking(true);
+    tree->setStyleSheet("font-weight : bold; font-size : 18px; ");
+    for(int i=0 ; i<FirstW->arbo->topLevelItemCount() ; i++){
+        QTreeWidgetItem * itemCourant = FirstW->arbo->topLevelItem(i);
+        QTreeWidgetItem * toAdd = itemCourant->clone();
+        toAdd->setFlags( Qt::ItemIsSelectable | Qt::ItemIsEnabled );
+        tree->addTopLevelItem(toAdd);
+    }
+    //
+    rellayout->addWidget(tree,1,0,1,3);
     relwidget->setLayout(rellayout);
     mainlayout->addWidget(relwidget);
     relwidget->setVisible(false);

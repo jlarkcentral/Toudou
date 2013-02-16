@@ -11,6 +11,9 @@
 #include <QTimeEdit>
 #include <QComboBox>
 #include <QSpinBox>
+#include <QTreeWidget>
+#include <QHeaderView>
+#include "firstwindow.h"
 
 
 class widget_date : public QWidget
@@ -18,10 +21,11 @@ class widget_date : public QWidget
     Q_OBJECT
     
 public:
-    explicit widget_date(QWidget *parent = 0);
+    explicit widget_date(FirstWindow * fw, QWidget *parent = 0);
     ~widget_date();
     
 private:
+    FirstWindow * FirstW;
     QWidget * abswidget;
     QWidget * relwidget;
 
