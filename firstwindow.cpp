@@ -2,17 +2,19 @@
 #include <iostream>
 
 #include <QLabel>
+#include <QLineEdit>
 #include <QTreeWidget>
 #include <QPushButton>
 #include <QHeaderView>
 #include <QMenuBar>
 #include <QDialog>
 #include <QMessageBox>
+#include <QFileDialog>
 
 #include "firstwindow.h"
-#include "tache.h"
 #include "widget_infos.h"
 #include "widget_ajout.h"
+#include "widget_sauvegarde.h"
 
 FirstWindow::FirstWindow(QWidget *parent) :
     QMainWindow(parent)
@@ -31,14 +33,34 @@ FirstWindow::FirstWindow(QWidget *parent) :
     setWindowTitle("Toudou");
 
     //Barre des menus
-    QMenuBar * bar = new QMenuBar(0);
-    bar->setNativeMenuBar(true);
-    bar->addMenu("Fichier");
-    bar->addMenu("Affichage");
-    setMenuBar(bar);
+    QMenuBar * bar = new QMenuBar(this);
+    bar->setFixedWidth(200);
+    QMenu* menuListe = new QMenu("Liste");
+    menuListe->addAction("Nouvelle tache");
+    menuListe->addSeparator();
+    menuListe->addAction("Sauvegarder la liste");
+    menuListe->addAction("Charger une liste");
+    menuListe->addSeparator();
+    menuListe->addAction("Quitter");
+
+    QObject::connect(menuListe,SIGNAL(triggered(QAction*)),this,SLOT(menuAction(QAction*)));
+
+    QMenu* menuAffichage = new QMenu("Affichage");
+    QMenu* menuLangue = new QMenu("Langue");
+    menuLangue->addAction("Francais");
+    menuLangue->addAction("English");
+    menuLangue->addAction("Deutsch");
+    menuLangue->addAction("Espanol");
+    menuAffichage->addMenu(menuLangue);
+    menuListe->addSeparator();
+    menuAffichage->addAction("Derouler la liste");
+    menuAffichage->addAction("Enrouler la liste");
+
+    bar->addMenu(menuListe);
+    bar->addMenu(menuAffichage);
 
     // Titre
-    QLabel * title = new QLabel("Gestionnaire de tâches");
+    QLabel * title = new QLabel("");
     title->setAlignment(Qt::AlignCenter);
     QFont titlefont("LMRomanUnsl10");
     title->setFont(titlefont);
@@ -46,11 +68,11 @@ FirstWindow::FirstWindow(QWidget *parent) :
     mainLayout->addWidget(title,0,0,1,2);
 
     // Logo
-    QLabel * logo = new QLabel();
-    QPixmap logoresource("../Toudou/img/toudou.gif");
-    logo->setPixmap(logoresource);
-    logo->setAlignment(Qt::AlignCenter);
-    mainLayout->addWidget(logo,1,0,1,2);
+    //    QLabel * logo = new QLabel();
+    //    QPixmap logoresource("../Toudou/img/toudou.gif");
+    //    logo->setPixmap(logoresource);
+    //    logo->setAlignment(Qt::AlignCenter);
+    //    mainLayout->addWidget(logo,1,0,1,2);
 
     // Onglets
     QTabWidget * onglets = new QTabWidget();
@@ -99,18 +121,22 @@ FirstWindow::FirstWindow(QWidget *parent) :
     QObject::connect(newbutton,SIGNAL(clicked()),this,SLOT(popup()));
 
     // Bouton Sauvegarder
-    QPushButton * savebutton = new QPushButton("Sauvegarder");
-    //QObject::connect(savebutton,SIGNAL(clicked()),this,SLOT(popupSave()));
+    QPushButton * savebutton = new QPushButton("Sauvegarder sous...");
+    QObject::connect(savebutton,SIGNAL(clicked()),this,SLOT(sauvegarderSous()));
 
     // Bouton Charger
-    QPushButton * loadbutton = new QPushButton("Charger");
-    //QObject::connect(loadbutton,SIGNAL(clicked()),this,SLOT(popupLoad()));
+    QPushButton * loadbutton = new QPushButton("Charger...");
+    QObject::connect(loadbutton,SIGNAL(clicked()),this,SLOT(chargerXml()));
 
     QHBoxLayout * saveAndLoadLayout = new QHBoxLayout();
     saveAndLoadLayout->addWidget(savebutton);
     saveAndLoadLayout->addWidget(loadbutton);
 
     pagelayout->addLayout(saveAndLoadLayout);
+
+    // initialisation de la tache racine
+    racine = new Tache("Toutes les taches");
+    racine->setMatchingItem(arbo->invisibleRootItem());
 
     //plusIcon = new QIcon("../Toudou/img/plus.png");
 
@@ -121,10 +147,11 @@ FirstWindow::~FirstWindow()
 {
 }
 
-// popup ajout d une nouvelle tache
+// popup ajout d une nouvelle tache "topLevel"
 void FirstWindow::popup()
 {
     currentItem = arbo->invisibleRootItem();
+    currentTache = racine;
     Widget_ajout * w_a = new Widget_ajout(this);
     w_a->show();
 }
@@ -135,6 +162,7 @@ void FirstWindow::popup(QTreeWidgetItem* i,int n)
     if (n == 3 ){
         // Ajout
         currentItem = i;
+        defineCurrentTache(i,racine);
         arbo->expandItem(currentItem);
         Widget_ajout * w_a = new Widget_ajout(this);
         w_a->show();
@@ -156,6 +184,8 @@ void FirstWindow::popup(QTreeWidgetItem* i,int n)
 
 void FirstWindow::deleteItem()
 {
+    defineCurrentTache(currentItem,racine);
+    currentTache->getTacheParent()->delSousTache(currentTache);
     delete(currentItem);
 }
 
@@ -170,6 +200,9 @@ void FirstWindow::tacheChecked(QTreeWidgetItem * item, int n)
         if (item->checkState(0)==Qt::Checked){
             item->setTextColor(0,QColor(98,188,98));
         }
+        else if (item->checkState(0)==Qt::Unchecked){
+            item->setTextColor(0,QColor(0,0,0));
+        }
     }
 }
 
@@ -178,15 +211,83 @@ void FirstWindow::showIcons(QTreeWidgetItem *item, int n)
 {
     for(int i=0;i<arbo->topLevelItemCount(); ++i){
         QTreeWidgetItem * topchild = arbo->topLevelItem(i);
-        topchild->setText(3,"");
-        topchild->setText(4,"");
-        for(int j=0;j<topchild->childCount(); ++j){
-            QTreeWidgetItem * subChild = topchild->child(j);
-            subChild->setText(3,"");
-            subChild->setText(4,"");
-        }
+        eraseIcons(topchild);
     }
-    //item->setIcon(3,*plusIcon);
     item->setText(3,"[+]");
     item->setText(4,"[X]");
+}
+
+// on efface les icones des lignes qui ne sont pas en mouseover
+void FirstWindow::eraseIcons(QTreeWidgetItem * item)
+{
+    item->setText(3,"");
+    item->setText(4,"");
+    for(int j=0;j<item->childCount(); ++j){
+        QTreeWidgetItem * subItem = item->child(j);
+        eraseIcons(subItem);
+    }
+
+}
+
+// sauvegarder la liste courante sous un nom
+void FirstWindow::sauvegarderSous()
+{
+    widget_sauvegarde * ws = new widget_sauvegarde(this);
+    ws->show();
+}
+
+// retrouve la tache associée à un element de l'arbre
+void FirstWindow::defineCurrentTache(QTreeWidgetItem *item,Tache * tacheRef)
+{
+    for(int i=0 ; i<tacheRef->getSousTaches().size() ; i++){
+        Tache * t = tacheRef->getSousTaches().at(i);
+        if(t->getMatchingItem()==item){
+            currentTache = t;
+        }
+        else{
+            defineCurrentTache(item,t);
+        }
+    }
+}
+
+void FirstWindow::chargerXml()
+{
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Charger une liste"), "",tr("Fichiers Xml (*.xml);"));
+    if (fileName != "") {
+        // code recopié : il faudra p-e l'utiliser pour plus de securité
+        //QFile file(fileName);
+        /*if (!file.open(QIODevice::ReadOnly)) {
+            QMessageBox::critical(this, tr("Error"),
+                                  tr("Could not open file"));
+            return;
+        }*/
+        TiXmlDocument doc(fileName.toStdString());
+        doc.LoadFile();
+        racine->xmlToTache(doc,arbo);
+    }
+}
+
+// abandon - plutot implementer la construction de l arbre directement lors du chargement xml
+void FirstWindow::tacheToTree(Tache * tacheRef)
+{
+    for(int i=0 ; tacheRef->getSousTaches().size() ; i++){
+        QTreeWidgetItem * newItem = new QTreeWidgetItem(tacheRef->getMatchingItem());
+    }
+}
+
+void FirstWindow::menuAction(QAction * action)
+{
+    QString text = action->text();
+    if(text=="Nouvelle tache"){
+        popup();
+    }
+    else if(text=="Sauvegarder la liste"){
+        sauvegarderSous();
+    }
+    else if(text=="Charger une liste"){
+        chargerXml();
+    }
+    else if(text=="Quitter"){
+        close();
+    }
 }

@@ -1,5 +1,15 @@
 	TOUDOU
 
+////// TINYXML  /////////
+
+- changer le makefile :
+
+LIBS  = $(SUBLIBS)  -L/usr/lib/i386-linux-gnu -lQtGui -lQtCore -lpthread /usr/lib/libtinyxml.so
+
+- faisable automatiquement ?? 
+
+
+	
 - Ouverture d'une liste de tâches avec double-clic (onglet?)
 - Bouton Nouveau, puis proposition : tâche simple, liste, liste ordonnée, template
 - Les options s'affichent au fur et à mesure des choix
@@ -38,20 +48,6 @@ A VOIR. Possibilité de faire les réglages dans les options.
 
 ////
 
-
-popup finalement ? :s
-permettrait d avoir sur une fenetre :
-- une ligne simple par defaut pour entrer le nom du to-do
--> et ensuite des menus que l'on peut découvrir-cacher où l'on choisit la date, les preconditions ... (un menu date, un menu preconditions...)
--> comme ca une fois la tache ajoutee on ne voit plus que la liste des to-do.
-
-a faire ; 
-- la liste en "expanding" en plein ecran (au moins en hauteur)
-- le bouton "nouveau..." de FirstWindow , pourrait etre sur l'arbre et devrait etre en 2 endroits :
-un bouton nouvelle tache et un bouton nouvelle sous tache
-(mais perso j ai pas trouvé pour rajouter un QPushButton sur le QTreeWidget)
-
-
 PLUS RETENUS :
 - Tiroir à droite de la fenêtre pour créer/modifier
 - Recap d'une tâche en cliquant 1 fois dessus + bouton Editer
@@ -59,3 +55,13 @@ PLUS RETENUS :
 => INUTILE car plus d'affichage infos
 - Bouton retour à toutes les tâches
 - possibilité de transformer une tâche simple en liste : dans le tiroir d'édition, bouton "ajouter sous-tâche" avec un linedit "Nouvelle tâche" et le tiroir s'actualise sur cette nouvelle tâche en question
+
+
+A FAIRE CE WEEK END :
+
+- Fenetre d'ajout finie avec ajout des preconditions, fignolage de la fenetre
+- Transfert des taches "topLevel" (les taches primaires dans l'arbre) dans l'onglet Achevées une fois cochées
+- Warning lorsqu'on coche une tache alors que certaines sous taches ou preconditions ne sont aps cochées (on peut peut etre considérer les sous taches comme faisant partie des preconditions)
+- sauvegarde et chargement de liste en XML
+- sauvegarde automatique de la liste courante dans un backup.xml, avec lequel l'application s'ouvre.
+- Barre de menus (Fichier, Affichage...) avec les fonctions possibles de l 'appli

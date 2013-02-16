@@ -66,6 +66,8 @@ Widget_ajout::Widget_ajout(FirstWindow *fw,QWidget *parent) :
     mainlayout->addWidget(boutonAjout);
     QObject::connect(boutonAjout,SIGNAL(clicked()),this,SLOT(addTache()));
     QObject::connect(boutonAjout,SIGNAL(clicked()),this,SLOT(close()));
+    QObject::connect(name,SIGNAL(returnPressed()),this,SLOT(addTache()));
+    QObject::connect(name,SIGNAL(returnPressed()),this,SLOT(close()));
 
     // menu date  dépliable
     QWidget * widget_date_plus= new QWidget();
@@ -131,7 +133,15 @@ void Widget_ajout::addTache()
     //firstW->arbo->setItemWidget(item,3,plus);
     //firstW->arbo->setItemWidget(item,4,suppr);
 
+
+    // ajout de la tache dans le modele
+    Tache * newtache = new Tache(name->text().toStdString());
+    newtache->setDate("Date");
+    newtache->setMatchingItem(item);
+    firstW->currentTache->addSousTache(newtache);
+
     // Fermeture de la fenêtre une fois la tâche ajoutée
+    firstW->currentTache = firstW->racine;
     firstW->currentItem = firstW->arbo->invisibleRootItem();
     firstW->setDisabled(false);
     this->close();

@@ -5,10 +5,12 @@
 #include <QGridLayout>
 #include <QTreeWidget>
 #include <QIcon>
+#include <QAction>
 
 #include <iostream>
 
 #include "widget_infos.h"
+#include "tache.h"
 
 using namespace std;
 
@@ -29,6 +31,14 @@ public:
     QIcon * plusIcon;
     // icone supprimer la tache
     QIcon * supprIcon;
+
+    // tache a la racine de toutes les taches courantes
+    Tache * racine;
+    Tache * currentTache;
+
+    // effacer les icones
+    void eraseIcons(QTreeWidgetItem * item);
+    void defineCurrentTache(QTreeWidgetItem * item, Tache *tacheRef);
     
 private:
     //bool drawerOpened;
@@ -37,12 +47,16 @@ private:
 public slots:
     //void openDrawer();
     //void closeDrawer();
-    void popup(); // déclenché si bouton "Nouveau"
-    void popup(QTreeWidgetItem* i, int n); // déclenché si clic sur le "+" dans l'arbo
+    void popup(); // dclench si bouton "Nouveau"
+    void popup(QTreeWidgetItem* i, int n); // dclench si clic sur le "+" dans l'arbo
     void resetDisable(); // la fenetre principale revient active apres le popup Ajout
-    void tacheChecked(QTreeWidgetItem* item,int n); // action quand la tache est checkée
+    void tacheChecked(QTreeWidgetItem* item,int n); // action quand la tache est checke
     void showIcons(QTreeWidgetItem* item,int n); // affiche les icones "plus" et "supprimer" quand on passe la souris
     void deleteItem(); // supprimer une tache
+    void sauvegarderSous();
+    void chargerXml();
+    void tacheToTree(Tache *tacheRef);
+    void menuAction(QAction* action);
 };
 
 #endif // FIRSTWINDOW_H
