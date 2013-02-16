@@ -26,11 +26,10 @@ FirstWindow::FirstWindow(QWidget *parent) :
     QWidget * centralwidget = new QWidget(this);
     setCentralWidget(centralwidget);
     mainLayout = new QGridLayout();
-    //mainLayout->setSizeConstraint(QLayout::SetFixedSize);
     centralwidget->setLayout(mainLayout);
 
     // Entête fenêtre (title + icon)
-    setWindowTitle("Toudou");
+    setWindowTitle("Gestionnaire de taches Toudou");
 
     //Barre des menus
     QMenuBar * bar = new QMenuBar(this);
@@ -97,7 +96,6 @@ FirstWindow::FirstWindow(QWidget *parent) :
     QObject::connect(arbo,SIGNAL(itemClicked(QTreeWidgetItem*,int)),this,SLOT(popup(QTreeWidgetItem*,int)));
     QObject::connect(arbo,SIGNAL(itemChanged(QTreeWidgetItem*,int)),this,SLOT(tacheChecked(QTreeWidgetItem*,int)));
     QObject::connect(arbo,SIGNAL(itemEntered(QTreeWidgetItem*,int)),this,SLOT(showIcons(QTreeWidgetItem*,int)));
-    // FAIRE UN SLOT POUR RAYER LE TEXTE
 
     // insertion arbo dans premier onglet
     QWidget * page = new QWidget();
@@ -134,7 +132,7 @@ FirstWindow::FirstWindow(QWidget *parent) :
     QPushButton * finishedbutton = new QPushButton("Valider les taches finies");
     QObject::connect(finishedbutton,SIGNAL(clicked()),this,SLOT(confirmFinished()));
 
-    // Bouton Charger
+    // Bouton Charger // a changer
     QPushButton * loadbutton = new QPushButton("Charger...");
     QObject::connect(loadbutton,SIGNAL(clicked()),this,SLOT(chargerXml()));
 
@@ -147,9 +145,6 @@ FirstWindow::FirstWindow(QWidget *parent) :
     // initialisation de la tache racine
     racine = new Tache("Toutes les taches");
     racine->setMatchingItem(arbo->invisibleRootItem());
-
-    //plusIcon = new QIcon("../Toudou/img/plus.png");
-
 
 }
 
@@ -204,6 +199,7 @@ void FirstWindow::resetDisable()
     this->setDisabled(false);
 }
 
+// change la couleur du texte si la tache est cochee/decochee
 void FirstWindow::tacheChecked(QTreeWidgetItem * item, int n)
 {
     if (n==0){
@@ -260,6 +256,7 @@ void FirstWindow::defineCurrentTache(QTreeWidgetItem *item,Tache * tacheRef)
     }
 }
 
+// chargement de fichier xml en liste : pour l'instant fonctionne mal
 void FirstWindow::chargerXml()
 {
     QString fileName = QFileDialog::getOpenFileName(this, tr("Charger une liste"), "",tr("Fichiers Xml (*.xml);"));
@@ -285,6 +282,7 @@ void FirstWindow::tacheToTree(Tache * tacheRef)
     }
 }
 
+// actions selon la partie du menu "Liste" cliqué
 void FirstWindow::menuAction(QAction * action)
 {
     QString text = action->text();
@@ -302,6 +300,8 @@ void FirstWindow::menuAction(QAction * action)
     }
 }
 
+
+// basculer les taches "top level" vers l onglet achevees
 void FirstWindow::confirmFinished()
 {
     for(int i=0 ; i<arbo->topLevelItemCount() ; i++){
