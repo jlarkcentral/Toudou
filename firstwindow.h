@@ -53,6 +53,8 @@ public slots:
     void showIcons(QTreeWidgetItem* item,int n); // affiche les icones "plus" et "supprimer" quand on passe la souris
     void deleteItem(); // supprimer une tache
     void sauvegarderSous();
+    void chargerXml();
+    void tacheToTree(Tache *tacheRef);
 };
 
 #endif // FIRSTWINDOW_H

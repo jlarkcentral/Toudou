@@ -14,7 +14,6 @@
 #include "firstwindow.h"
 #include "widget_infos.h"
 #include "widget_ajout.h"
-#include "tache.h"
 #include "widget_sauvegarde.h"
 
 FirstWindow::FirstWindow(QWidget *parent) :
@@ -107,7 +106,7 @@ FirstWindow::FirstWindow(QWidget *parent) :
 
     // Bouton Charger
     QPushButton * loadbutton = new QPushButton("Charger...");
-    //QObject::connect(loadbutton,SIGNAL(clicked()),this,SLOT(popupLoad()));
+    QObject::connect(loadbutton,SIGNAL(clicked()),this,SLOT(chargerXml()));
 
     QHBoxLayout * saveAndLoadLayout = new QHBoxLayout();
     saveAndLoadLayout->addWidget(savebutton);
@@ -117,6 +116,7 @@ FirstWindow::FirstWindow(QWidget *parent) :
 
     // initialisation de la tache racine
     racine = new Tache("Toutes les taches");
+    racine->setMatchingItem(arbo->invisibleRootItem());
 
     //plusIcon = new QIcon("../Toudou/img/plus.png");
 
@@ -216,6 +216,7 @@ void FirstWindow::sauvegarderSous()
     ws->show();
 }
 
+// retrouve la tache associée à un element de l'arbre
 void FirstWindow::defineCurrentTache(QTreeWidgetItem *item,Tache * tacheRef)
 {
     for(int i=0 ; i<tacheRef->getSousTaches().size() ; i++){
@@ -226,5 +227,30 @@ void FirstWindow::defineCurrentTache(QTreeWidgetItem *item,Tache * tacheRef)
         else{
             defineCurrentTache(item,t);
         }
+    }
+}
+
+void FirstWindow::chargerXml()
+{
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Charger une liste"), "",tr("Fichiers Xml (*.xml);"));
+    if (fileName != "") {
+        // code recopié : il faudra p-e l'utiliser pour plus de securité
+        //QFile file(fileName);
+        /*if (!file.open(QIODevice::ReadOnly)) {
+            QMessageBox::critical(this, tr("Error"),
+                                  tr("Could not open file"));
+            return;
+        }*/
+        TiXmlDocument doc(fileName.toStdString());
+        doc.LoadFile();
+        racine->xmlToTache(doc,arbo);
+    }
+}
+
+// abandon - plutot implementer la construction de l arbre directement lors du chargement xml
+void FirstWindow::tacheToTree(Tache * tacheRef)
+{
+    for(int i=0 ; tacheRef->getSousTaches().size() ; i++){
+        QTreeWidgetItem * newItem = new QTreeWidgetItem(tacheRef->getMatchingItem());
     }
 }

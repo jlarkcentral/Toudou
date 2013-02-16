@@ -1,48 +1,48 @@
-#ifndef WIDGET_INFOS_H
-#define WIDGET_INFOS_H
+//#ifndef WIDGET_INFOS_H
+//#define WIDGET_INFOS_H
 
-#include <QWidget>
-#include <QLabel>
-#include <QPushButton>
+//#include <QWidget>
+//#include <QLabel>
+//#include <QPushButton>
 
-#include "tache.h"
+//#include "tache.h"
 
-#include <iostream>
+//#include <iostream>
 
-using namespace std;
+//using namespace std;
 
 
-class Widget_infos : public QWidget
-{
-    Q_OBJECT
+//class Widget_infos : public QWidget
+//{
+//    Q_OBJECT
     
-public:
-    explicit Widget_infos(Tache * t, QWidget *parent = 0);
-    ~Widget_infos();
+//public:
+//    explicit Widget_infos(Tache * t, QWidget *parent = 0);
+//    ~Widget_infos();
 
-    QLabel* getName();
-    void setName(string s);
+//    QLabel* getName();
+//    void setName(string s);
 
-    QLabel* getParent();
-    void setParent(string s);
+//    QLabel* getParent();
+//    void setParent(string s);
 
-    QLabel* getDate();
-    void setDate(string s);
+//    QLabel* getDate();
+//    void setDate(string s);
 
-    QLabel* getTimeleft();
-    void setTimeleft(string s);
+//    QLabel* getTimeleft();
+//    void setTimeleft(string s);
 
-    QLabel* getType();
-    void setType(string s);
+//    QLabel* getType();
+//    void setType(string s);
     
-private:
-    QLabel * name;
-    QLabel * parent;
-    QLabel * date;
-    QLabel * timeleft;
-    QLabel * type;
+//private:
+//    QLabel * name;
+//    QLabel * parent;
+//    QLabel * date;
+//    QLabel * timeleft;
+//    QLabel * type;
 
-public slots:
-};
+//public slots:
+//};
 
-#endif // WIDGET_INFOS_H
+//#endif // WIDGET_INFOS_H

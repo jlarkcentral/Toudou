@@ -88,10 +88,40 @@ void Tache::setTacheParent(Tache *uneTache)
     tacheParent = uneTache;
 }
 
-void Tache::xmlToTache()
+void Tache::xmlToTache(TiXmlDocument doc,QTreeWidget * tree)
 {
+    TiXmlElement * element = doc.FirstChildElement()->FirstChildElement();
 
+    while(element){
+        this->setNom(element->Attribute("nom"));
+        QTreeWidgetItem * newItem = new QTreeWidgetItem(tree->invisibleRootItem());
+        tree->addTopLevelItem(newItem);
+        this->setMatchingItem(newItem);
+        newItem->setText(0,QString(nom.c_str()));
+
+        parseElementToTache(element,this,newItem);
+        element = element->NextSiblingElement();
+    }
 }
+
+void Tache::parseElementToTache(TiXmlElement * element,Tache * tache,QTreeWidgetItem * item)
+{
+    TiXmlElement * elementChild = element->FirstChildElement();
+    while(elementChild){
+
+        Tache * newTache = new Tache(elementChild->Attribute("nom"));
+        tache->addSousTache(newTache);
+        QTreeWidgetItem * newItemChild = new QTreeWidgetItem(item);
+        item->addChild(newItemChild);
+        item->setText(0,QString(newTache->getNom().c_str()));
+        tache->setMatchingItem(newItemChild);
+
+        parseElementToTache(elementChild,newTache,newItemChild);
+
+        elementChild = elementChild->NextSiblingElement();
+    }
+}
+
 
 void Tache::createXml(string nomFichier)
 {
@@ -121,3 +151,12 @@ void Tache::addTacheInXml(TiXmlDocument doc,TiXmlElement * element)
     }
 }
 
+// fonction bac a sable pour afficher - renvoie une erreur
+void Tache::display()
+{
+    cout << nom << endl;
+    for (int i=0 ; sousTaches.size() ; i++){
+        Tache * t = sousTaches.at(i);
+        t->display();
+    }
+}

@@ -42,9 +42,10 @@ public:
     Tache* getTacheParent();
     void setTacheParent(Tache* uneTache);
 
-    void xmlToTache();
-    void createXml(string nomFichier);
+    void xmlToTache(TiXmlDocument doc, QTreeWidget *tree);
+    void parseElementToTache(TiXmlElement * element, Tache *tache,QTreeWidgetItem * item);
 
+    void createXml(string nomFichier);
     void addTacheInXml(TiXmlDocument doc, TiXmlElement * element);
 
     void display();
