@@ -52,8 +52,10 @@ FirstWindow::FirstWindow(QWidget *parent) :
     menuLangue->addAction("Espanol");
     menuAffichage->addMenu(menuLangue);
     menuListe->addSeparator();
-    menuAffichage->addAction("Derouler la liste");
-    menuAffichage->addAction("Enrouler la liste");
+    menuAffichage->addAction("Developper la liste");
+    menuAffichage->addAction("Reduire la liste");
+
+    QObject::connect(menuAffichage,SIGNAL(triggered(QAction*)),this,SLOT(menuAction(QAction*)));
 
     bar->addMenu(menuListe);
     bar->addMenu(menuAffichage);
@@ -97,6 +99,7 @@ FirstWindow::FirstWindow(QWidget *parent) :
     QObject::connect(arbo,SIGNAL(itemChanged(QTreeWidgetItem*,int)),this,SLOT(tacheChecked(QTreeWidgetItem*,int)));
     QObject::connect(arbo,SIGNAL(itemEntered(QTreeWidgetItem*,int)),this,SLOT(showIcons(QTreeWidgetItem*,int)));
 
+
     // insertion arbo dans premier onglet
     QWidget * page = new QWidget();
     QVBoxLayout * pagelayout = new QVBoxLayout();
@@ -124,23 +127,26 @@ FirstWindow::FirstWindow(QWidget *parent) :
     onglets->addTab(page2,"Achevées");
 
     // Bouton Nouveau
-    QPushButton * newbutton = new QPushButton("Nouveau");
+    QPushButton * newbutton = new QPushButton("Nouvelle tache");
     pagelayout->addWidget(newbutton);
     QObject::connect(newbutton,SIGNAL(clicked()),this,SLOT(popup()));
 
     // Bouton Valider la tache finie
-    QPushButton * finishedbutton = new QPushButton("Valider les taches finies");
+    finishedbutton = new QPushButton("Valider les taches finies");
+    finishedbutton->setEnabled(true); // changer avec l'ajout...
     QObject::connect(finishedbutton,SIGNAL(clicked()),this,SLOT(confirmFinished()));
 
-    // Bouton Charger // a changer
-    QPushButton * loadbutton = new QPushButton("Charger...");
-    QObject::connect(loadbutton,SIGNAL(clicked()),this,SLOT(chargerXml()));
+    // Bouton Develloper/Reduire
+    expand = true;
+    displaybutton = new QPushButton("Developper/Reduire");
+    displaybutton->setEnabled(true); // changer avec l'ajout...
+    QObject::connect(displaybutton,SIGNAL(clicked()),this,SLOT(developOrReduce()));
 
-    QHBoxLayout * saveAndLoadLayout = new QHBoxLayout();
-    saveAndLoadLayout->addWidget(finishedbutton);
-    saveAndLoadLayout->addWidget(loadbutton);
+    QHBoxLayout * buttonsLayout = new QHBoxLayout();
+    buttonsLayout->addWidget(finishedbutton);
+    buttonsLayout->addWidget(displaybutton);
 
-    pagelayout->addLayout(saveAndLoadLayout);
+    pagelayout->addLayout(buttonsLayout);
 
     // initialisation de la tache racine
     racine = new Tache("Toutes les taches");
@@ -204,6 +210,9 @@ void FirstWindow::tacheChecked(QTreeWidgetItem * item, int n)
 {
     if (n==0){
         if (item->checkState(0)==Qt::Checked){
+//            for(){
+
+//            }
             item->setTextColor(0,QColor(98,188,98));
         }
         else if (item->checkState(0)==Qt::Unchecked){
@@ -298,10 +307,16 @@ void FirstWindow::menuAction(QAction * action)
     else if(text=="Quitter"){
         close();
     }
+    else if(text=="Developper la liste"){
+        developOrReduce();
+    }
+    else if(text=="Reduire la liste"){
+        developOrReduce();
+    }
 }
 
 
-// basculer les taches "top level" vers l onglet achevees
+//basculer les taches "top level" vers l onglet achevees
 void FirstWindow::confirmFinished()
 {
     for(int i=0 ; i<arbo->topLevelItemCount() ; i++){
@@ -325,4 +340,30 @@ void FirstWindow::confirmFinishedSubItems(QTreeWidgetItem * item)
         subItemCourant->setFlags( Qt::ItemIsSelectable | Qt::ItemIsEnabled );
         confirmFinishedSubItems(subItemCourant);
     }
+}
+
+// developpe ou reduit l'arbre entier depuis le meme bouton
+void FirstWindow::developOrReduce()
+{
+    for(int i=0 ; i<arbo->topLevelItemCount() ; i++){
+        QTreeWidgetItem * itemCourant = arbo->topLevelItem(i);
+        itemCourant->setExpanded(!expand);
+        developOrReduceRecursion(itemCourant);
+    }
+    expand = !expand;
+}
+
+void FirstWindow::developOrReduceRecursion(QTreeWidgetItem *item)
+{
+    for(int j=0 ; j<item->childCount() ; j++){
+        QTreeWidgetItem * subItemCourant = item->child(j);
+        subItemCourant->setExpanded(!expand);
+        developOrReduceRecursion(subItemCourant);
+    }
+}
+
+void FirstWindow::enableButtons()
+{
+    finishedbutton->setEnabled(true);
+    displaybutton->setEnabled(true);
 }

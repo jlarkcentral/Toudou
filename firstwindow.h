@@ -6,6 +6,7 @@
 #include <QTreeWidget>
 #include <QIcon>
 #include <QAction>
+#include <QPushButton>
 
 #include <iostream>
 
@@ -37,11 +38,19 @@ public:
     Tache * racine;
     Tache * currentTache;
 
+    // vrai si l'arbre est developpé
+    bool expand;
+
+    QPushButton * finishedbutton;
+    QPushButton * displaybutton;
+
     // effacer les icones
     void eraseIcons(QTreeWidgetItem * item);
+
     void defineCurrentTache(QTreeWidgetItem * item, Tache *tacheRef);
     void confirmFinishedSubItems(QTreeWidgetItem * item);
-    
+    void developOrReduceRecursion(QTreeWidgetItem* item);
+
 private:
     //bool drawerOpened;
     QGridLayout * mainLayout;
@@ -60,6 +69,9 @@ public slots:
     void tacheToTree(Tache *tacheRef);
     void menuAction(QAction* action);
     void confirmFinished();
+    void developOrReduce();
+    void enableButtons();
+
 };
 
 #endif // FIRSTWINDOW_H
