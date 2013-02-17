@@ -46,11 +46,6 @@ public:
 
 private:
     QLineEdit * name;
-    QLabel * parent;
-    QLabel * date;
-    QCalendarWidget * calendar;
-    QLabel * timeleft;
-    QLabel * type;
     QPushButton * date_plus;
     bool date_aff;
     widget_date * dates;

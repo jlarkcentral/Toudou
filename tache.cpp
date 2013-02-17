@@ -27,12 +27,12 @@ void Tache::setFini(bool unBool)
     fini = unBool;
 }
 
-string Tache::getDate()
+QDateTime Tache::getDate()
 {
     return date;
 }
 
-void Tache::setDate(string uneDate)
+void Tache::setDate(QDateTime uneDate)
 {
     date = uneDate;
 }
@@ -145,7 +145,7 @@ void Tache::addTacheInXml(TiXmlDocument doc,TiXmlElement * element)
 {
     TiXmlElement * newElement = new TiXmlElement("tache");
     newElement->SetAttribute("nom",nom);
-    newElement->SetAttribute("date",date);
+    newElement->SetAttribute("date",date.toString().toStdString());
     element->LinkEndChild( newElement );
 
     for (int i=0 ; i<sousTaches.size() ; i++){

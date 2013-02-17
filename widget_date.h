@@ -23,15 +23,21 @@ class widget_date : public QWidget
 public:
     explicit widget_date(FirstWindow * fw, QWidget *parent = 0);
     ~widget_date();
+
+    string getDate();
+    void setDate(string s);
     
 private:
     FirstWindow * FirstW;
     QWidget * abswidget;
     QWidget * relwidget;
+    bool abs;
+    string date;
 
 public slots:
     void afficher_abs();
     void afficher_rel();
+    void date_modifiee();
 };
 
 #endif // WIDGET_DATE_H

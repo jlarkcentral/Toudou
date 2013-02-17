@@ -44,21 +44,7 @@ Widget_ajout::Widget_ajout(FirstWindow *fw,QWidget *parent) :
     mainlayout->addWidget(nameLabel);
     mainlayout->addWidget(name);
     QObject::connect(name,SIGNAL(textEdited(QString)),this,SLOT(textEdited(QString)));
-    //parent = new QLabel("En attente");
 
-
-    // layout pour la date : afficher avec un dérouleur
-    /*QVBoxLayout * dateLayout = new QVBoxLayout();
-    date = new QLabel("Date");
-    dateLayout->addWidget(date);
-    calendar = new QCalendarWidget();
-    dateLayout->addWidget(calendar);*/
-    //mainlayout->addLayout(dateLayout);
-
-    // idem pour preconditions
-
-    timeleft = new QLabel("A faire");
-    type = new QLabel();
 
     // Bouton Nouveau
     boutonAjout = new QPushButton("Ajouter");
@@ -118,7 +104,7 @@ void Widget_ajout::addTache()
 
     // ajout de la tache dans le modele
     Tache * newtache = new Tache(name->text().toStdString());
-    newtache->setDate("Date");
+    //TODOnewtache->setDate("Date");
     newtache->setMatchingItem(item);
     firstW->currentTache->addSousTache(newtache);
 

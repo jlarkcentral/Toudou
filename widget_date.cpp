@@ -83,6 +83,16 @@ widget_date::~widget_date()
 
 }
 
+string widget_date::getDate()
+{
+    return date;
+}
+
+void widget_date::setDate(string s)
+{
+    date = s;
+}
+
 
 // SLOTS
 
@@ -90,6 +100,7 @@ void widget_date::afficher_abs()
 {
     abswidget->setVisible(true);
     relwidget->setVisible(false);
+    abs = true;
 }
 
 
@@ -97,4 +108,13 @@ void widget_date::afficher_rel()
 {
     abswidget->setVisible(false);
     relwidget->setVisible(true);
+    abs = false;
+}
+
+void widget_date::date_modifiee()
+{
+    if(abs)
+    {
+
+    }
 }

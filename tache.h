@@ -7,6 +7,7 @@
 #include <vector>
 #include <iostream>
 #include <fstream>
+#include <QDateTime>
 
 #define TIXML_USE_STL
 #include "tinyxml.h"
@@ -25,8 +26,8 @@ public:
     bool getFini();
     void setFini(bool unBool);
 
-    string getDate();
-    void setDate(string Date);
+    QDateTime getDate();
+    void setDate(QDateTime Date);
 
     vector<Tache> getPreconditions();
     void addPrecondition(Tache uneTache);
@@ -53,7 +54,7 @@ public:
 private:
     string nom;
     bool fini;
-    string date;
+    QDateTime date;
     QTreeWidgetItem * matchingItem;
     vector<Tache> preconditions;
     vector<Tache*> sousTaches;
