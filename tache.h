@@ -7,7 +7,7 @@
 #include <vector>
 #include <iostream>
 #include <fstream>
-#include <QDateTime>
+#include <QDate>
 
 #define TIXML_USE_STL
 #include "tinyxml.h"
@@ -29,8 +29,8 @@ public:
     int getDate();
     void setDate(int i);
 
-    QDateTime getDateabs();
-    void setDateabs(QDateTime Date);
+    QDate getDateabs();
+    void setDateabs(QDate Date);
 
     string getDaterel();
     void setDaterel(string s);
@@ -61,7 +61,7 @@ private:
     string nom;
     bool fini;
     int date;   // 1 si date absolue, 2 si date relative, 3 si aucune date. Par défaut : aucune date.
-    QDateTime dateabs;
+    QDate dateabs;
     string daterel;
     QTreeWidgetItem * matchingItem;
     vector<Tache> preconditions;

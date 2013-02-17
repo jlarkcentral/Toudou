@@ -25,8 +25,8 @@ public:
     explicit widget_date(FirstWindow * fw, QWidget *parent = 0);
     ~widget_date();
 
-    QDateTime getDateabs();
-    void setDateabs(QDateTime d);
+    QDate getDateabs();
+    void setDateabs(QDate d);
 
     string getDaterel();
     void setDaterel(string s);
@@ -49,7 +49,7 @@ private:
     QTreeWidget * tree;
     QTreeWidgetItem * currentItem;
     int choix;
-    QDateTime dateabs;
+    QDate dateabs;
     string daterel;
 
 public slots:

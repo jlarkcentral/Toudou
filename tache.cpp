@@ -37,12 +37,12 @@ void Tache::setDate(int i)
     date = i;
 }
 
-QDateTime Tache::getDateabs()
+QDate Tache::getDateabs()
 {
     return dateabs;
 }
 
-void Tache::setDateabs(QDateTime uneDate)
+void Tache::setDateabs(QDate uneDate)
 {
     dateabs = uneDate;
 }

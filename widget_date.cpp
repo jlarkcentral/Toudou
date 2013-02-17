@@ -13,10 +13,13 @@ widget_date::widget_date(FirstWindow * fw, QWidget *parent) :
     QWidget * choicewidget = new QWidget();
     QHBoxLayout * choicelayout = new QHBoxLayout();
     dateabsbut = new QRadioButton("Date précise",this);
+    dateabsbut->setToolTip("Attribuer une date absolue sur le calendrier");
     choicelayout->addWidget(dateabsbut);
     daterelbut = new QRadioButton("Date relative à une autre tâche");
+    daterelbut->setToolTip("L'échéance de la tache dépend d'une autre tache de la liste");
     choicelayout->addWidget(daterelbut);
     nodatebut = new QRadioButton("Aucune date");
+    nodatebut->setToolTip("Pas de date pour cette tache");
     choicelayout->addWidget(nodatebut);
     choicewidget->setLayout(choicelayout);
     mainlayout->addWidget(choicewidget);
@@ -26,8 +29,6 @@ widget_date::widget_date(FirstWindow * fw, QWidget *parent) :
     QFormLayout * abslayout = new QFormLayout();
     calendar = new QCalendarWidget();
     abslayout->addRow("Date :",calendar);
-    time = new QTimeEdit();
-    abslayout->addRow("Heure :",time);
     abswidget->setLayout(abslayout);
     mainlayout->addWidget(abswidget);
     abswidget->setVisible(false);
@@ -40,8 +41,6 @@ widget_date::widget_date(FirstWindow * fw, QWidget *parent) :
     spin->setMaximum(12);
     rellayout->addWidget(spin,0,0);
     unit = new QComboBox();
-    unit->addItem("minute(s)");
-    unit->addItem("heure(s)");
     unit->addItem("jour(s)");
     unit->addItem("semaine(s)");
     unit->addItem("mois");
@@ -99,12 +98,12 @@ widget_date::~widget_date()
 
 }
 
-QDateTime widget_date::getDateabs()
+QDate widget_date::getDateabs()
 {
     return dateabs;
 }
 
-void widget_date::setDateabs(QDateTime d)
+void widget_date::setDateabs(QDate d)
 {
     dateabs = d;
 }
@@ -154,8 +153,7 @@ void widget_date::date_modifiee()
 {
     if(choix == 1)
     {
-        dateabs.setDate(calendar->selectedDate());
-        dateabs.setTime(time->time());
+        dateabs = calendar->selectedDate();
     }
     if(choix == 2)
     {
