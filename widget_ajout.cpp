@@ -109,6 +109,11 @@ void Widget_ajout::addTache()
     if (dates->typeDate() == 1){
         item->setText(1,dates->getDateabs().toString());
         item->setTextColor(1,QColor(152,152,152));
+<<<<<<< HEAD
+=======
+        //item->setText(2,dates->getDateabs().time().toString());
+        //item->setTextColor(2, QColor(125,125,125));
+>>>>>>> 7ac3cf73c80dd33274677ac08b8e3b1dac010e9a
     }
     if (dates->typeDate() == 2)
     {
@@ -127,15 +132,19 @@ void Widget_ajout::addTache()
         newtache->setDateabs(dates->getDateabs());
         newtache->setDate(1);
     }
-    if(dates->typeDate() == 2)
+    else if(dates->typeDate() == 2)
     {
         newtache->setDaterel(dates->getDaterel());
         newtache->setDate(2);
+<<<<<<< HEAD
     }
     if(dates->typeDate() == 3)
     {
         newtache->setDate(3);
+=======
+>>>>>>> 7ac3cf73c80dd33274677ac08b8e3b1dac010e9a
     }
+    else newtache->setDate(3);
 
     newtache->setMatchingItem(item);
     firstW->currentTache->addSousTache(newtache);

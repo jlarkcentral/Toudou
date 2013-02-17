@@ -17,7 +17,8 @@ SOURCES += main.cpp\
     widget_ajout.cpp \
     widget_date.cpp \
     widget_sauvegarde.cpp \
-    widget_modif.cpp
+    widget_modif.cpp \
+    widget_template.cpp
 
 HEADERS  += tache.h \
     firstwindow.h \
@@ -25,6 +26,7 @@ HEADERS  += tache.h \
     widget_ajout.h \
     widget_date.h \
     widget_sauvegarde.h \ 
-    widget_modif.h
+    widget_modif.h \
+    widget_template.h
 
 FORMS += 

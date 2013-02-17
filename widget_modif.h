@@ -44,6 +44,7 @@ public:
 
     FirstWindow * firstW;
     QPushButton * boutonModif;
+    QPushButton * boutonAnnul;
     QTreeWidgetItem * itemToModify;
 
 private:
@@ -58,7 +59,6 @@ signals:
 public slots:
     void modifTache();
     void afficherDate();
-    void textEdited(QString s);
 
 protected:
     void closeEvent(QCloseEvent *event);

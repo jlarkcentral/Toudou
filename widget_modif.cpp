@@ -8,14 +8,13 @@
 #include "widget_modif.h"
 
 
-Widget_modif::Widget_modif(QTreeWidgetItem * item, FirstWindow *fw,QWidget *parent) :
+Widget_modif::Widget_modif(QTreeWidgetItem *item ,FirstWindow *fw,QWidget *parent) :
     QWidget(parent)
 {
     // attributs utiles
     firstW = fw;
     itemToModify = item;
     date_aff = false;
-
 
     // seul le widget_ajout a le focus
     firstW->setDisabled(true);
@@ -25,7 +24,7 @@ Widget_modif::Widget_modif(QTreeWidgetItem * item, FirstWindow *fw,QWidget *pare
     this->setLayout(mainlayout);
     this->setWindowTitle("Modifier une tache");
     this->setFixedWidth(300);
-    this->setFixedHeight(150);
+    this->setFixedHeight(200);
 
     // centre le widget
     this->setWindowFlags(Qt::Sheet | Qt::WindowStaysOnTopHint);
@@ -33,27 +32,19 @@ Widget_modif::Widget_modif(QTreeWidgetItem * item, FirstWindow *fw,QWidget *pare
 
     // Titre pour le champ nom de la Tache - "tache" ou "sous tache de XXX"
     QLabel * nameLabel;
-    nameLabel = new QLabel("Modifier " + itemToModify->text(0));
+    nameLabel = new QLabel("Modification de <b>" + itemToModify->text(0) + "</b> :");
     name = new QLineEdit();
     name->setMaxLength(100);
     name->setText(itemToModify->text(0));
     mainlayout->addWidget(nameLabel);
     mainlayout->addWidget(name);
-    QObject::connect(name,SIGNAL(textEdited(QString)),this,SLOT(textEdited(QString)));
-
-
-    // Bouton Nouveau
-    boutonModif = new QPushButton("Modifier");
-    mainlayout->addWidget(boutonModif);
-    QObject::connect(boutonModif,SIGNAL(clicked()),this,SLOT(modifTache()));
-    QObject::connect(boutonModif,SIGNAL(clicked()),this,SLOT(close()));
-    QObject::connect(name,SIGNAL(returnPressed()),this,SLOT(modifTache()));
-    QObject::connect(name,SIGNAL(returnPressed()),this,SLOT(close()));
+    //QObject::connect(name,SIGNAL(textEdited(QString)),this,SLOT(textEdited(QString)));
 
     // menu date  dépliable
     QWidget * widget_date_plus= new QWidget();
     QHBoxLayout * layout_date_plus = new QHBoxLayout();
     date_plus = new QPushButton("+");
+    date_plus->setStyleSheet("QPushButton {font-weight : bold;}");
     date_plus->setFixedWidth(20);
     layout_date_plus->addWidget(date_plus);
     QLabel * afficher_date = new QLabel("Ajouter une échéance");
@@ -66,6 +57,27 @@ Widget_modif::Widget_modif(QTreeWidgetItem * item, FirstWindow *fw,QWidget *pare
     dates->setVisible(false);
 
     QObject::connect(date_plus,SIGNAL(clicked()),this,SLOT(afficherDate()));
+    QObject::connect(dates->nodatebut,SIGNAL(clicked()),this,SLOT(afficherDate()));
+
+    // Bouton Annuler
+    QWidget * buttonsWidget = new QWidget();
+    QHBoxLayout * buttonsLayout = new QHBoxLayout();
+    boutonAnnul = new QPushButton("Annuler");
+    boutonAnnul->setStyleSheet("QPushButton {background : #C60800 ; color : #FFFFFF ; font-weight : bold; font-size : 18px;}");
+    buttonsLayout->addWidget(boutonAnnul);
+
+    // Bouton Nouveau
+    boutonModif = new QPushButton("Modifier");
+    boutonModif->setStyleSheet("QPushButton {background : #3A9D23 ; color : #FFFFFF ; font-weight : bold; font-size : 18px;}");
+    buttonsLayout->addWidget(boutonModif);
+    buttonsWidget->setLayout(buttonsLayout);
+    mainlayout->addWidget(buttonsWidget);
+
+    QObject::connect(boutonAnnul,SIGNAL(clicked()),this,SLOT(close()));
+    QObject::connect(boutonModif,SIGNAL(clicked()),this,SLOT(modifTache()));
+    QObject::connect(boutonModif,SIGNAL(clicked()),this,SLOT(close()));
+    QObject::connect(name,SIGNAL(returnPressed()),this,SLOT(modifTache()));
+    QObject::connect(name,SIGNAL(returnPressed()),this,SLOT(close()));
 
     // essais groupbox
     /*groupbox_date = new QGroupBox("Gestion de date");
@@ -86,8 +98,8 @@ void Widget_modif::modifTache()
 {
     //QTreeWidgetItem * item = new QTreeWidgetItem(firstW->currentItem);
     //item->setCheckState(0,Qt::Unchecked);
-
     itemToModify->setText(0,name->text());
+<<<<<<< HEAD
     if (date_aff){
         itemToModify->setText(1,dates->getDateabs().toString());
         itemToModify->setTextColor(1,QColor(152,152,152));
@@ -97,20 +109,43 @@ void Widget_modif::modifTache()
         itemToModify->setTextColor(1,QColor(152,152,152));
         itemToModify->setText(2,itemToModify->text(2));
         itemToModify->setTextColor(2, QColor(125,125,125));
+=======
+
+    if(date_aff){
+        if (dates->typeDate() == 1){
+            itemToModify->setText(1,dates->getDateabs().date().toString());
+            itemToModify->setTextColor(1,QColor(152,152,152));
+            //item->setText(2,dates->getDateabs().time().toString());
+            //item->setTextColor(2, QColor(125,125,125));
+        }
+        if (dates->typeDate() == 2)
+        {
+            itemToModify->setText(1,QString(dates->getDaterel().c_str()));
+            itemToModify->setTextColor(1,QColor(152,152,152));
+        }
+>>>>>>> 7ac3cf73c80dd33274677ac08b8e3b1dac010e9a
     }
     //firstW->arbo->addTopLevelItem(item);
 
 
-    // ajout de la tache dans le modele
-    //Tache * newtache = new Tache(name->text().toStdString());
-    //TODOnewtache->setDate("Date");
-    //    if(dates->hasDate())
-    //    {
-    //        newtache->setDate(dates->getDate());
-    //    }
+    // TODO : ajout de la tache dans le modele
+    firstW->defineCurrentTache(itemToModify,firstW->racine);
 
-    //    newtache->setMatchingItem(item);
-    //    firstW->currentTache->addSousTache(newtache);
+    firstW->currentTache->setNom(name->text().toStdString());
+
+    if(date_aff){
+        if(dates->typeDate() == 1)
+        {
+            firstW->currentTache->setDateabs(dates->getDateabs());
+            firstW->currentTache->setDate(1);
+        }
+        else if(dates->typeDate() == 2)
+        {
+            firstW->currentTache->setDaterel(dates->getDaterel());
+            firstW->currentTache->setDate(2);
+        }
+        else firstW->currentTache->setDate(3);
+    }
 
     // Fermeture de la fenêtre une fois la tâche ajoutée
     firstW->currentTache = firstW->racine;
@@ -134,7 +169,7 @@ void Widget_modif::afficherDate()
         dates->setVisible(false);
         date_plus->setText("+");
         date_aff = false;
-        this->setFixedHeight(150);
+        this->setFixedHeight(200);
         this->setFixedWidth(300);
     }
 }
@@ -145,13 +180,3 @@ void Widget_modif::closeEvent(QCloseEvent *event)
     event->accept();
 }
 
-// desactiver le bouton Ajouter quand le nom de la tache est vide
-void Widget_modif::textEdited(QString s)
-{
-    if (s != ""){
-        boutonModif->setEnabled(true);
-    }
-    else {
-        boutonModif->setEnabled(false);
-    }
-}
