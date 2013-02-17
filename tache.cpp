@@ -130,6 +130,13 @@ void Tache::addTacheInXml(TiXmlDocument doc,TiXmlElement * element)
 {
     TiXmlElement * newElement = new TiXmlElement("tache");
     newElement->SetAttribute("nom",nom);
+
+    if(date==1){
+        newElement->SetAttribute("dateAbs",dateabs.toString().toStdString());
+    }
+    else if(date==2){
+        newElement->SetAttribute("dateRel",daterel);
+    }
     // TODO : modif avec les nouvelles dates
     // newElement->SetAttribute("date",date.toString().toStdString());
     element->LinkEndChild( newElement );
@@ -140,12 +147,17 @@ void Tache::addTacheInXml(TiXmlDocument doc,TiXmlElement * element)
     }
 }
 
-// fonction bac a sable pour afficher - renvoie une erreur
-void Tache::display()
+// remplir le fichier xml tache par tache pour template
+void Tache::addTacheInXmlTemplate(TiXmlDocument doc,TiXmlElement * element)
 {
-    cout << nom << endl;
-    for (int i=0 ; sousTaches.size() ; i++){
-        Tache * t = sousTaches.at(i);
-        t->display();
+    TiXmlElement * newElement = new TiXmlElement("tache");
+    newElement->SetAttribute("nom",nom);
+
+    element->LinkEndChild( newElement );
+
+    for (int i=0 ; i<sousTaches.size() ; i++){
+        Tache * sousTache = sousTaches.at(i);
+        sousTache->addTacheInXml(doc,newElement);
     }
 }
+

@@ -16,6 +16,7 @@
 #include "widget_ajout.h"
 #include "widget_sauvegarde.h"
 #include "widget_modif.h"
+#include "widget_template.h"
 
 FirstWindow::FirstWindow(QWidget *parent) :
     QMainWindow(parent)
@@ -43,6 +44,8 @@ FirstWindow::FirstWindow(QWidget *parent) :
     menuListe->addSeparator();
     menuListe->addAction("Sauvegarder la liste");
     menuListe->addAction("Charger une liste");
+    menuListe->addSeparator();
+    menuListe->addAction("Charger un type de tache");
     menuListe->addSeparator();
     menuListe->addAction("Quitter");
 
@@ -77,13 +80,6 @@ FirstWindow::FirstWindow(QWidget *parent) :
     title->setFont(titlefont);
     title->setStyleSheet("font-size : 28px");
     mainLayout->addWidget(title,0,0,1,2);
-
-    // Logo
-    //    QLabel * logo = new QLabel();
-    //    QPixmap logoresource("../Toudou/img/toudou.gif");
-    //    logo->setPixmap(logoresource);
-    //    logo->setAlignment(Qt::AlignCenter);
-    //    mainLayout->addWidget(logo,1,0,1,2);
 
     // Onglets
     QTabWidget * onglets = new QTabWidget();
@@ -123,8 +119,6 @@ FirstWindow::FirstWindow(QWidget *parent) :
     QObject::connect(arbo,SIGNAL(itemChanged(QTreeWidgetItem*,int)),this,SLOT(tacheChecked(QTreeWidgetItem*,int)));
     QObject::connect(arbo,SIGNAL(itemEntered(QTreeWidgetItem*,int)),this,SLOT(showIcons(QTreeWidgetItem*,int)));
 
-    //QObject::connect(arbo,SIGNAL(customContextMenuRequested(QPoint)),this,SLOT(contextMenu(QPoint)));
-
     // insertion arbo dans premier onglet
     QWidget * page = new QWidget();
     QVBoxLayout * pagelayout = new QVBoxLayout();
@@ -134,7 +128,6 @@ FirstWindow::FirstWindow(QWidget *parent) :
     onglets->addTab(page,"Tâches en cours");
 
     // Test second onglet
-    //QPushButton * testbutton = new QPushButton("Achevées");
     arboAchevees = new QTreeWidget();
     QHeaderView * headerAchevees = arboAchevees->header();
     headerAchevees->setResizeMode(QHeaderView::ResizeToContents);
@@ -320,6 +313,16 @@ void FirstWindow::sauvegarderSous()
     ws->show();
 }
 
+void FirstWindow::creerTemplateSous()
+{
+    defineCurrentTache(arbo->currentItem(),racine);
+    if(currentTache->getTacheParent()){
+        widget_template * wt = new widget_template(currentTache->getTacheParent(),this,0);
+        wt->show();
+        currentTache = racine;
+    }
+}
+
 void FirstWindow::sauvegarderSession()
 {
     racine->createXml("backup");
@@ -330,7 +333,7 @@ void FirstWindow::sauvegarderSession()
 // retrouve la tache associée à un element de l'arbre
 void FirstWindow::defineCurrentTache(QTreeWidgetItem *item,Tache * tacheRef)
 {
-    for(int i=0 ; i<tacheRef->getSousTaches().size() ; i++){
+    for(uint i=0 ; i<tacheRef->getSousTaches().size() ; i++){
         Tache * t = tacheRef->getSousTaches().at(i);
         if(t->getMatchingItem()==item){
             currentTache = t;
@@ -363,6 +366,28 @@ void FirstWindow::chargerXml()
     }
 }
 
+// chargement de type de tache : fichier xml en liste avec 1er noeud
+void FirstWindow::chargerXmlTemplate()
+{
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Charger une liste"), "",tr("Fichiers Xml (*.xml);"));
+    if (fileName != "") {
+        // code recopié : il faudra p-e l'utiliser pour plus de securité
+        //QFile file(fileName);
+        /*if (!file.open(QIODevice::ReadOnly)) {
+            QMessageBox::critical(this, tr("Error"),
+                                  tr("Could not open file"));
+            return;
+        }*/
+        TiXmlDocument doc(fileName.toStdString());
+        doc.LoadFile();
+        TiXmlElement * element = doc.FirstChildElement()->FirstChildElement();
+        if(element){
+            xmlToTache(element,arbo->invisibleRootItem(),racine);
+        }
+        currentItem = arbo->invisibleRootItem();
+    }
+}
+
 void FirstWindow::chargerXml(string fileName)
 {
     TiXmlDocument doc(fileName);
@@ -379,12 +404,32 @@ void FirstWindow::xmlToTache(TiXmlElement * element,QTreeWidgetItem *item,Tache 
 {
     while(element){
         Tache * newTache = new Tache(element->Attribute("nom"));
+        if(element->Attribute("dateAbs")){
+            QDateTime * qdt;
+            newTache->setDateabs(qdt->fromString(element->Attribute("dateAbs")));
+            newTache->setDate(1);
+        }
+        else if(element->Attribute("dateRel")){
+            newTache->setDaterel(element->Attribute("dateRel"));
+            newTache->setDate(2);
+        }
+        else newTache->setDate(3);
+
         tache->addSousTache(newTache);
         QTreeWidgetItem * newItem = new QTreeWidgetItem(item);
         item->addChild(newItem);
         item->setCheckState(0,Qt::Unchecked);
         newTache->setMatchingItem(newItem);
         newItem->setText(0,QString(newTache->getNom().c_str()));
+        if(newTache->getDate()==1){
+            newItem->setText(1,QString(newTache->getDateabs().toString()));
+            newItem->setTextColor(1,QColor(152,152,152));
+        }
+        else if(newTache->getDate()==2){
+            newItem->setText(1,QString(newTache->getDaterel().c_str()));
+            newItem->setTextColor(1,QColor(152,152,152));
+        }
+
         newItem->setCheckState(0,Qt::Unchecked);
 
         xmlToTache(element->FirstChildElement(),newItem,newTache);
@@ -412,6 +457,7 @@ void FirstWindow::xmlToTacheFinished(TiXmlElement * element,QTreeWidgetItem *ite
         QTreeWidgetItem * newItem = new QTreeWidgetItem(item);
         item->addChild(newItem);
         newItem->setText(0,QString(element->Attribute("nom")));
+        newItem->setText(1,QString(element->Attribute("date")));
 
         xmlToTacheFinished(element->FirstChildElement(),newItem);
 
@@ -434,6 +480,9 @@ void FirstWindow::menuAction(QAction * action)
     }
     else if(text=="Charger une liste"){
         chargerXml();
+    }
+    else if(text=="Charger un type de tache"){
+        chargerXmlTemplate();
     }
     else if(text=="Quitter"){
         close();
@@ -527,10 +576,11 @@ void FirstWindow::enableButtons()
 
 void FirstWindow::contextMenuAction(QAction *action)
 {
+    QTreeWidgetItem * item = arbo->currentItem();
     QString text = action->text();
     if(text=="Modifier..."){
-        if (arbo->currentItem()){
-            currentItem = arbo->currentItem();
+        if (item){
+            currentItem = item;
             if (currentItem->checkState(0)==Qt::Unchecked){
                 Widget_modif * modif = new Widget_modif(currentItem,this,0);
                 modif->show();
@@ -538,9 +588,12 @@ void FirstWindow::contextMenuAction(QAction *action)
         }
     }
     else if (text=="Créer un type de tache..."){
-        // devra etre un widget_template dans une implementation fonctionnelle
-        widget_sauvegarde *ws = new widget_sauvegarde(this);
-        ws->show();
+        if(item){
+            defineCurrentTache(item,racine);
+            widget_template * wt = new widget_template(currentTache,this,0);
+            wt->show();
+            currentTache = racine;
+        }
     }
 }
 

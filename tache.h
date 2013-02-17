@@ -54,8 +54,7 @@ public:
 
     void createXml(string nomFichier);
     void addTacheInXml(TiXmlDocument doc, TiXmlElement * element);
-
-    void display();
+    void addTacheInXmlTemplate(TiXmlDocument doc,TiXmlElement * element);
 
 private:
     string nom;

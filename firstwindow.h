@@ -80,11 +80,13 @@ public slots:
     void sauvegarderSous();
     void sauvegarderSession();
     void chargerXml();
+    void chargerXmlTemplate();
     void menuAction(QAction* action);
     void confirmFinished();
     void developOrReduce();
     void enableButtons();
     void contextMenuAction(QAction * action);
+    void creerTemplateSous();
 protected:
     void closeEvent(QCloseEvent *event);
 };
