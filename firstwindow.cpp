@@ -143,7 +143,7 @@ FirstWindow::FirstWindow(QWidget *parent) :
     arboAchevees->setHeaderHidden(true);
     arboAchevees->setMouseTracking(true);
     arboAchevees->setStyleSheet("font-weight : bold; font-size : 18px; ");
-    arboAchevees->setColumnCount(3);
+    arboAchevees->setColumnCount(2);
     arboAchevees->setSelectionMode(QAbstractItemView::NoSelection);
 
     QWidget * page2 = new QWidget();
@@ -529,8 +529,8 @@ void FirstWindow::contextMenuAction(QAction *action)
 {
     QString text = action->text();
     if(text=="Modifier..."){
-        if (arbo->selectedItems().size()>0){
-            currentItem = arbo->selectedItems().at(0);
+        if (arbo->currentItem()){
+            currentItem = arbo->currentItem();
             if (currentItem->checkState(0)==Qt::Unchecked){
                 Widget_modif * modif = new Widget_modif(currentItem,this,0);
                 modif->show();
@@ -572,7 +572,6 @@ void FirstWindow::addItemInXml(TiXmlDocument doc,TiXmlElement * element,QTreeWid
     TiXmlElement * newElement = new TiXmlElement("tache");
     newElement->SetAttribute("nom",item->text(0).toStdString());
     newElement->SetAttribute("date",item->text(1).toStdString());
-    newElement->SetAttribute("heure",item->text(2).toStdString());
     // TODO : modif avec les nouvelles dates
     // newElement->SetAttribute("date",date.toString().toStdString());
     element->LinkEndChild( newElement );
