@@ -96,13 +96,13 @@ FirstWindow::FirstWindow(QWidget *parent) :
     QHeaderView * header = arbo->header();
     header->setResizeMode(QHeaderView::ResizeToContents);
     header->setResizeMode(0,QHeaderView::Stretch);
+    header->setResizeMode(2,QHeaderView::Fixed);
     header->setResizeMode(3,QHeaderView::Fixed);
-    header->setResizeMode(4,QHeaderView::Fixed);
     header->setStretchLastSection(false);
     arbo->setHeaderHidden(true);
     arbo->setMouseTracking(true);
     arbo->setStyleSheet("font-weight : bold; font-size : 18px; ");
-    arbo->setColumnCount(5);
+    arbo->setColumnCount(4);
     arbo->setSelectionMode(QAbstractItemView::NoSelection);
 
     // menu contextuel de l'arbre
@@ -122,7 +122,6 @@ FirstWindow::FirstWindow(QWidget *parent) :
     QObject::connect(arbo,SIGNAL(itemClicked(QTreeWidgetItem*,int)),this,SLOT(popup(QTreeWidgetItem*,int)));
     QObject::connect(arbo,SIGNAL(itemChanged(QTreeWidgetItem*,int)),this,SLOT(tacheChecked(QTreeWidgetItem*,int)));
     QObject::connect(arbo,SIGNAL(itemEntered(QTreeWidgetItem*,int)),this,SLOT(showIcons(QTreeWidgetItem*,int)));
-
 
     //QObject::connect(arbo,SIGNAL(customContextMenuRequested(QPoint)),this,SLOT(contextMenu(QPoint)));
 
@@ -219,7 +218,7 @@ void FirstWindow::popup()
 // popup ajout ou delete suivant l'endroit du clic sur la tache dans le QTreeWidgetItem
 void FirstWindow::popup(QTreeWidgetItem* i,int n)
 {
-    if (n == 3 ){
+    if (n == 2 ){
         // Ajout
         currentItem = i;
         defineCurrentTache(i,racine);
@@ -227,7 +226,7 @@ void FirstWindow::popup(QTreeWidgetItem* i,int n)
         Widget_ajout * w_a = new Widget_ajout(this);
         w_a->show();
     }
-    else if (n == 4){
+    else if (n == 3){
         // Suppression
         currentItem = i;
         // popup de confirmation
@@ -288,13 +287,13 @@ void FirstWindow::showIcons(QTreeWidgetItem *item, int n)
         QTreeWidgetItem * topchild = arbo->topLevelItem(i);
         eraseIcons(topchild);
     }
-    item->setIcon(3,QIcon("../Toudou/img/pluslarge.png"));
-    item->setIcon(4,QIcon("../Toudou/img/deletelarge.png"));
-    for(int r=0 ; r<5 ; r++){
+    item->setIcon(2,QIcon("../Toudou/img/pluslarge.png"));
+    item->setIcon(3,QIcon("../Toudou/img/deletelarge.png"));
+    item->setToolTip(2,"Ajouter une étape à cette tache");
+    item->setToolTip(3,"Supprimer cette tache");
+    for(int r=0 ; r<4 ; r++){
         item->setBackgroundColor(r,QColor(230,230,230));
     }
-
-
     arbo->setContextMenuPolicy(Qt::ActionsContextMenu);
 
 }
@@ -302,9 +301,9 @@ void FirstWindow::showIcons(QTreeWidgetItem *item, int n)
 // on efface les icones des lignes qui ne sont pas en mouseover
 void FirstWindow::eraseIcons(QTreeWidgetItem * item)
 {
+    item->setIcon(2,QIcon());
     item->setIcon(3,QIcon());
-    item->setIcon(4,QIcon());
-    for(int r=0 ; r<5 ; r++){
+    for(int r=0 ; r<4 ; r++){
         item->setBackgroundColor(r,QColor(255,255,255));
     }
     for(int j=0;j<item->childCount(); ++j){
@@ -572,6 +571,8 @@ void FirstWindow::addItemInXml(TiXmlDocument doc,TiXmlElement * element,QTreeWid
 {
     TiXmlElement * newElement = new TiXmlElement("tache");
     newElement->SetAttribute("nom",item->text(0).toStdString());
+    newElement->SetAttribute("date",item->text(1).toStdString());
+    newElement->SetAttribute("heure",item->text(2).toStdString());
     // TODO : modif avec les nouvelles dates
     // newElement->SetAttribute("date",date.toString().toStdString());
     element->LinkEndChild( newElement );
