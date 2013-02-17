@@ -50,6 +50,7 @@ public:
     void defineCurrentTache(QTreeWidgetItem * item, Tache *tacheRef);
     void confirmFinishedSubItems(QTreeWidgetItem * item);
     void developOrReduceRecursion(QTreeWidgetItem* item);
+    bool areSubItemsChecked(QTreeWidgetItem* item);
 
 private:
     //bool drawerOpened;
