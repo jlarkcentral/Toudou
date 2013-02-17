@@ -139,6 +139,8 @@ FirstWindow::FirstWindow(QWidget *parent) :
     arboAchevees->setColumnCount(2);
     arboAchevees->setSelectionMode(QAbstractItemView::NoSelection);
 
+    QObject::connect(arboAchevees,SIGNAL(itemEntered(QTreeWidgetItem*,int)),this,SLOT(showLineTabFinished(QTreeWidgetItem*,int)));
+
     QWidget * page2 = new QWidget();
     QVBoxLayout * pagelayout2 = new QVBoxLayout();
     page2->setLayout(pagelayout2);
@@ -288,7 +290,18 @@ void FirstWindow::showIcons(QTreeWidgetItem *item, int n)
         item->setBackgroundColor(r,QColor(230,230,230));
     }
     arbo->setContextMenuPolicy(Qt::ActionsContextMenu);
+}
 
+// la ligne de surbrillance apparait dans l'onglet Taches finies
+void FirstWindow::showLineTabFinished(QTreeWidgetItem *item, int n)
+{
+    for(int i=0;i<arboAchevees->topLevelItemCount(); ++i){
+        QTreeWidgetItem * topchild = arboAchevees->topLevelItem(i);
+        eraseIcons(topchild);
+    }
+    for(int r=0 ; r<4 ; r++){
+        item->setBackgroundColor(r,QColor(230,230,230));
+    }
 }
 
 // on efface les icones des lignes qui ne sont pas en mouseover
@@ -457,7 +470,9 @@ void FirstWindow::xmlToTacheFinished(TiXmlElement * element,QTreeWidgetItem *ite
         QTreeWidgetItem * newItem = new QTreeWidgetItem(item);
         item->addChild(newItem);
         newItem->setText(0,QString(element->Attribute("nom")));
+        newItem->setTextColor(0,QColor(58,157,35));
         newItem->setText(1,QString(element->Attribute("date")));
+        newItem->setTextColor(1,QColor(152,152,152));
 
         xmlToTacheFinished(element->FirstChildElement(),newItem);
 

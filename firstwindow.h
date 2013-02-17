@@ -87,6 +87,7 @@ public slots:
     void enableButtons();
     void contextMenuAction(QAction * action);
     void creerTemplateSous();
+    void showLineTabFinished(QTreeWidgetItem*,int);
 protected:
     void closeEvent(QCloseEvent *event);
 };
