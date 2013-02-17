@@ -59,9 +59,28 @@ PLUS RETENUS :
 
 A FAIRE CE WEEK END :
 
-- Fenetre d'ajout finie avec ajout des preconditions, fignolage de la fenetre
-- Transfert des taches "topLevel" (les taches primaires dans l'arbre) dans l'onglet Achevées une fois cochées
-- Warning lorsqu'on coche une tache alors que certaines sous taches ou preconditions ne sont aps cochées (on peut peut etre considérer les sous taches comme faisant partie des preconditions)
-- sauvegarde et chargement de liste en XML
-- sauvegarde automatique de la liste courante dans un backup.xml, avec lequel l'application s'ouvre.
-- Barre de menus (Fichier, Affichage...) avec les fonctions possibles de l 'appli
+// Fenetre d'ajout finie avec ajout des preconditions, fignolage de la fenetre
+- redimension de la fenetre
+- bouton ajouter en bas ?
+- heure ? :s
+
+/// Transfert des taches "topLevel" (les taches primaires dans l'arbre) dans l'onglet Achevées une fois cochées
+done
+
+
+// Warning lorsqu'on coche une tache alors que certaines sous taches ou preconditions ne sont aps cochées (on peut peut etre considérer les sous taches comme faisant partie des preconditions)
+- pas forcement pertinent : a voir
+
+// sauvegarde et chargement de liste en XML
+on va dire que c'est vu
+
+// sauvegarde automatique de la liste courante dans un backup.xml, avec lequel l'application s'ouvre.
+ca serait pas mal
+
+/// Barre de menus (Fichier, Affichage...) avec les fonctions possibles de l 'appli
+done
+
+DIMANCHE :
+
+- templates : creer et choisir dans la fenetre ajout (au moins choisir)
+- ouvrir un onglet avec uniquement une liste ?

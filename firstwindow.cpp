@@ -20,7 +20,7 @@ FirstWindow::FirstWindow(QWidget *parent) :
     QMainWindow(parent)
 {
     // Taille fenêtre
-    setMinimumWidth(400);
+    setMinimumWidth(500);
 
     // Layout principal (grid)
     QWidget * centralwidget = new QWidget(this);
@@ -210,10 +210,10 @@ void FirstWindow::tacheChecked(QTreeWidgetItem * item, int n)
 {
     if (n==0){
         if (item->checkState(0)==Qt::Checked){
-            if(areSubItemsChecked(item)){
+            //if(areSubItemsChecked(item)){
                 item->setTextColor(0,QColor(98,188,98));
-            }
-            else item->setCheckState(0,Qt::Unchecked);
+            //}
+            //else item->setCheckState(0,Qt::Unchecked); // pas forcement pertinent
 
         }
         else if (item->checkState(0)==Qt::Unchecked){
@@ -239,15 +239,19 @@ void FirstWindow::showIcons(QTreeWidgetItem *item, int n)
         QTreeWidgetItem * topchild = arbo->topLevelItem(i);
         eraseIcons(topchild);
     }
-    item->setText(3,"[+]");
-    item->setText(4,"[X]");
+    //item->setText(3,"[+]");
+    //item->setText(4,"[X]");
+    item->setIcon(3,QIcon("../Toudou/img/pluslarge.png"));
+    item->setIcon(4,QIcon("../Toudou/img/deletelarge.png"));
 }
 
 // on efface les icones des lignes qui ne sont pas en mouseover
 void FirstWindow::eraseIcons(QTreeWidgetItem * item)
 {
-    item->setText(3,"");
-    item->setText(4,"");
+    //item->setText(3,"");
+    //item->setText(4,"");
+    item->setIcon(3,QIcon());
+    item->setIcon(4,QIcon());
     for(int j=0;j<item->childCount(); ++j){
         QTreeWidgetItem * subItem = item->child(j);
         eraseIcons(subItem);
