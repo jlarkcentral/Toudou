@@ -103,6 +103,7 @@ FirstWindow::FirstWindow(QWidget *parent) :
     arbo->setMouseTracking(true);
     arbo->setStyleSheet("font-weight : bold; font-size : 18px; ");
     arbo->setColumnCount(5);
+    arbo->setSelectionMode(QAbstractItemView::NoSelection);
 
     // menu contextuel de l'arbre
     contextMenu = new QMenu(arbo);
@@ -144,6 +145,7 @@ FirstWindow::FirstWindow(QWidget *parent) :
     arboAchevees->setMouseTracking(true);
     arboAchevees->setStyleSheet("font-weight : bold; font-size : 18px; ");
     arboAchevees->setColumnCount(3);
+    arboAchevees->setSelectionMode(QAbstractItemView::NoSelection);
 
     QWidget * page2 = new QWidget();
     QVBoxLayout * pagelayout2 = new QVBoxLayout();
@@ -181,8 +183,10 @@ FirstWindow::FirstWindow(QWidget *parent) :
     racine->setMatchingItem(arbo->invisibleRootItem());
 
     // ouvrir le backup
-    chargerXml("../Toudou/xml/backup.xml");
-
+    QFile file("../Toudou/xml/backup.xml");
+    if (file.open(QIODevice::ReadOnly)) {
+        chargerXml("../Toudou/xml/backup.xml");
+    }
     // sauvegarder pour prochaine session
     QObject::connect(this,SIGNAL(appClosed()),this,SLOT(sauvegarderSession()));
 }
