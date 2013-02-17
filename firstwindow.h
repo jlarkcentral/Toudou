@@ -57,7 +57,10 @@ public:
     bool areSubItemsChecked(QTreeWidgetItem* item);
     void xmlToTache(TiXmlElement * element,QTreeWidgetItem *item,Tache * tache);
     void chargerXml(string fileName);
-
+    void createXmlforTree(string nomFichier);
+    void addItemInXml(TiXmlDocument doc,TiXmlElement * element,QTreeWidgetItem * item);
+    void xmlToTacheFinished(TiXmlElement * element,QTreeWidgetItem *item);
+    void chargerXmlFinished(string fileName);
 
 signals:
     void appClosed();

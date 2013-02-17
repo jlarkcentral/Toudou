@@ -187,6 +187,14 @@ FirstWindow::FirstWindow(QWidget *parent) :
     if (file.open(QIODevice::ReadOnly)) {
         chargerXml("../Toudou/xml/backup.xml");
     }
+    arbo->expandAll();
+
+    // ouvrir les taches finies
+    QFile fileFinished("../Toudou/xml/saveFinished.xml");
+    if (fileFinished.open(QIODevice::ReadOnly)) {
+        chargerXmlFinished("../Toudou/xml/saveFinished.xml");
+    }
+    arboAchevees->expandAll();
 
     // sauvegarder pour prochaine session
     QObject::connect(this,SIGNAL(appClosed()),this,SLOT(sauvegarderSession()));
@@ -277,21 +285,25 @@ void FirstWindow::showIcons(QTreeWidgetItem *item, int n)
         QTreeWidgetItem * topchild = arbo->topLevelItem(i);
         eraseIcons(topchild);
     }
-    //item->setText(3,"[+]");
-    //item->setText(4,"[X]");
     item->setIcon(3,QIcon("../Toudou/img/pluslarge.png"));
     item->setIcon(4,QIcon("../Toudou/img/deletelarge.png"));
+    for(int r=0 ; r<5 ; r++){
+        item->setBackgroundColor(r,QColor(230,230,230));
+    }
+
 
     arbo->setContextMenuPolicy(Qt::ActionsContextMenu);
+
 }
 
 // on efface les icones des lignes qui ne sont pas en mouseover
 void FirstWindow::eraseIcons(QTreeWidgetItem * item)
 {
-    //item->setText(3,"");
-    //item->setText(4,"");
     item->setIcon(3,QIcon());
     item->setIcon(4,QIcon());
+    for(int r=0 ; r<5 ; r++){
+        item->setBackgroundColor(r,QColor(255,255,255));
+    }
     for(int j=0;j<item->childCount(); ++j){
         QTreeWidgetItem * subItem = item->child(j);
         eraseIcons(subItem);
@@ -309,6 +321,7 @@ void FirstWindow::sauvegarderSous()
 void FirstWindow::sauvegarderSession()
 {
     racine->createXml("backup");
+    createXmlforTree("saveFinished");
 }
 
 
@@ -378,6 +391,32 @@ void FirstWindow::xmlToTache(TiXmlElement * element,QTreeWidgetItem *item,Tache 
     }
 }
 
+
+void FirstWindow::chargerXmlFinished(string fileName)
+{
+    TiXmlDocument doc(fileName);
+    doc.LoadFile();
+    TiXmlElement * element = doc.FirstChildElement()->FirstChildElement()->FirstChildElement();
+    if(element){
+        xmlToTacheFinished(element,arboAchevees->invisibleRootItem());
+    }
+    currentItem = arbo->invisibleRootItem();
+}
+
+// ancienne fonction de Tache : xml vers une structure de Tache, ajout dans l'arbre
+void FirstWindow::xmlToTacheFinished(TiXmlElement * element,QTreeWidgetItem *item)
+{
+    while(element){
+        QTreeWidgetItem * newItem = new QTreeWidgetItem(item);
+        item->addChild(newItem);
+        newItem->setText(0,QString(element->Attribute("nom")));
+
+        xmlToTacheFinished(element->FirstChildElement(),newItem);
+
+        element = element->NextSiblingElement();
+    }
+}
+
 // actions selon la partie du menu cliqué
 void FirstWindow::menuAction(QAction * action)
 {
@@ -432,6 +471,9 @@ void FirstWindow::confirmFinished()
             confirmFinishedSubItems(toAdd);
 
             arboAchevees->addTopLevelItem(toAdd);
+            defineCurrentTache(itemCourant,racine);
+            Tache * currentTacheParent = currentTache->getTacheParent();
+            currentTacheParent->delSousTache(currentTache);
             delete(itemCourant);
             i--;
         }
@@ -504,4 +546,35 @@ void FirstWindow::closeEvent(QCloseEvent *event)
 {
     emit appClosed();
     event->accept();
+}
+
+// initialiser le fichier xml
+void FirstWindow::createXmlforTree(string nomFichier)
+{
+    TiXmlDocument doc("../Toudou/xml/"+nomFichier+".xml");
+
+    TiXmlDeclaration * decl = new TiXmlDeclaration( "1.0", "", "" );
+    doc.LinkEndChild( decl );
+    TiXmlElement * firstElement = new TiXmlElement( "racine" );
+    doc.LinkEndChild( firstElement );
+
+    addItemInXml(doc,firstElement,arboAchevees->invisibleRootItem());
+
+    doc.SaveFile();
+
+}
+
+// remplir le fichier xml avec l'arbre
+void FirstWindow::addItemInXml(TiXmlDocument doc,TiXmlElement * element,QTreeWidgetItem * item)
+{
+    TiXmlElement * newElement = new TiXmlElement("tache");
+    newElement->SetAttribute("nom",item->text(0).toStdString());
+    // TODO : modif avec les nouvelles dates
+    // newElement->SetAttribute("date",date.toString().toStdString());
+    element->LinkEndChild( newElement );
+
+    for (int i=0 ; i<item->childCount() ; i++){
+        QTreeWidgetItem * subItem = item->child(i);
+        addItemInXml(doc,newElement,subItem);
+    }
 }
