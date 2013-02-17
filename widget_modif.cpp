@@ -16,6 +16,7 @@ Widget_modif::Widget_modif(QTreeWidgetItem * item, FirstWindow *fw,QWidget *pare
     itemToModify = item;
     date_aff = false;
 
+
     // seul le widget_ajout a le focus
     firstW->setDisabled(true);
 
@@ -85,27 +86,33 @@ void Widget_modif::modifTache()
 {
     //QTreeWidgetItem * item = new QTreeWidgetItem(firstW->currentItem);
     //item->setCheckState(0,Qt::Unchecked);
+
     itemToModify->setText(0,name->text());
-    if (dates->hasDate()){
+    if (date_aff){
         itemToModify->setText(1,dates->getDate().date().toString());
         itemToModify->setTextColor(1,QColor(152,152,152));
         itemToModify->setText(2,dates->getDate().time().toString());
         itemToModify->setTextColor(2, QColor(125,125,125));
     }
-
+    else{
+        itemToModify->setText(1,itemToModify->text(1));
+        itemToModify->setTextColor(1,QColor(152,152,152));
+        itemToModify->setText(2,itemToModify->text(2));
+        itemToModify->setTextColor(2, QColor(125,125,125));
+    }
     //firstW->arbo->addTopLevelItem(item);
 
 
     // ajout de la tache dans le modele
     //Tache * newtache = new Tache(name->text().toStdString());
     //TODOnewtache->setDate("Date");
-//    if(dates->hasDate())
-//    {
-//        newtache->setDate(dates->getDate());
-//    }
+    //    if(dates->hasDate())
+    //    {
+    //        newtache->setDate(dates->getDate());
+    //    }
 
-//    newtache->setMatchingItem(item);
-//    firstW->currentTache->addSousTache(newtache);
+    //    newtache->setMatchingItem(item);
+    //    firstW->currentTache->addSousTache(newtache);
 
     // Fermeture de la fenêtre une fois la tâche ajoutée
     firstW->currentTache = firstW->racine;
@@ -136,8 +143,8 @@ void Widget_modif::afficherDate()
 
 void Widget_modif::closeEvent(QCloseEvent *event)
 {
-      emit WidgetClosed();
-      event->accept();
+    emit WidgetClosed();
+    event->accept();
 }
 
 // desactiver le bouton Ajouter quand le nom de la tache est vide

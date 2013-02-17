@@ -31,6 +31,7 @@ FirstWindow::FirstWindow(QWidget *parent) :
 
     // Entête fenêtre (title + icon)
     setWindowTitle("Gestionnaire de taches Toudou");
+    setWindowIcon(QIcon("../Toudou/img/toudouIcon.gif"));
 
     //Barre des menus
     QMenuBar * bar = new QMenuBar(this);
@@ -54,6 +55,7 @@ FirstWindow::FirstWindow(QWidget *parent) :
     menuLangue->addAction("Deutsch");
     menuLangue->addAction("Espanol");
     menuAffichage->addMenu(menuLangue);
+    menuLangue->setDisabled(true);
     menuListe->addSeparator();
     menuAffichage->addAction("Developper la liste");
     menuAffichage->addAction("Reduire la liste");
@@ -100,7 +102,7 @@ FirstWindow::FirstWindow(QWidget *parent) :
     // menu contextuel de l'arbre
     contextMenu = new QMenu(arbo);
     QAction * modifAction = new QAction("Modifier...",contextMenu);
-    QAction * templateAction = new QAction("Créer un template...",contextMenu);
+    QAction * templateAction = new QAction("Créer un type de tache...",contextMenu);
     contextMenu->addAction(modifAction);
     contextMenu->addSeparator();
     contextMenu->addAction(templateAction);
@@ -409,9 +411,19 @@ void FirstWindow::enableButtons()
 
 void FirstWindow::contextMenuAction(QAction *action)
 {
-    if (arbo->selectedItems().size()>0){
-        currentItem = arbo->selectedItems().at(0);
-        Widget_modif * modif = new Widget_modif(currentItem,this,0);
-        modif->show();
+    QString text = action->text();
+    if(text=="Modifier..."){
+        if (arbo->selectedItems().size()>0){
+            currentItem = arbo->selectedItems().at(0);
+            if (currentItem->checkState(0)==Qt::Unchecked){
+                Widget_modif * modif = new Widget_modif(currentItem,this,0);
+                modif->show();
+            }
+        }
+    }
+    else if (text=="Créer un type de tache..."){
+        // devra etre un widget_template dans une implementation fonctionnelle
+        widget_sauvegarde *ws = new widget_sauvegarde(this);
+        ws->show();
     }
 }
