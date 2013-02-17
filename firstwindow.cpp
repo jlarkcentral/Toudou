@@ -181,7 +181,7 @@ FirstWindow::FirstWindow(QWidget *parent) :
     racine->setMatchingItem(arbo->invisibleRootItem());
 
     // ouvrir le backup
-    chargerXml("../Toudou/xml/backup.xml");
+    //chargerXml("../Toudou/xml/backup.xml");
 
     // sauvegarder pour prochaine session
     QObject::connect(this,SIGNAL(appClosed()),this,SLOT(sauvegarderSession()));
