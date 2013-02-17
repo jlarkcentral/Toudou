@@ -405,7 +405,7 @@ void FirstWindow::xmlToTache(TiXmlElement * element,QTreeWidgetItem *item,Tache 
     while(element){
         Tache * newTache = new Tache(element->Attribute("nom"));
         if(element->Attribute("dateAbs")){
-            QDateTime * qdt;
+            QDate * qdt;
             newTache->setDateabs(qdt->fromString(element->Attribute("dateAbs")));
             newTache->setDate(1);
         }

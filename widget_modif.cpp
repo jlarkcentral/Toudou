@@ -99,21 +99,9 @@ void Widget_modif::modifTache()
     //QTreeWidgetItem * item = new QTreeWidgetItem(firstW->currentItem);
     //item->setCheckState(0,Qt::Unchecked);
     itemToModify->setText(0,name->text());
-<<<<<<< HEAD
-    if (date_aff){
-        itemToModify->setText(1,dates->getDateabs().toString());
-        itemToModify->setTextColor(1,QColor(152,152,152));
-    }
-    else{
-        itemToModify->setText(1,itemToModify->text(1));
-        itemToModify->setTextColor(1,QColor(152,152,152));
-        itemToModify->setText(2,itemToModify->text(2));
-        itemToModify->setTextColor(2, QColor(125,125,125));
-=======
-
     if(date_aff){
         if (dates->typeDate() == 1){
-            itemToModify->setText(1,dates->getDateabs().date().toString());
+            itemToModify->setText(1,dates->getDateabs().toString());
             itemToModify->setTextColor(1,QColor(152,152,152));
             //item->setText(2,dates->getDateabs().time().toString());
             //item->setTextColor(2, QColor(125,125,125));
@@ -123,7 +111,6 @@ void Widget_modif::modifTache()
             itemToModify->setText(1,QString(dates->getDaterel().c_str()));
             itemToModify->setTextColor(1,QColor(152,152,152));
         }
->>>>>>> 7ac3cf73c80dd33274677ac08b8e3b1dac010e9a
     }
     //firstW->arbo->addTopLevelItem(item);
 

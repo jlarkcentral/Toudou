@@ -26,9 +26,9 @@ widget_date::widget_date(FirstWindow * fw, QWidget *parent) :
 
     // Choix abs
     abswidget = new QWidget();
-    QFormLayout * abslayout = new QFormLayout();
+    QHBoxLayout * abslayout = new QHBoxLayout();
     calendar = new QCalendarWidget();
-    abslayout->addRow("Date :",calendar);
+    abslayout->addWidget(calendar);
     abswidget->setLayout(abslayout);
     mainlayout->addWidget(abswidget);
     abswidget->setVisible(false);
@@ -86,7 +86,6 @@ widget_date::widget_date(FirstWindow * fw, QWidget *parent) :
 
     // Connect modification date
     QObject::connect(calendar,SIGNAL(selectionChanged()),this,SLOT(date_modifiee()));
-    QObject::connect(time,SIGNAL(timeChanged(QTime)),this,SLOT(date_modifiee()));
     QObject::connect(spin,SIGNAL(valueChanged(int)),this,SLOT(date_modifiee()));
     QObject::connect(unit,SIGNAL(currentIndexChanged(int)),this,SLOT(date_modifiee()));
     QObject::connect(avapr,SIGNAL(currentIndexChanged(int)),this,SLOT(date_modifiee()));
@@ -161,12 +160,10 @@ void widget_date::date_modifiee()
         QString unite = unit->currentText();
         QString rel = avapr->currentText();
         QString datetache;
-        QString timetache;
         QString nomtache;
         if (currentItem)
         {
             datetache = currentItem->text(1);
-            timetache = currentItem->text(2);
             nomtache = currentItem->text(0);
         }
         std::ostringstream oss;

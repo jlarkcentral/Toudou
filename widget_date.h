@@ -41,7 +41,6 @@ private:
     FirstWindow * FirstW;
     QWidget * abswidget;
     QCalendarWidget * calendar;
-    QTimeEdit * time;
     QWidget * relwidget;
     QSpinBox * spin;
     QComboBox * unit;
