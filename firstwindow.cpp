@@ -316,15 +316,28 @@ void FirstWindow::chargerXml()
         }*/
         TiXmlDocument doc(fileName.toStdString());
         doc.LoadFile();
-        racine->xmlToTache(doc,arbo);
+        TiXmlElement * element = doc.FirstChildElement()->FirstChildElement();
+        xmlToTache(element,arbo->invisibleRootItem(),racine);
+        currentItem = arbo->invisibleRootItem();
     }
 }
 
-// abandon - plutot implementer la construction de l arbre directement lors du chargement xml
-void FirstWindow::tacheToTree(Tache * tacheRef)
+// ancienne fonction de Tache : xml vers une structure de Tache, ajout dans l'arbre
+void FirstWindow::xmlToTache(TiXmlElement * element,QTreeWidgetItem *item,Tache * tache)
 {
-    for(int i=0 ; tacheRef->getSousTaches().size() ; i++){
-        QTreeWidgetItem * newItem = new QTreeWidgetItem(tacheRef->getMatchingItem());
+    while(element){
+        Tache * newTache = new Tache(element->Attribute("nom"));
+        tache->addSousTache(newTache);
+        QTreeWidgetItem * newItem = new QTreeWidgetItem(item);
+        item->addChild(newItem);
+        item->setCheckState(0,Qt::Unchecked);
+        newTache->setMatchingItem(newItem);
+        newItem->setText(0,QString(newTache->getNom().c_str()));
+        newItem->setCheckState(0,Qt::Unchecked);
+
+        xmlToTache(element->FirstChildElement(),newItem,newTache);
+
+        element = element->NextSiblingElement();
     }
 }
 

@@ -54,6 +54,7 @@ public:
     void confirmFinishedSubItems(QTreeWidgetItem * item);
     void developOrReduceRecursion(QTreeWidgetItem* item);
     bool areSubItemsChecked(QTreeWidgetItem* item);
+    void xmlToTache(TiXmlElement * element,QTreeWidgetItem *item,Tache * tache);
 
 private:
     //bool drawerOpened;
@@ -70,7 +71,6 @@ public slots:
     void deleteItem(); // supprimer une tache
     void sauvegarderSous();
     void chargerXml();
-    void tacheToTree(Tache *tacheRef);
     void menuAction(QAction* action);
     void confirmFinished();
     void developOrReduce();
