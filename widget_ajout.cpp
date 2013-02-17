@@ -45,16 +45,6 @@ Widget_ajout::Widget_ajout(FirstWindow *fw,QWidget *parent) :
     mainlayout->addWidget(name);
     QObject::connect(name,SIGNAL(textEdited(QString)),this,SLOT(textEdited(QString)));
 
-
-    // Bouton Nouveau
-    boutonAjout = new QPushButton("Ajouter");
-    boutonAjout->setDisabled(true);
-    mainlayout->addWidget(boutonAjout);
-    QObject::connect(boutonAjout,SIGNAL(clicked()),this,SLOT(addTache()));
-    QObject::connect(boutonAjout,SIGNAL(clicked()),this,SLOT(close()));
-    QObject::connect(name,SIGNAL(returnPressed()),this,SLOT(addTache()));
-    QObject::connect(name,SIGNAL(returnPressed()),this,SLOT(close()));
-
     // menu date  dépliable
     QWidget * widget_date_plus= new QWidget();
     QHBoxLayout * layout_date_plus = new QHBoxLayout();
@@ -71,6 +61,16 @@ Widget_ajout::Widget_ajout(FirstWindow *fw,QWidget *parent) :
     dates->setVisible(false);
 
     QObject::connect(date_plus,SIGNAL(clicked()),this,SLOT(afficherDate()));
+    QObject::connect(dates->nodatebut,SIGNAL(clicked()),this,SLOT(afficherDate()));
+
+    // Bouton Nouveau
+    boutonAjout = new QPushButton("Ajouter");
+    boutonAjout->setDisabled(true);
+    mainlayout->addWidget(boutonAjout);
+    QObject::connect(boutonAjout,SIGNAL(clicked()),this,SLOT(addTache()));
+    QObject::connect(boutonAjout,SIGNAL(clicked()),this,SLOT(close()));
+    QObject::connect(name,SIGNAL(returnPressed()),this,SLOT(addTache()));
+    QObject::connect(name,SIGNAL(returnPressed()),this,SLOT(close()));
 
     // essais groupbox
     /*groupbox_date = new QGroupBox("Gestion de date");
@@ -97,6 +97,11 @@ void Widget_ajout::addTache()
         item->setTextColor(1,QColor(152,152,152));
         item->setText(2,dates->getDateabs().time().toString());
         item->setTextColor(2, QColor(125,125,125));
+    }
+    if (dates->typeDate() == 2)
+    {
+        item->setText(1,QString(dates->getDaterel().c_str()));
+        item->setTextColor(1,QColor(152,152,152));
     }
 
     firstW->arbo->addTopLevelItem(item);

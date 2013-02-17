@@ -1,6 +1,7 @@
 #ifndef WIDGET_DATE_H
 #define WIDGET_DATE_H
 
+#include <sstream>
 #include <QWidget>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
@@ -31,6 +32,10 @@ public:
     void setDaterel(string s);
 
     int typeDate();
+
+    QRadioButton * dateabsbut;
+    QRadioButton * daterelbut;
+    QRadioButton * nodatebut;
     
 private:
     FirstWindow * FirstW;

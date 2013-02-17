@@ -12,12 +12,12 @@ widget_date::widget_date(FirstWindow * fw, QWidget *parent) :
     // Boutons choix date absolue/relative
     QWidget * choicewidget = new QWidget();
     QHBoxLayout * choicelayout = new QHBoxLayout();
-    QRadioButton * dateabs = new QRadioButton("Date précise",this);
-    choicelayout->addWidget(dateabs);
-    QRadioButton * daterel = new QRadioButton("Date relative à une autre tâche");
-    choicelayout->addWidget(daterel);
-    QRadioButton * nodate = new QRadioButton("Aucune date");
-    choicelayout->addWidget(nodate);
+    dateabsbut = new QRadioButton("Date précise",this);
+    choicelayout->addWidget(dateabsbut);
+    daterelbut = new QRadioButton("Date relative à une autre tâche");
+    choicelayout->addWidget(daterelbut);
+    nodatebut = new QRadioButton("Aucune date");
+    choicelayout->addWidget(nodatebut);
     choicewidget->setLayout(choicelayout);
     mainlayout->addWidget(choicewidget);
 
@@ -75,12 +75,12 @@ widget_date::widget_date(FirstWindow * fw, QWidget *parent) :
     relwidget->setVisible(false);
 
     // Connect boutons choix -- widget correspondant
-    QObject::connect(dateabs,SIGNAL(clicked()),this,SLOT(afficher_abs()));
-    QObject::connect(daterel,SIGNAL(clicked()),this,SLOT(afficher_rel()));
-    QObject::connect(nodate,SIGNAL(clicked()),this,SLOT(afficher_rien()));
+    QObject::connect(dateabsbut,SIGNAL(clicked()),this,SLOT(afficher_abs()));
+    QObject::connect(daterelbut,SIGNAL(clicked()),this,SLOT(afficher_rel()));
+    QObject::connect(nodatebut,SIGNAL(clicked()),this,SLOT(afficher_rien()));
 
     // Bouton date absolue choisi par défaut
-    dateabs->click();
+    dateabsbut->click();
 
     // Changement du currentItem lorsqu'on clique sur l'arbre
     QObject::connect(tree,SIGNAL(itemClicked(QTreeWidgetItem*,int)),this,SLOT(item_modifie(QTreeWidgetItem*)));
@@ -147,6 +147,7 @@ void widget_date::afficher_rien()
     abswidget->setVisible(false);
     relwidget->setVisible(false);
     choix = 3;
+    dateabsbut->click();
 }
 
 void widget_date::date_modifiee()
@@ -156,23 +157,23 @@ void widget_date::date_modifiee()
         dateabs.setDate(calendar->selectedDate());
         dateabs.setTime(time->time());
     }
-    else
+    if(choix == 2)
     {
         int nb = spin->value();
         QString unite = unit->currentText();
         QString rel = avapr->currentText();
         QString datetache;
         QString timetache;
+        QString nomtache;
         if (currentItem)
         {
             datetache = currentItem->text(1);
             timetache = currentItem->text(2);
+            nomtache = currentItem->text(0);
         }
-        std::cout << nb << std::endl;
-        std::cout << unite.toStdString() << std::endl;
-        std::cout << rel.toStdString() << std::endl;
-        std::cout << datetache.toStdString() << std::endl;
-        std::cout << timetache.toStdString() << std::endl;
+        std::ostringstream oss;
+        oss << nb;
+        daterel = oss.str() + " " + unite.toStdString() + " " + rel.toStdString() + " " + nomtache.toStdString();
     }
 }
 
