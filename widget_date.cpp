@@ -4,6 +4,7 @@ widget_date::widget_date(FirstWindow * fw, QWidget *parent) :
     QWidget(parent)
 {
     FirstW = fw;
+    choix = 3;  // De base, une tâche n'a pas de date associée
 
     QVBoxLayout * mainlayout = new QVBoxLayout();
     this->setLayout(mainlayout);
@@ -15,15 +16,17 @@ widget_date::widget_date(FirstWindow * fw, QWidget *parent) :
     choicelayout->addWidget(dateabs);
     QRadioButton * daterel = new QRadioButton("Date relative à une autre tâche");
     choicelayout->addWidget(daterel);
+    QRadioButton * nodate = new QRadioButton("Aucune date");
+    choicelayout->addWidget(nodate);
     choicewidget->setLayout(choicelayout);
     mainlayout->addWidget(choicewidget);
 
     // Choix abs
     abswidget = new QWidget();
     QFormLayout * abslayout = new QFormLayout();
-    QCalendarWidget * calendar = new QCalendarWidget();
+    calendar = new QCalendarWidget();
     abslayout->addRow("Date :",calendar);
-    QTimeEdit * time = new QTimeEdit();
+    time = new QTimeEdit();
     abslayout->addRow("Heure :",time);
     abswidget->setLayout(abslayout);
     mainlayout->addWidget(abswidget);
@@ -32,23 +35,23 @@ widget_date::widget_date(FirstWindow * fw, QWidget *parent) :
     // Choix rel
     relwidget = new QWidget();
     QGridLayout * rellayout = new QGridLayout();
-    QSpinBox * spin = new QSpinBox();
+    spin = new QSpinBox();
     spin->setMinimum(1);
     spin->setMaximum(12);
     rellayout->addWidget(spin,0,0);
-    QComboBox * unit = new QComboBox();
+    unit = new QComboBox();
     unit->addItem("minute(s)");
     unit->addItem("heure(s)");
     unit->addItem("jour(s)");
     unit->addItem("semaine(s)");
     unit->addItem("mois");
     rellayout->addWidget(unit,0,1);
-    QComboBox * avapr = new QComboBox();
+    avapr = new QComboBox();
     avapr->addItem("avant");
     avapr->addItem("après");
     rellayout->addWidget(avapr,0,2);
     // Tree
-    QTreeWidget * tree = new QTreeWidget();
+    tree = new QTreeWidget();
     QHeaderView * header = tree->header();
     header->setResizeMode(QHeaderView::ResizeToContents);
     header->setResizeMode(0,QHeaderView::Stretch);
@@ -73,9 +76,14 @@ widget_date::widget_date(FirstWindow * fw, QWidget *parent) :
     // Connect boutons choix -- widget correspondant
     QObject::connect(dateabs,SIGNAL(clicked()),this,SLOT(afficher_abs()));
     QObject::connect(daterel,SIGNAL(clicked()),this,SLOT(afficher_rel()));
+    QObject::connect(nodate,SIGNAL(clicked()),this,SLOT(afficher_rien()));
 
     // Bouton date absolue choisi par défaut
     dateabs->click();
+
+    // Connect modification date
+    QObject::connect(calendar,SIGNAL(selectionChanged()),this,SLOT(date_modifiee()));
+    QObject::connect(time,SIGNAL(timeChanged(QTime)),this,SLOT(date_modifiee()));
 }
 
 widget_date::~widget_date()
@@ -83,14 +91,19 @@ widget_date::~widget_date()
 
 }
 
-string widget_date::getDate()
+QDateTime widget_date::getDate()
 {
     return date;
 }
 
-void widget_date::setDate(string s)
+void widget_date::setDate(QDateTime d)
 {
-    date = s;
+    date = d;
+}
+
+bool widget_date::hasDate()
+{
+    return (choix != 3);
 }
 
 
@@ -100,7 +113,7 @@ void widget_date::afficher_abs()
 {
     abswidget->setVisible(true);
     relwidget->setVisible(false);
-    abs = true;
+    choix = 1;
 }
 
 
@@ -108,12 +121,24 @@ void widget_date::afficher_rel()
 {
     abswidget->setVisible(false);
     relwidget->setVisible(true);
-    abs = false;
+    choix = 2;
+}
+
+void widget_date::afficher_rien()
+{
+    abswidget->setVisible(false);
+    relwidget->setVisible(false);
+    choix = 3;
 }
 
 void widget_date::date_modifiee()
 {
-    if(abs)
+    if(choix == 1)
+    {
+        date.setDate(calendar->selectedDate());
+        date.setTime(time->time());
+    }
+    else
     {
 
     }

@@ -24,19 +24,28 @@ public:
     explicit widget_date(FirstWindow * fw, QWidget *parent = 0);
     ~widget_date();
 
-    string getDate();
-    void setDate(string s);
+    QDateTime getDate();
+    void setDate(QDateTime d);
+
+    bool hasDate();
     
 private:
     FirstWindow * FirstW;
     QWidget * abswidget;
+    QCalendarWidget * calendar;
+    QTimeEdit * time;
     QWidget * relwidget;
-    bool abs;
-    string date;
+    QSpinBox * spin;
+    QComboBox * unit;
+    QComboBox * avapr;
+    QTreeWidget * tree;
+    int choix;
+    QDateTime date;
 
 public slots:
     void afficher_abs();
     void afficher_rel();
+    void afficher_rien();
     void date_modifiee();
 };
 

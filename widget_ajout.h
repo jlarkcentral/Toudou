@@ -1,6 +1,7 @@
 #ifndef WIDGET_AJOUT_H
 #define WIDGET_AJOUT_H
 
+#include <stdlib.h>
 #include <QWidget>
 #include <QLabel>
 #include <QPushButton>
