@@ -15,6 +15,7 @@
 #include "widget_infos.h"
 #include "widget_ajout.h"
 #include "widget_sauvegarde.h"
+#include "widget_modif.h"
 
 FirstWindow::FirstWindow(QWidget *parent) :
     QMainWindow(parent)
@@ -96,11 +97,26 @@ FirstWindow::FirstWindow(QWidget *parent) :
     arbo->setStyleSheet("font-weight : bold; font-size : 18px; ");
     arbo->setColumnCount(5);
 
+    // menu contextuel de l'arbre
+    contextMenu = new QMenu(arbo);
+    QAction * modifAction = new QAction("Modifier...",contextMenu);
+    QAction * templateAction = new QAction("Créer un template...",contextMenu);
+    contextMenu->addAction(modifAction);
+    contextMenu->addSeparator();
+    contextMenu->addAction(templateAction);
+    arbo->addAction(modifAction);
+    arbo->addAction(templateAction);
+
+    QObject::connect(contextMenu,SIGNAL(triggered(QAction*)),this,SLOT(contextMenuAction(QAction*)));
+
+
     // signaux - slots de l'arbre
     QObject::connect(arbo,SIGNAL(itemClicked(QTreeWidgetItem*,int)),this,SLOT(popup(QTreeWidgetItem*,int)));
     QObject::connect(arbo,SIGNAL(itemChanged(QTreeWidgetItem*,int)),this,SLOT(tacheChecked(QTreeWidgetItem*,int)));
     QObject::connect(arbo,SIGNAL(itemEntered(QTreeWidgetItem*,int)),this,SLOT(showIcons(QTreeWidgetItem*,int)));
 
+
+    //QObject::connect(arbo,SIGNAL(customContextMenuRequested(QPoint)),this,SLOT(contextMenu(QPoint)));
 
     // insertion arbo dans premier onglet
     QWidget * page = new QWidget();
@@ -213,7 +229,7 @@ void FirstWindow::tacheChecked(QTreeWidgetItem * item, int n)
     if (n==0){
         if (item->checkState(0)==Qt::Checked){
             //if(areSubItemsChecked(item)){
-                item->setTextColor(0,QColor(98,188,98));
+            item->setTextColor(0,QColor(98,188,98));
             //}
             //else item->setCheckState(0,Qt::Unchecked); // pas forcement pertinent
 
@@ -245,6 +261,8 @@ void FirstWindow::showIcons(QTreeWidgetItem *item, int n)
     //item->setText(4,"[X]");
     item->setIcon(3,QIcon("../Toudou/img/pluslarge.png"));
     item->setIcon(4,QIcon("../Toudou/img/deletelarge.png"));
+
+    arbo->setContextMenuPolicy(Qt::ActionsContextMenu);
 }
 
 // on efface les icones des lignes qui ne sont pas en mouseover
@@ -387,4 +405,13 @@ void FirstWindow::enableButtons()
 {
     finishedbutton->setEnabled(true);
     displaybutton->setEnabled(true);
+}
+
+void FirstWindow::contextMenuAction(QAction *action)
+{
+    if (arbo->selectedItems().size()>0){
+        currentItem = arbo->selectedItems().at(0);
+        Widget_modif * modif = new Widget_modif(currentItem,this,0);
+        modif->show();
+    }
 }

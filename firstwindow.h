@@ -44,6 +44,9 @@ public:
     QPushButton * finishedbutton;
     QPushButton * displaybutton;
 
+    // menu clic droit
+    QMenu * contextMenu;
+
     // effacer les icones
     void eraseIcons(QTreeWidgetItem * item);
 
@@ -72,6 +75,7 @@ public slots:
     void confirmFinished();
     void developOrReduce();
     void enableButtons();
+    void contextMenuAction(QAction * action);
 
 };
 

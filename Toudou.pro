@@ -16,13 +16,15 @@ SOURCES += main.cpp\
     widget_infos.cpp \
     widget_ajout.cpp \
     widget_date.cpp \
-    widget_sauvegarde.cpp
+    widget_sauvegarde.cpp \
+    widget_modif.cpp
 
 HEADERS  += tache.h \
     firstwindow.h \
     widget_infos.h \
     widget_ajout.h \
     widget_date.h \
-    widget_sauvegarde.h 
+    widget_sauvegarde.h \ 
+    widget_modif.h
 
 FORMS += 
