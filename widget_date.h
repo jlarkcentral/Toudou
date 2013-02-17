@@ -24,10 +24,13 @@ public:
     explicit widget_date(FirstWindow * fw, QWidget *parent = 0);
     ~widget_date();
 
-    QDateTime getDate();
-    void setDate(QDateTime d);
+    QDateTime getDateabs();
+    void setDateabs(QDateTime d);
 
-    bool hasDate();
+    string getDaterel();
+    void setDaterel(string s);
+
+    int typeDate();
     
 private:
     FirstWindow * FirstW;
@@ -39,14 +42,17 @@ private:
     QComboBox * unit;
     QComboBox * avapr;
     QTreeWidget * tree;
+    QTreeWidgetItem * currentItem;
     int choix;
-    QDateTime date;
+    QDateTime dateabs;
+    string daterel;
 
 public slots:
     void afficher_abs();
     void afficher_rel();
     void afficher_rien();
     void date_modifiee();
+    void item_modifie(QTreeWidgetItem* item);
 };
 
 #endif // WIDGET_DATE_H

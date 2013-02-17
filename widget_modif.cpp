@@ -89,9 +89,9 @@ void Widget_modif::modifTache()
 
     itemToModify->setText(0,name->text());
     if (date_aff){
-        itemToModify->setText(1,dates->getDate().date().toString());
+        itemToModify->setText(1,dates->getDateabs().date().toString());
         itemToModify->setTextColor(1,QColor(152,152,152));
-        itemToModify->setText(2,dates->getDate().time().toString());
+        itemToModify->setText(2,dates->getDateabs().time().toString());
         itemToModify->setTextColor(2, QColor(125,125,125));
     }
     else{

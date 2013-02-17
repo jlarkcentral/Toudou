@@ -67,6 +67,7 @@ widget_date::widget_date(FirstWindow * fw, QWidget *parent) :
         toAdd->setFlags( Qt::ItemIsSelectable | Qt::ItemIsEnabled );
         tree->addTopLevelItem(toAdd);
     }
+    currentItem = tree->topLevelItem(0);
     //
     rellayout->addWidget(tree,1,0,1,3);
     relwidget->setLayout(rellayout);
@@ -81,9 +82,16 @@ widget_date::widget_date(FirstWindow * fw, QWidget *parent) :
     // Bouton date absolue choisi par défaut
     dateabs->click();
 
+    // Changement du currentItem lorsqu'on clique sur l'arbre
+    QObject::connect(tree,SIGNAL(itemClicked(QTreeWidgetItem*,int)),this,SLOT(item_modifie(QTreeWidgetItem*)));
+
     // Connect modification date
     QObject::connect(calendar,SIGNAL(selectionChanged()),this,SLOT(date_modifiee()));
     QObject::connect(time,SIGNAL(timeChanged(QTime)),this,SLOT(date_modifiee()));
+    QObject::connect(spin,SIGNAL(valueChanged(int)),this,SLOT(date_modifiee()));
+    QObject::connect(unit,SIGNAL(currentIndexChanged(int)),this,SLOT(date_modifiee()));
+    QObject::connect(avapr,SIGNAL(currentIndexChanged(int)),this,SLOT(date_modifiee()));
+    QObject::connect(tree,SIGNAL(itemClicked(QTreeWidgetItem*,int)),this,SLOT(date_modifiee()));
 }
 
 widget_date::~widget_date()
@@ -91,19 +99,29 @@ widget_date::~widget_date()
 
 }
 
-QDateTime widget_date::getDate()
+QDateTime widget_date::getDateabs()
 {
-    return date;
+    return dateabs;
 }
 
-void widget_date::setDate(QDateTime d)
+void widget_date::setDateabs(QDateTime d)
 {
-    date = d;
+    dateabs = d;
 }
 
-bool widget_date::hasDate()
+string widget_date::getDaterel()
 {
-    return (choix != 3);
+    return daterel;
+}
+
+void widget_date::setDaterel(string s)
+{
+    daterel = s;
+}
+
+int widget_date::typeDate()
+{
+    return choix;
 }
 
 
@@ -135,11 +153,30 @@ void widget_date::date_modifiee()
 {
     if(choix == 1)
     {
-        date.setDate(calendar->selectedDate());
-        date.setTime(time->time());
+        dateabs.setDate(calendar->selectedDate());
+        dateabs.setTime(time->time());
     }
     else
     {
-
+        int nb = spin->value();
+        QString unite = unit->currentText();
+        QString rel = avapr->currentText();
+        QString datetache;
+        QString timetache;
+        if (currentItem)
+        {
+            datetache = currentItem->text(1);
+            timetache = currentItem->text(2);
+        }
+        std::cout << nb << std::endl;
+        std::cout << unite.toStdString() << std::endl;
+        std::cout << rel.toStdString() << std::endl;
+        std::cout << datetache.toStdString() << std::endl;
+        std::cout << timetache.toStdString() << std::endl;
     }
+}
+
+void widget_date::item_modifie(QTreeWidgetItem* item)
+{
+    currentItem = item;
 }

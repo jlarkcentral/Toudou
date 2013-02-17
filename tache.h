@@ -26,8 +26,14 @@ public:
     bool getFini();
     void setFini(bool unBool);
 
-    QDateTime getDate();
-    void setDate(QDateTime Date);
+    int getDate();
+    void setDate(int i);
+
+    QDateTime getDateabs();
+    void setDateabs(QDateTime Date);
+
+    string getDaterel();
+    void setDaterel(string s);
 
     vector<Tache> getPreconditions();
     void addPrecondition(Tache uneTache);
@@ -54,7 +60,9 @@ public:
 private:
     string nom;
     bool fini;
-    QDateTime date;
+    int date;   // 1 si date absolue, 2 si date relative, 3 si aucune date. Par défaut : aucune date.
+    QDateTime dateabs;
+    string daterel;
     QTreeWidgetItem * matchingItem;
     vector<Tache> preconditions;
     vector<Tache*> sousTaches;

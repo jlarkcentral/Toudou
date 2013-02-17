@@ -92,10 +92,10 @@ void Widget_ajout::addTache()
     QTreeWidgetItem * item = new QTreeWidgetItem(firstW->currentItem);
     item->setCheckState(0,Qt::Unchecked);
     item->setText(0,name->text());
-    if (dates->hasDate()){
-        item->setText(1,dates->getDate().date().toString());
+    if (dates->typeDate() == 1){
+        item->setText(1,dates->getDateabs().date().toString());
         item->setTextColor(1,QColor(152,152,152));
-        item->setText(2,dates->getDate().time().toString());
+        item->setText(2,dates->getDateabs().time().toString());
         item->setTextColor(2, QColor(125,125,125));
     }
 
@@ -105,9 +105,13 @@ void Widget_ajout::addTache()
     // ajout de la tache dans le modele
     Tache * newtache = new Tache(name->text().toStdString());
     //TODOnewtache->setDate("Date");
-    if(dates->hasDate())
+    if(dates->typeDate() == 1)
     {
-        newtache->setDate(dates->getDate());
+        newtache->setDateabs(dates->getDateabs());
+    }
+    if(dates->typeDate() == 2)
+    {
+        newtache->setDaterel(dates->getDaterel());
     }
 
     newtache->setMatchingItem(item);

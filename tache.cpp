@@ -27,14 +27,34 @@ void Tache::setFini(bool unBool)
     fini = unBool;
 }
 
-QDateTime Tache::getDate()
+int Tache::getDate()
 {
     return date;
 }
 
-void Tache::setDate(QDateTime uneDate)
+void Tache::setDate(int i)
 {
-    date = uneDate;
+    date = i;
+}
+
+QDateTime Tache::getDateabs()
+{
+    return dateabs;
+}
+
+void Tache::setDateabs(QDateTime uneDate)
+{
+    dateabs = uneDate;
+}
+
+string Tache::getDaterel()
+{
+    return daterel;
+}
+
+void Tache::setDaterel(string s)
+{
+    daterel = s;
 }
 
 vector<Tache> Tache::getPreconditions()
@@ -145,7 +165,8 @@ void Tache::addTacheInXml(TiXmlDocument doc,TiXmlElement * element)
 {
     TiXmlElement * newElement = new TiXmlElement("tache");
     newElement->SetAttribute("nom",nom);
-    newElement->SetAttribute("date",date.toString().toStdString());
+    // TODO : modif avec les nouvelles dates
+    // newElement->SetAttribute("date",date.toString().toStdString());
     element->LinkEndChild( newElement );
 
     for (int i=0 ; i<sousTaches.size() ; i++){
