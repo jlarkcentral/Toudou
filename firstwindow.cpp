@@ -56,9 +56,14 @@ FirstWindow::FirstWindow(QWidget *parent) :
     menuLangue->addAction("Espanol");
     menuAffichage->addMenu(menuLangue);
     menuLangue->setDisabled(true);
-    menuListe->addSeparator();
+    menuAffichage->addSeparator();
     menuAffichage->addAction("Developper la liste");
     menuAffichage->addAction("Reduire la liste");
+    menuAffichage->addSeparator();
+    QAction * affAide = new QAction("Afficher les bulles d'aide",0);
+    affAide->setCheckable(true);
+    affAide->setChecked(true);
+    menuAffichage->addAction(affAide);
 
     QObject::connect(menuAffichage,SIGNAL(triggered(QAction*)),this,SLOT(menuAction(QAction*)));
 
@@ -147,20 +152,23 @@ FirstWindow::FirstWindow(QWidget *parent) :
     onglets->addTab(page2,"Taches finies");
 
     // Bouton Nouveau
-    QPushButton * newbutton = new QPushButton("Nouvelle tache");
+    newbutton = new QPushButton("Nouvelle tache");
     pagelayout->addWidget(newbutton);
     QObject::connect(newbutton,SIGNAL(clicked()),this,SLOT(popup()));
+    newbutton->setToolTip("Ajouter une nouvelle tache à la liste");
 
     // Bouton Valider la tache finie
     finishedbutton = new QPushButton("Valider les taches finies");
     finishedbutton->setEnabled(true); // changer avec l'ajout...
     QObject::connect(finishedbutton,SIGNAL(clicked()),this,SLOT(confirmFinished()));
+    finishedbutton->setToolTip("Basculer toutes les taches achevées vers l'onglet \"Taches finies\"");
 
     // Bouton Develloper/Reduire
     expand = true;
-    displaybutton = new QPushButton("Developper/Reduire");
+    displaybutton = new QPushButton("Reduire la liste");
     displaybutton->setEnabled(true); // changer avec l'ajout...
     QObject::connect(displaybutton,SIGNAL(clicked()),this,SLOT(developOrReduce()));
+    displaybutton->setToolTip("Cacher les étapes des taches");
 
     QHBoxLayout * buttonsLayout = new QHBoxLayout();
     buttonsLayout->addWidget(finishedbutton);
@@ -172,6 +180,11 @@ FirstWindow::FirstWindow(QWidget *parent) :
     racine = new Tache("Toutes les taches");
     racine->setMatchingItem(arbo->invisibleRootItem());
 
+    // ouvrir le backup
+    chargerXml("../Toudou/xml/backup.xml");
+
+    // sauvegarder pour prochaine session
+    QObject::connect(this,SIGNAL(appClosed()),this,SLOT(sauvegarderSession()));
 }
 
 FirstWindow::~FirstWindow()
@@ -288,6 +301,12 @@ void FirstWindow::sauvegarderSous()
     ws->show();
 }
 
+void FirstWindow::sauvegarderSession()
+{
+    racine->createXml("backup");
+}
+
+
 // retrouve la tache associée à un element de l'arbre
 void FirstWindow::defineCurrentTache(QTreeWidgetItem *item,Tache * tacheRef)
 {
@@ -302,7 +321,7 @@ void FirstWindow::defineCurrentTache(QTreeWidgetItem *item,Tache * tacheRef)
     }
 }
 
-// chargement de fichier xml en liste : pour l'instant fonctionne mal
+// chargement de fichier xml en liste
 void FirstWindow::chargerXml()
 {
     QString fileName = QFileDialog::getOpenFileName(this, tr("Charger une liste"), "",tr("Fichiers Xml (*.xml);"));
@@ -316,10 +335,23 @@ void FirstWindow::chargerXml()
         }*/
         TiXmlDocument doc(fileName.toStdString());
         doc.LoadFile();
-        TiXmlElement * element = doc.FirstChildElement()->FirstChildElement();
-        xmlToTache(element,arbo->invisibleRootItem(),racine);
+        TiXmlElement * element = doc.FirstChildElement()->FirstChildElement()->FirstChildElement();
+        if(element){
+            xmlToTache(element,arbo->invisibleRootItem(),racine);
+        }
         currentItem = arbo->invisibleRootItem();
     }
+}
+
+void FirstWindow::chargerXml(string fileName)
+{
+    TiXmlDocument doc(fileName);
+    doc.LoadFile();
+    TiXmlElement * element = doc.FirstChildElement()->FirstChildElement()->FirstChildElement();
+    if(element){
+        xmlToTache(element,arbo->invisibleRootItem(),racine);
+    }
+    currentItem = arbo->invisibleRootItem();
 }
 
 // ancienne fonction de Tache : xml vers une structure de Tache, ajout dans l'arbre
@@ -341,7 +373,7 @@ void FirstWindow::xmlToTache(TiXmlElement * element,QTreeWidgetItem *item,Tache 
     }
 }
 
-// actions selon la partie du menu "Liste" cliqué
+// actions selon la partie du menu cliqué
 void FirstWindow::menuAction(QAction * action)
 {
     QString text = action->text();
@@ -365,6 +397,20 @@ void FirstWindow::menuAction(QAction * action)
     }
     else if(text=="Reduire la liste"){
         developOrReduce();
+    }
+    else if(text=="Afficher les bulles d'aide"){
+        if(!action->isChecked()){
+            newbutton->setToolTip("");
+            finishedbutton->setToolTip("");
+            displaybutton->setToolTip("");
+            action->setChecked(false);
+        }
+        else{
+            newbutton->setToolTip("Ajouter une nouvelle tache à la liste");
+            finishedbutton->setToolTip("Basculer toutes les taches achevées vers l'onglet \"Taches finies\"");
+            displaybutton->setToolTip("Cacher les étapes des taches");
+            action->setChecked(true);
+        }
     }
 }
 
@@ -404,6 +450,14 @@ void FirstWindow::developOrReduce()
         itemCourant->setExpanded(!expand);
         developOrReduceRecursion(itemCourant);
     }
+    if(expand){
+        displaybutton->setText("Développer la liste");
+        displaybutton->setToolTip("Faire apparaitre toutes les étapes des taches");
+    }
+    else{
+        displaybutton->setText("Réduire la liste");
+        displaybutton->setToolTip("Cacher les étapes des taches");
+    }
     expand = !expand;
 }
 
@@ -439,4 +493,10 @@ void FirstWindow::contextMenuAction(QAction *action)
         widget_sauvegarde *ws = new widget_sauvegarde(this);
         ws->show();
     }
+}
+
+void FirstWindow::closeEvent(QCloseEvent *event)
+{
+    emit appClosed();
+    event->accept();
 }
