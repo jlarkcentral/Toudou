@@ -49,6 +49,7 @@ public:
 private:
     QLineEdit * name;
     QPushButton * date_plus;
+    QLabel * afficher_date;
     bool date_aff;
     widget_date * dates;
 

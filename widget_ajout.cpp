@@ -51,8 +51,9 @@ Widget_ajout::Widget_ajout(FirstWindow *fw,QWidget *parent) :
     date_plus = new QPushButton("+");
     date_plus->setStyleSheet("QPushButton {font-weight : bold;}");
     date_plus->setFixedWidth(20);
+    date_plus->setToolTip("Définir une date limite pour la tache");
     layout_date_plus->addWidget(date_plus);
-    QLabel * afficher_date = new QLabel("Ajouter une échéance");
+    afficher_date = new QLabel("Ajouter une échéance");
     layout_date_plus->addWidget(afficher_date);
     widget_date_plus->setLayout(layout_date_plus);
     mainlayout->addWidget(widget_date_plus);
@@ -106,10 +107,8 @@ void Widget_ajout::addTache()
     item->setCheckState(0,Qt::Unchecked);
     item->setText(0,name->text());
     if (dates->typeDate() == 1){
-        item->setText(1,dates->getDateabs().date().toString());
+        item->setText(1,dates->getDateabs().toString());
         item->setTextColor(1,QColor(152,152,152));
-        //item->setText(2,dates->getDateabs().time().toString());
-        //item->setTextColor(2, QColor(125,125,125));
     }
     if (dates->typeDate() == 2)
     {
