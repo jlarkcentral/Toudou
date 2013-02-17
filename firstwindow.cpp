@@ -37,6 +37,8 @@ FirstWindow::FirstWindow(QWidget *parent) :
     QMenu* menuListe = new QMenu("Liste");
     menuListe->addAction("Nouvelle tache");
     menuListe->addSeparator();
+    menuListe->addAction("Valider les taches finies");
+    menuListe->addSeparator();
     menuListe->addAction("Sauvegarder la liste");
     menuListe->addAction("Charger une liste");
     menuListe->addSeparator();
@@ -106,7 +108,7 @@ FirstWindow::FirstWindow(QWidget *parent) :
     page->setLayout(pagelayout);
     page->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
     pagelayout->addWidget(arbo);
-    onglets->addTab(page,"Toutes les tâches");
+    onglets->addTab(page,"Tâches en cours");
 
     // Test second onglet
     //QPushButton * testbutton = new QPushButton("Achevées");
@@ -124,7 +126,7 @@ FirstWindow::FirstWindow(QWidget *parent) :
     QVBoxLayout * pagelayout2 = new QVBoxLayout();
     page2->setLayout(pagelayout2);
     pagelayout2->addWidget(arboAchevees);
-    onglets->addTab(page2,"Achevées");
+    onglets->addTab(page2,"Taches finies");
 
     // Bouton Nouveau
     QPushButton * newbutton = new QPushButton("Nouvelle tache");
@@ -184,8 +186,8 @@ void FirstWindow::popup(QTreeWidgetItem* i,int n)
         // popup de confirmation
         QMessageBox * supprDiag = new QMessageBox();
         supprDiag->setWindowTitle("Supprimer...");
-        supprDiag->addButton("Ok",QMessageBox::AcceptRole);
-        supprDiag->addButton("Annuler",QMessageBox::RejectRole);
+        supprDiag->addButton("Ok",QMessageBox::RejectRole);
+        supprDiag->addButton("Annuler",QMessageBox::AcceptRole);
         supprDiag->setText("La tache " + i->text(0) + " va etre supprimee");
         supprDiag->show();
         // le signal est bien "rejected", c est un bug Qt
@@ -312,6 +314,9 @@ void FirstWindow::menuAction(QAction * action)
     QString text = action->text();
     if(text=="Nouvelle tache"){
         popup();
+    }
+    if(text=="Valider les taches finies"){
+        confirmFinished();
     }
     else if(text=="Sauvegarder la liste"){
         sauvegarderSous();
