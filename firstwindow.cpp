@@ -210,15 +210,26 @@ void FirstWindow::tacheChecked(QTreeWidgetItem * item, int n)
 {
     if (n==0){
         if (item->checkState(0)==Qt::Checked){
-//            for(){
+            if(areSubItemsChecked(item)){
+                item->setTextColor(0,QColor(98,188,98));
+            }
+            else item->setCheckState(0,Qt::Unchecked);
 
-//            }
-            item->setTextColor(0,QColor(98,188,98));
         }
         else if (item->checkState(0)==Qt::Unchecked){
             item->setTextColor(0,QColor(0,0,0));
         }
     }
+}
+
+bool FirstWindow::areSubItemsChecked(QTreeWidgetItem *item)
+{
+    for(int i=0 ; i<item->childCount() ; i++){
+        if(item->child(i)->checkState(0)==Qt::Unchecked){
+            return false;
+        }
+    }
+    return true;
 }
 
 // les icones + et X apparaissent en "mouseover"
@@ -329,6 +340,7 @@ void FirstWindow::confirmFinished()
 
             arboAchevees->addTopLevelItem(toAdd);
             delete(itemCourant);
+            i--;
         }
     }
 }
