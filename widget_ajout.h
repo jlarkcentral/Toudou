@@ -44,6 +44,7 @@ public:
 
     FirstWindow * firstW;
     QPushButton * boutonAjout;
+    QPushButton * boutonAnnul;
 
 private:
     QLineEdit * name;

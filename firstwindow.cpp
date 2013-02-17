@@ -155,12 +155,14 @@ FirstWindow::FirstWindow(QWidget *parent) :
 
     // Bouton Nouveau
     newbutton = new QPushButton("Nouvelle tache");
+    newbutton->setStyleSheet("QPushButton {background : #3A9D23 ; color : #FFFFFF ; font-weight : bold; font-size : 18px;}");
     pagelayout->addWidget(newbutton);
     QObject::connect(newbutton,SIGNAL(clicked()),this,SLOT(popup()));
     newbutton->setToolTip("Ajouter une nouvelle tache à la liste");
 
     // Bouton Valider la tache finie
     finishedbutton = new QPushButton("Valider les taches finies");
+    finishedbutton->setStyleSheet("QPushButton {font-size : 18px;}");
     finishedbutton->setEnabled(true); // changer avec l'ajout...
     QObject::connect(finishedbutton,SIGNAL(clicked()),this,SLOT(confirmFinished()));
     finishedbutton->setToolTip("Basculer toutes les taches achevées vers l'onglet \"Taches finies\"");
@@ -168,6 +170,7 @@ FirstWindow::FirstWindow(QWidget *parent) :
     // Bouton Develloper/Reduire
     expand = true;
     displaybutton = new QPushButton("Reduire la liste");
+    displaybutton->setStyleSheet("QPushButton {font-size : 18px;}");
     displaybutton->setEnabled(true); // changer avec l'ajout...
     QObject::connect(displaybutton,SIGNAL(clicked()),this,SLOT(developOrReduce()));
     displaybutton->setToolTip("Cacher les étapes des taches");
@@ -257,7 +260,7 @@ void FirstWindow::tacheChecked(QTreeWidgetItem * item, int n)
     if (n==0){
         if (item->checkState(0)==Qt::Checked){
             //if(areSubItemsChecked(item)){
-            item->setTextColor(0,QColor(98,188,98));
+            item->setTextColor(0,QColor(58,157,35));
             //}
             //else item->setCheckState(0,Qt::Unchecked); // pas forcement pertinent
 

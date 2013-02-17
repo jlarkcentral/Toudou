@@ -24,7 +24,7 @@ Widget_ajout::Widget_ajout(FirstWindow *fw,QWidget *parent) :
     this->setLayout(mainlayout);
     this->setWindowTitle("Ajout d'une tache");
     this->setFixedWidth(300);
-    this->setFixedHeight(150);
+    this->setFixedHeight(200);
 
     // centre le widget
     this->setWindowFlags(Qt::Sheet | Qt::WindowStaysOnTopHint);
@@ -36,7 +36,7 @@ Widget_ajout::Widget_ajout(FirstWindow *fw,QWidget *parent) :
         nameLabel = new QLabel("Nouvelle tache : ");
     }
     else{
-        nameLabel = new QLabel("Sous-tache de " + firstW->currentItem->text(0) + " :");
+        nameLabel = new QLabel("Sous-tache de <b>" + firstW->currentItem->text(0) + "</b> :");
     }
     name = new QLineEdit();
     name->setMaxLength(100);
@@ -49,6 +49,7 @@ Widget_ajout::Widget_ajout(FirstWindow *fw,QWidget *parent) :
     QWidget * widget_date_plus= new QWidget();
     QHBoxLayout * layout_date_plus = new QHBoxLayout();
     date_plus = new QPushButton("+");
+    date_plus->setStyleSheet("QPushButton {font-weight : bold;}");
     date_plus->setFixedWidth(20);
     layout_date_plus->addWidget(date_plus);
     QLabel * afficher_date = new QLabel("Ajouter une échéance");
@@ -63,10 +64,22 @@ Widget_ajout::Widget_ajout(FirstWindow *fw,QWidget *parent) :
     QObject::connect(date_plus,SIGNAL(clicked()),this,SLOT(afficherDate()));
     QObject::connect(dates->nodatebut,SIGNAL(clicked()),this,SLOT(afficherDate()));
 
+    // Bouton Annuler
+    QWidget * buttonsWidget = new QWidget();
+    QHBoxLayout * buttonsLayout = new QHBoxLayout();
+    boutonAnnul = new QPushButton("Annuler");
+    boutonAnnul->setStyleSheet("QPushButton {background : #C60800 ; color : #FFFFFF ; font-weight : bold; font-size : 18px;}");
+    buttonsLayout->addWidget(boutonAnnul);
+
     // Bouton Nouveau
     boutonAjout = new QPushButton("Ajouter");
     boutonAjout->setDisabled(true);
-    mainlayout->addWidget(boutonAjout);
+    boutonAjout->setStyleSheet("QPushButton {background : #3A9D23 ; color : #FFFFFF ; font-weight : bold; font-size : 18px;}");
+    buttonsLayout->addWidget(boutonAjout);
+    buttonsWidget->setLayout(buttonsLayout);
+    mainlayout->addWidget(buttonsWidget);
+
+    QObject::connect(boutonAnnul,SIGNAL(clicked()),this,SLOT(close()));
     QObject::connect(boutonAjout,SIGNAL(clicked()),this,SLOT(addTache()));
     QObject::connect(boutonAjout,SIGNAL(clicked()),this,SLOT(close()));
     QObject::connect(name,SIGNAL(returnPressed()),this,SLOT(addTache()));
@@ -144,7 +157,7 @@ void Widget_ajout::afficherDate()
         dates->setVisible(false);
         date_plus->setText("+");
         date_aff = false;
-        this->setFixedHeight(150);
+        this->setFixedHeight(200);
         this->setFixedWidth(300);
     }
 }
