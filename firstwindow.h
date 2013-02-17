@@ -41,6 +41,7 @@ public:
     // vrai si l'arbre est developpé
     bool expand;
 
+    QPushButton * newbutton;
     QPushButton * finishedbutton;
     QPushButton * displaybutton;
 
@@ -55,7 +56,11 @@ public:
     void developOrReduceRecursion(QTreeWidgetItem* item);
     bool areSubItemsChecked(QTreeWidgetItem* item);
     void xmlToTache(TiXmlElement * element,QTreeWidgetItem *item,Tache * tache);
+    void chargerXml(string fileName);
 
+
+signals:
+    void appClosed();
 private:
     //bool drawerOpened;
     QGridLayout * mainLayout;
@@ -70,13 +75,15 @@ public slots:
     void showIcons(QTreeWidgetItem* item,int n); // affiche les icones "plus" et "supprimer" quand on passe la souris
     void deleteItem(); // supprimer une tache
     void sauvegarderSous();
+    void sauvegarderSession();
     void chargerXml();
     void menuAction(QAction* action);
     void confirmFinished();
     void developOrReduce();
     void enableButtons();
     void contextMenuAction(QAction * action);
-
+protected:
+    void closeEvent(QCloseEvent *event);
 };
 
 #endif // FIRSTWINDOW_H

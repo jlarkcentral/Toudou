@@ -88,41 +88,6 @@ void Tache::setTacheParent(Tache *uneTache)
     tacheParent = uneTache;
 }
 
-// parse le fichier xml vers une structure de Tache : a revoir
-//void Tache::xmlToTache(TiXmlElement * element,QTreeWidgetItem *item)
-//{
-//    while(element){
-//        Tache * newTache = new Tache();
-//        newTache->setNom(element->Attribute("nom"));
-//        QTreeWidgetItem * newItem = new QTreeWidgetItem(item);
-//        item->addChild(newItem);
-//        newTache->setMatchingItem(newItem);
-//        newItem->setText(0,QString(newTache->getNom().c_str()));
-
-//        newTache->xmlToTache(element->FirstChildElement(),newItem);
-
-//        element = element->NextSiblingElement();
-//    }
-//}
-
-// fonction utile a xmlToTache : chaque element xml -> Tache
-//void Tache::parseElementToTache(TiXmlElement * element,Tache * tache,QTreeWidgetItem * item)
-//{
-//    TiXmlElement * elementChild = element->FirstChildElement();
-//    while(elementChild){
-
-//        Tache * newTache = new Tache(elementChild->Attribute("nom"));
-//        tache->addSousTache(newTache);
-//        QTreeWidgetItem * newItemChild = new QTreeWidgetItem(item);
-//        item->addChild(newItemChild);
-//        item->setText(0,QString(newTache->getNom().c_str()));
-//        tache->setMatchingItem(newItemChild);
-
-//        parseElementToTache(elementChild,newTache,newItemChild);
-
-//        elementChild = elementChild->NextSiblingElement();
-//    }
-//}
 
 // initialiser le fichier xml
 void Tache::createXml(string nomFichier)
