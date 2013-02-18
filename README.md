@@ -18,7 +18,3 @@ LIBS  = $(SUBLIBS)  -L/usr/lib/i386-linux-gnu -lQtGui -lQtCore -lpthread /usr/li
 - idéal : quand on coche une case, la tâche reste dans la liste, cochée. quand on rouvre l'appli, la tâche est passée dans l'onglet "Achevées" : plus besoin de la voir normalement.
 A VOIR. Possibilité de faire les réglages dans les options.
 
-/// notes sur le widget ajout :
-
-- chez moi les boutons Ajouter/Annuler sont plus petits si on affiche pas la date ou preconditions : /
-- ca plante quand on clique sur [+] preconditions puis [+] Date (quand on clique sur l'un puis sur l'autre , il faut peut etre le faire plusieurs fois pour faire apparaitre le bug)
