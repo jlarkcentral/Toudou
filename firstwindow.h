@@ -93,6 +93,7 @@ public slots:
     void creerTemplateSous();
     void showLineTabFinished(QTreeWidgetItem*,int);
     void deleteList();
+    void deleteFinished();
 protected:
     void closeEvent(QCloseEvent *event);
 };

@@ -151,6 +151,7 @@ FirstWindow::FirstWindow(QWidget *parent) :
     QPushButton * viderListe = new QPushButton("Vider la liste des tâches finies");
     pagelayout2->addWidget(viderListe);
     viderListe->setStyleSheet("QPushButton {font-size : 18px;}");
+    QObject::connect(viderListe,SIGNAL(clicked()),this,SLOT(deleteFinished()));
 
     // Bouton Nouveau
     newbutton = new QPushButton("Nouvelle tache");
@@ -692,4 +693,14 @@ void FirstWindow::popupDeleteList()
     supprDiag->show();
     // le signal est bien "rejected", c est un bug Qt
     QObject::connect(supprDiag,SIGNAL(rejected()),this,SLOT(deleteList()));
+}
+
+void FirstWindow::deleteFinished()
+{
+    for (int i = 0; i < arboAchevees->topLevelItemCount(); ++i)
+    {
+        qDeleteAll(arboAchevees->topLevelItem(i)->takeChildren());
+        delete(arboAchevees->topLevelItem(i));
+        i--;
+    }
 }
