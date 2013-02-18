@@ -451,6 +451,7 @@ void FirstWindow::xmlToTache(TiXmlElement * element,QTreeWidgetItem *item,Tache 
 {
     while(element){
         Tache * newTache = new Tache(element->Attribute("nom"));
+
         if(element->Attribute("dateAbs")){
             QDate * qdt;
             newTache->setDateabs(qdt->fromString(element->Attribute("dateAbs")));
@@ -464,18 +465,14 @@ void FirstWindow::xmlToTache(TiXmlElement * element,QTreeWidgetItem *item,Tache 
 
         bool checked;
 
-        cout << "attribut checked : " << element->Attribute("checked") << endl;
+        string attributChecked = element->Attribute("checked");
 
-        if (element->Attribute("checked")=="1"){
-            cout << "TRUE" << endl;
+        if (attributChecked=="1"){
             checked = true;
         }
         else checked = false;
 
-
-
         newTache->setFini(checked);
-        cout << "toto " << newTache->getFini() << endl;
 
         tache->addSousTache(newTache);
         QTreeWidgetItem * newItem = new QTreeWidgetItem(item);
@@ -490,16 +487,13 @@ void FirstWindow::xmlToTache(TiXmlElement * element,QTreeWidgetItem *item,Tache 
             newItem->setText(1,QString(newTache->getDaterel().c_str()));
             newItem->setTextColor(1,QColor(152,152,152));
         }
-        if(newTache->getFini()){
-            cout << "fini" << endl;
+        if(checked){
             newItem->setCheckState(0,Qt::Checked);
             newItem->setTextColor(0,QColor(58,157,35));
         }
         else {
-            cout << "pas fini" << endl;
             newItem->setCheckState(0,Qt::Unchecked);
         }
-        newItem->setCheckState(0,Qt::Unchecked);
 
         xmlToTache(element->FirstChildElement(),newItem,newTache);
 

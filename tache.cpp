@@ -166,14 +166,11 @@ void Tache::addTacheInXml(TiXmlElement * element)
         newElement->SetAttribute("dateRel",daterel);
     }
 
-    cout << nom << endl;
-
     newElement->SetAttribute("checked",fini);
     element->LinkEndChild( newElement );
 
     for (int i=0 ; i<sousTaches.size() ; i++){
         Tache * sousTache = sousTaches.at(i);
-        cout << "sous tache : " << sousTache->getNom() << endl;
         sousTache->addTacheInXml(newElement);
     }
 }
