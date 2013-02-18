@@ -1,86 +1,24 @@
 	TOUDOU
 
 ////// TINYXML  /////////
-
 - changer le makefile :
-
 LIBS  = $(SUBLIBS)  -L/usr/lib/i386-linux-gnu -lQtGui -lQtCore -lpthread /usr/lib/libtinyxml.so
+- tinyxml faisable automatiquement ?? 
 
-- faisable automatiquement ?? 
-
-
-	
-- Onglets Toutes les tâches, tâches effectuées, templates?, listes cliquées
-- Dans l'écran des templates, bouton : créer une liste à partir de ce template
-- Case à cocher
-- Affichage des dates ?
-- Menu Affichage avec plein de réglages
-	-> dates ?
-	-> priorité ?
-	-> onglet templates
+/// idées pour rajouter des trucs (optionelles pour la plupart...)
+- onglet templates
 - quand la date approche, le signaler (warning)
-- top moumoute : alertes
-- essayer de trier par dates (possibilité de changer dans le menu)
-- une tâche = un nom + une liste (ordonnée) de sous-tâches
-	-> si liste vide : tâche simple
-	-> sinon liste/liste ordonnée/template
-	-> possibilité de rajouter un attribut type pour aller + vite
-- logo tout doux + icône appli
-- warning si coche la tâche 3 avant 1 et 2, + phrase rouge dans le recap
-- limiter le nb de caracteres pour le nom, si + d'info mettre dans les notes
-- possibilité de vider les tâches effectuées
+- warning si coche la tâche 3 avant 1 et 2
 
-- rajout d'une barre de progression pour les listes de tâches
+- possibilité de vider les tâches effectuées
+- possibilité de vider la liste courante
+
 - distinguer les tâches à réaliser aujourd'hui (tête de liste, séparées, couleur, icône...)
 
 - idéal : quand on coche une case, la tâche reste dans la liste, cochée. quand on rouvre l'appli, la tâche est passée dans l'onglet "Achevées" : plus besoin de la voir normalement.
 A VOIR. Possibilité de faire les réglages dans les options.
 
-////
+/// notes sur le widget ajout :
 
-PLUS RETENUS :
-- Tiroir à droite de la fenêtre pour créer/modifier
-- Recap d'une tâche en cliquant 1 fois dessus + bouton Editer
-- attribut tache : parent. Quand on ajoute une sous-tache, il faut lui préciser sa tache parente (peut être utile pour l'affichage des informations ?)
-=> INUTILE car plus d'affichage infos
-- Bouton retour à toutes les tâches
-- possibilité de transformer une tâche simple en liste : dans le tiroir d'édition, bouton "ajouter sous-tâche" avec un linedit "Nouvelle tâche" et le tiroir s'actualise sur cette nouvelle tâche en question
-- Ouverture d'une liste de tâches avec double-clic (onglet?)
-- Bouton Nouveau, puis proposition : tâche simple, liste, liste ordonnée, template
-- Les options s'affichent au fur et à mesure des choix
-	-> nom
-	-> racine
-	-> type ?
-		tâche :			autres :
-		-> date			-> ouvre l'arborescence de la nouvelle liste
-		(absolue
-		ou relative)
-
-
-A FAIRE CE WEEK END :
-
-// Fenetre d'ajout finie avec ajout des preconditions, fignolage de la fenetre
-- redimension de la fenetre
-- bouton ajouter en bas ?
-- heure ? :s
-
-/// Transfert des taches "topLevel" (les taches primaires dans l'arbre) dans l'onglet Achevées une fois cochées
-done
-
-
-// Warning lorsqu'on coche une tache alors que certaines sous taches ou preconditions ne sont aps cochées (on peut peut etre considérer les sous taches comme faisant partie des preconditions)
-- pas forcement pertinent : a voir
-
-// sauvegarde et chargement de liste en XML
-on va dire que c'est vu
-
-// sauvegarde automatique de la liste courante dans un backup.xml, avec lequel l'application s'ouvre.
-ca serait pas mal
-
-/// Barre de menus (Fichier, Affichage...) avec les fonctions possibles de l 'appli
-done
-
-DIMANCHE :
-
-- templates : creer et choisir dans la fenetre ajout (au moins choisir)
-- ouvrir un onglet avec uniquement une liste ?
+- chez moi les boutons Ajouter/Annuler sont plus petits si on affiche pas la date ou preconditions : /
+- ca plante quand on clique sur [+] preconditions puis [+] Date (quand on clique sur l'un puis sur l'autre , il faut peut etre le faire plusieurs fois pour faire apparaitre le bug)
