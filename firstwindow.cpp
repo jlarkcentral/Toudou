@@ -192,7 +192,7 @@ FirstWindow::FirstWindow(QWidget *parent) :
     racine->setMatchingItem(arbo->invisibleRootItem());
 
     // ouvrir le backup
-    QFile file("../Toudou/xml/backup.xml");
+    /*QFile file("../Toudou/xml/backup.xml");
     if (file.open(QIODevice::ReadOnly)) {
         chargerXml("../Toudou/xml/backup.xml");
     }
@@ -204,7 +204,7 @@ FirstWindow::FirstWindow(QWidget *parent) :
         chargerXmlFinished("../Toudou/xml/saveFinished.xml");
     }
     arboAchevees->expandAll();
-
+*/
     todoToday();
 
     // sauvegarder pour prochaine session

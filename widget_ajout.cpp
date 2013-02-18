@@ -60,13 +60,6 @@ Widget_ajout::Widget_ajout(FirstWindow *fw,QWidget *parent) :
     widget_date_plus->setLayout(layout_date_plus);
     mainlayout->addWidget(widget_date_plus);
 
-    dates = new widget_date(firstW);
-    mainlayout->addWidget(dates);
-    dates->setVisible(false);
-
-    QObject::connect(date_plus,SIGNAL(clicked()),this,SLOT(afficherDate()));
-    QObject::connect(dates->nodatebut,SIGNAL(clicked()),this,SLOT(afficherDate()));
-
     // menu précond dépliable
     QWidget * widget_precond_plus = new QWidget();
     QHBoxLayout * layout_precond_plus = new QHBoxLayout();
@@ -80,12 +73,6 @@ Widget_ajout::Widget_ajout(FirstWindow *fw,QWidget *parent) :
     widget_precond_plus->setLayout(layout_precond_plus);
     mainlayout->addWidget(widget_precond_plus);
 
-    preconds = new widget_precond(firstW);
-    mainlayout->addWidget(preconds);
-    preconds->setVisible(false);
-
-    QObject::connect(precond_plus,SIGNAL(clicked()),this,SLOT(afficherPrecond()));
-
     // menu liste ordonnee dépliable
     QWidget * widget_ordon_plus = new QWidget();
     QHBoxLayout * layout_ordon_plus = new QHBoxLayout();
@@ -98,6 +85,19 @@ Widget_ajout::Widget_ajout(FirstWindow *fw,QWidget *parent) :
     layout_ordon_plus->addWidget(afficher_ordon);
     widget_ordon_plus->setLayout(layout_ordon_plus);
     mainlayout->addWidget(widget_ordon_plus);
+
+    dates = new widget_date(firstW);
+    mainlayout->addWidget(dates);
+    dates->setVisible(false);
+
+    QObject::connect(date_plus,SIGNAL(clicked()),this,SLOT(afficherDate()));
+    QObject::connect(dates->nodatebut,SIGNAL(clicked()),this,SLOT(afficherDate()));
+
+    preconds = new widget_precond(firstW);
+    mainlayout->addWidget(preconds);
+    preconds->setVisible(false);
+
+    QObject::connect(precond_plus,SIGNAL(clicked()),this,SLOT(afficherPrecond()));
 
     ordon_expl = new QLabel("En cochant cette option, toutes les sous-tâches seront ordonnées. Ainsi, il faudra effectuer la première sous-tache avant la deuxième, et ainsi de suite...");
     ordon_expl->setWordWrap(true);
@@ -183,6 +183,7 @@ void Widget_ajout::addTache()
     else newtache->setDate(3);
     newtache->setPreconditions(preconds->getPreconditions());
     newtache->afficherPreconds(); // VERIFICATION (test)
+    newtache->setOrdon(ordon->isChecked());
 
     newtache->setMatchingItem(item);
     firstW->defineCurrentTache(item->parent(),firstW->racine);

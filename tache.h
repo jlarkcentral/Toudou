@@ -50,6 +50,9 @@ public:
     Tache* getTacheParent();
     void setTacheParent(Tache* uneTache);
 
+    bool getOrdon();
+    void setOrdon(bool b);
+
     // Pour les tests
     void afficherPreconds();
 
@@ -70,6 +73,7 @@ private:
     vector<Tache> preconditions;
     vector<Tache*> sousTaches;
     Tache * tacheParent;
+    bool ordon;
 };
 
 #endif // TACHE_H

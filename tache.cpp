@@ -6,6 +6,7 @@ Tache::Tache(string uneTache)
 {
     nom = uneTache;
     fini = false;
+    ordon = false;
 }
 
 Tache::Tache(QTreeWidgetItem *item,bool withSousTaches)
@@ -126,6 +127,16 @@ Tache* Tache::getTacheParent()
 void Tache::setTacheParent(Tache *uneTache)
 {
     tacheParent = uneTache;
+}
+
+bool Tache::getOrdon()
+{
+    return ordon;
+}
+
+void Tache::setOrdon(bool b)
+{
+    ordon = b;
 }
 
 // Pour les tests
