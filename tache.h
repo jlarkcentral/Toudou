@@ -19,7 +19,7 @@ class Tache
 
 public:
     Tache(string uneTache);
-    Tache();
+    Tache(QTreeWidgetItem *item, bool withSousTaches);
     string getNom();
     void setNom(string uneTache);
 

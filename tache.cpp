@@ -7,6 +7,19 @@ Tache::Tache(string uneTache)
     nom = uneTache;
 }
 
+Tache::Tache(QTreeWidgetItem *item,bool withSousTaches)
+{
+    nom = item->text(0).toStdString();
+    daterel = item->text(1).toStdString();
+    if(withSousTaches){
+        for(int i=0 ; i<item->childCount() ; i++){
+        Tache * st = new Tache(item->child(i),withSousTaches);
+        this->addSousTache(st);
+        }
+    }
+
+}
+
 string Tache::getNom()
 {
     return nom;
