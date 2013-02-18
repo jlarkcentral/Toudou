@@ -163,8 +163,10 @@ void Tache::addTacheInXml(TiXmlDocument doc,TiXmlElement * element)
     else if(date==2){
         newElement->SetAttribute("dateRel",daterel);
     }
-    // TODO : modif avec les nouvelles dates
-    // newElement->SetAttribute("date",date.toString().toStdString());
+
+    cout << fini << endl;
+
+    newElement->SetAttribute("checked",fini);
     element->LinkEndChild( newElement );
 
     for (int i=0 ; i<sousTaches.size() ; i++){

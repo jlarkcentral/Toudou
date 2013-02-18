@@ -274,10 +274,16 @@ void FirstWindow::tacheChecked(QTreeWidgetItem * item, int n)
             item->setTextColor(0,QColor(58,157,35));
             //}
             //else item->setCheckState(0,Qt::Unchecked); // pas forcement pertinent
+            defineCurrentTache(item,racine);
+            currentTache->setFini(true);
+            currentTache = racine;
 
         }
         else if (item->checkState(0)==Qt::Unchecked){
             item->setTextColor(0,QColor(0,0,0));
+            defineCurrentTache(item,racine);
+            currentTache->setFini(false);
+            currentTache = racine;
         }
     }
 }
@@ -446,10 +452,13 @@ void FirstWindow::xmlToTache(TiXmlElement * element,QTreeWidgetItem *item,Tache 
         }
         else newTache->setDate(3);
 
+        newTache->setFini(element->Attribute("checked"));
+        cout << "toto " << newTache->getFini() << endl;
+
         tache->addSousTache(newTache);
         QTreeWidgetItem * newItem = new QTreeWidgetItem(item);
         item->addChild(newItem);
-        item->setCheckState(0,Qt::Unchecked);
+        //item->setCheckState(0,Qt::Unchecked);
         newTache->setMatchingItem(newItem);
         newItem->setText(0,QString(newTache->getNom().c_str()));
         if(newTache->getDate()==1){
@@ -460,8 +469,15 @@ void FirstWindow::xmlToTache(TiXmlElement * element,QTreeWidgetItem *item,Tache 
             newItem->setText(1,QString(newTache->getDaterel().c_str()));
             newItem->setTextColor(1,QColor(152,152,152));
         }
-
-        newItem->setCheckState(0,Qt::Unchecked);
+        if(newTache->getFini()){
+            cout << "fini" << endl;
+            newItem->setCheckState(0,Qt::Checked);
+            newItem->setTextColor(0,QColor(58,157,35));
+        }
+        else {
+            cout << "pas fini" << endl;
+            newItem->setCheckState(0,Qt::Unchecked);
+        }
 
         xmlToTache(element->FirstChildElement(),newItem,newTache);
 
