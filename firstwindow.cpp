@@ -473,21 +473,37 @@ void FirstWindow::xmlToTache(TiXmlElement * element,QTreeWidgetItem *item,Tache 
         else newTache->setDate(3);
 
         bool checked = false;
-
         if(element->Attribute("checked")){
             string attributChecked = element->Attribute("checked");
             if (attributChecked=="1"){
                 checked = true;
             }
         }
-
         newTache->setFini(checked);
+
+        bool ordonnee = false;
+        if(element->Attribute("ordonnee")){
+            string attributOrdonnee = element->Attribute("ordonnee");
+            if (attributOrdonnee=="1"){
+                ordonnee = true;
+            }
+        }
+        newTache->setOrdon(ordonnee);
 
         tache->addSousTache(newTache);
         QTreeWidgetItem * newItem = new QTreeWidgetItem(item);
         item->addChild(newItem);
         newTache->setMatchingItem(newItem);
-        newItem->setText(0,QString(newTache->getNom().c_str()));
+
+        if(tache->getOrdon()){
+            ostringstream number;
+            number << tache->getSousTaches().size();
+            string numberString = number.str();
+
+            newItem->setText(0,QString(numberString.c_str())+". "+QString(newTache->getNom().c_str()));
+        }
+        else newItem->setText(0,QString(newTache->getNom().c_str()));
+
         if(newTache->getDate()==1){
             newItem->setText(1,QString(newTache->getDateabs().toString()));
             newItem->setTextColor(1,QColor(152,152,152));

@@ -163,12 +163,8 @@ void Widget_ajout::addTache()
     item->setCheckState(0,Qt::Unchecked);
     if(ordre){
 
-        cout << "ordre" << endl;
-
         ostringstream number;
-
         number << numberOrd;
-
         string numberString = number.str();
 
         item->setText(0,QString(numberString.c_str())+". "+name->text());
