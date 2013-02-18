@@ -412,7 +412,11 @@ void FirstWindow::chargerXml()
 // chargement de type de tache : fichier xml en liste avec 1er noeud
 void FirstWindow::chargerXmlTemplate()
 {
-    QString fileName = QFileDialog::getOpenFileName(this, tr("Charger une liste"), "",tr("Fichiers Xml (*.xml);"));
+    QString fileName = QFileDialog::getOpenFileName(this,
+                                                    "Charger un type de tache",
+                                                    "../Toudou/xml",
+                                                    "Fichiers xml (*.xml)",new QString(),
+                                                    QFileDialog::DontUseNativeDialog);
     if (fileName != "") {
         // code recopié : il faudra p-e l'utiliser pour plus de securité
         //QFile file(fileName);
