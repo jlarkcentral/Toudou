@@ -62,6 +62,9 @@ public:
     void xmlToTacheFinished(TiXmlElement * element,QTreeWidgetItem *item);
     void chargerXmlFinished(string fileName);
 
+    // Enlever les checkboxes des sous-taches
+    void removeCheckboxes(QTreeWidgetItem * item);
+
 signals:
     void appClosed();
 private:

@@ -47,6 +47,8 @@ public:
     QPushButton * boutonAjout;
     QPushButton * boutonAnnul;
 
+
+
 private:
     QLineEdit * name;
     QPushButton * date_plus;

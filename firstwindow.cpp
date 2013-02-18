@@ -201,6 +201,16 @@ FirstWindow::~FirstWindow()
 {
 }
 
+// Enlever les checkboxes des sous-taches d'un item
+void FirstWindow::removeCheckboxes(QTreeWidgetItem *item)
+{
+    item->setData(0, Qt::CheckStateRole, QVariant());
+    for (int i = 0; i < item->childCount(); i++)
+    {
+        removeCheckboxes(item->child(i));
+    }
+}
+
 // popup ajout d une nouvelle tache "topLevel"
 void FirstWindow::popup()
 {
@@ -274,6 +284,7 @@ bool FirstWindow::areSubItemsChecked(QTreeWidgetItem *item)
     }
     return true;
 }
+
 
 // les icones + et X apparaissent en "mouseover"
 void FirstWindow::showIcons(QTreeWidgetItem *item, int n)

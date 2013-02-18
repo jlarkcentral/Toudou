@@ -120,6 +120,8 @@ Widget_ajout::Widget_ajout(FirstWindow *fw,QWidget *parent) :
 Widget_ajout::~Widget_ajout()
 {}
 
+
+
 // fonction d ajout dans le modele et dans l arborescence de la nouvelle tache
 void Widget_ajout::addTache()
 {

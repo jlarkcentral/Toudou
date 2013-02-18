@@ -29,6 +29,7 @@ widget_precond::widget_precond(FirstWindow * fw, QWidget *parent) :
         toAdd->setFlags( Qt::ItemIsSelectable | Qt::ItemIsEnabled );
         tree->addTopLevelItem(toAdd);
     }
+    //tree->set
     mainlayout->addWidget(tree);
 }
 

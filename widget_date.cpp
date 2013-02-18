@@ -63,7 +63,8 @@ widget_date::widget_date(FirstWindow * fw, QWidget *parent) :
     for(int i=0 ; i<FirstW->arbo->topLevelItemCount() ; i++){
         QTreeWidgetItem * itemCourant = FirstW->arbo->topLevelItem(i);
         QTreeWidgetItem * toAdd = itemCourant->clone();
-        toAdd->setFlags( Qt::ItemIsSelectable | Qt::ItemIsEnabled );
+        toAdd->setData(0, Qt::CheckStateRole, QVariant());
+        FirstW->removeCheckboxes(toAdd);
         tree->addTopLevelItem(toAdd);
     }
     currentItem = tree->topLevelItem(0);
