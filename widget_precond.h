@@ -17,6 +17,7 @@
 #include <QLabel>
 #include "firstwindow.h"
 
+using namespace std;
 
 class widget_precond : public QWidget
 {
@@ -25,13 +26,15 @@ class widget_precond : public QWidget
 public:
     explicit widget_precond(FirstWindow * fw, QWidget *parent = 0);
     ~widget_precond();
+    vector<Tache> getPreconditions();
 
 private:
     FirstWindow * FirstW;
     QTreeWidget * tree;
+    vector<QTreeWidgetItem*> itemschecked;
 
 public slots:
-    void itemChecked();
+    void itemChecked(QTreeWidgetItem* item,int n);
 };
 
 #endif // WIDGET_PRECOND_H

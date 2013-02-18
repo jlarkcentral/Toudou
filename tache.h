@@ -36,6 +36,7 @@ public:
     void setDaterel(string s);
 
     vector<Tache> getPreconditions();
+    void setPreconditions(vector<Tache> pr);
     void addPrecondition(Tache uneTache);
 
     vector<Tache *> getSousTaches();
@@ -48,6 +49,9 @@ public:
 
     Tache* getTacheParent();
     void setTacheParent(Tache* uneTache);
+
+    // Pour les tests
+    void afficherPreconds();
 
     //void xmlToTache(TiXmlElement *element, QTreeWidgetItem *item);
     //void parseElementToTache(TiXmlElement * element, Tache *tache,QTreeWidgetItem * item);

@@ -157,6 +157,8 @@ void Widget_ajout::addTache()
         newtache->setDate(2);
     }
     else newtache->setDate(3);
+    newtache->setPreconditions(preconds->getPreconditions());
+    newtache->afficherPreconds();
 
     newtache->setMatchingItem(item);
     firstW->currentTache->addSousTache(newtache);

@@ -75,14 +75,19 @@ vector<Tache> Tache::getPreconditions()
     return preconditions;
 }
 
-vector<Tache*> Tache::getSousTaches()
+void Tache::setPreconditions(vector<Tache> pr)
 {
-    return sousTaches;
+    preconditions = pr;
 }
 
 void Tache::addPrecondition(Tache uneTache)
 {
     preconditions.push_back(uneTache);
+}
+
+vector<Tache*> Tache::getSousTaches()
+{
+    return sousTaches;
 }
 
 void Tache::addSousTache(Tache *uneTache)
@@ -121,6 +126,14 @@ void Tache::setTacheParent(Tache *uneTache)
     tacheParent = uneTache;
 }
 
+// Pour les tests
+void Tache::afficherPreconds()
+{
+    for(int i=0 ; i<preconditions.size() ; ++i)
+    {
+        cout << preconditions[i].getNom() << endl;
+    }
+}
 
 // initialiser le fichier xml
 void Tache::createXml(string nomFichier)

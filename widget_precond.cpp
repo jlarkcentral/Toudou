@@ -31,7 +31,7 @@ widget_precond::widget_precond(FirstWindow * fw, QWidget *parent) :
     }
     mainlayout->addWidget(tree);
 
-    //QObject::connect(tree,SIGNAL())
+    QObject::connect(tree,SIGNAL(itemChanged(QTreeWidgetItem*,int)),this,SLOT(itemChecked(QTreeWidgetItem*,int)));
 }
 
 
@@ -40,7 +40,37 @@ widget_precond::~widget_precond()
 
 }
 
-void widget_precond::itemChecked()
+vector<Tache> widget_precond::getPreconditions()
 {
+    vector<Tache> preconditions;
+    for (vector<QTreeWidgetItem*>::iterator it = itemschecked.begin() ; it != itemschecked.end() ; ++it)
+    {
+        Tache t(*it,false);
+        preconditions.push_back(t);
+    }
+    return preconditions;
+}
 
+// SLOTS
+
+void widget_precond::itemChecked(QTreeWidgetItem* item,int n)
+{
+    if (n == 0)
+    {
+        if (item->checkState(0)==Qt::Checked)
+        {
+            itemschecked.push_back(item);
+        }
+        else
+        {
+            for (vector<QTreeWidgetItem*>::iterator it = itemschecked.begin() ; it != itemschecked.end() ; ++it)
+            {
+                if (*it == item)
+                {
+                    itemschecked.erase(it);
+                    break;
+                }
+            }
+        }
+    }
 }
