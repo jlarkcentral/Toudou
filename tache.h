@@ -57,13 +57,13 @@ public:
     //void parseElementToTache(TiXmlElement * element, Tache *tache,QTreeWidgetItem * item);
 
     void createXml(string nomFichier);
-    void addTacheInXml(TiXmlDocument doc, TiXmlElement * element);
+    void addTacheInXml(TiXmlElement *element);
     void addTacheInXmlTemplate(TiXmlDocument doc,TiXmlElement * element);
 
 private:
     string nom;
     bool fini;
-    int date;   // 1 si date absolue, 2 si date relative, 3 si aucune date. Par défaut : aucune date.
+    int date;   // 1 si date absolue, 2 si date relative, 3 si aucune date. Par dfaut : aucune date.
     QDate dateabs;
     string daterel;
     QTreeWidgetItem * matchingItem;

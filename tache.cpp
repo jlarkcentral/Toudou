@@ -5,6 +5,7 @@ using namespace std;
 Tache::Tache(string uneTache)
 {
     nom = uneTache;
+    fini = false;
 }
 
 Tache::Tache(QTreeWidgetItem *item,bool withSousTaches)
@@ -14,10 +15,11 @@ Tache::Tache(QTreeWidgetItem *item,bool withSousTaches)
     if(withSousTaches){
         for(int i=0 ; i<item->childCount() ; i++){
         Tache * st = new Tache(item->child(i),withSousTaches);
+        st->setFini(false);
         this->addSousTache(st);
         }
     }
-
+    fini = false;
 }
 
 string Tache::getNom()
@@ -145,14 +147,14 @@ void Tache::createXml(string nomFichier)
     TiXmlElement * firstElement = new TiXmlElement( "racine" );
     doc.LinkEndChild( firstElement );
 
-    addTacheInXml(doc,firstElement);
+    addTacheInXml(firstElement);
 
     doc.SaveFile();
 
 }
 
 // remplir le fichier xml tache par tache
-void Tache::addTacheInXml(TiXmlDocument doc,TiXmlElement * element)
+void Tache::addTacheInXml(TiXmlElement * element)
 {
     TiXmlElement * newElement = new TiXmlElement("tache");
     newElement->SetAttribute("nom",nom);
@@ -164,19 +166,20 @@ void Tache::addTacheInXml(TiXmlDocument doc,TiXmlElement * element)
         newElement->SetAttribute("dateRel",daterel);
     }
 
-    cout << fini << endl;
+    cout << nom << endl;
 
     newElement->SetAttribute("checked",fini);
     element->LinkEndChild( newElement );
 
     for (int i=0 ; i<sousTaches.size() ; i++){
         Tache * sousTache = sousTaches.at(i);
-        sousTache->addTacheInXml(doc,newElement);
+        cout << "sous tache : " << sousTache->getNom() << endl;
+        sousTache->addTacheInXml(newElement);
     }
 }
 
 // remplir le fichier xml tache par tache pour template
-void Tache::addTacheInXmlTemplate(TiXmlDocument doc,TiXmlElement * element)
+void Tache::addTacheInXmlTemplate(TiXmlDocument doc, TiXmlElement * element)
 {
     TiXmlElement * newElement = new TiXmlElement("tache");
     newElement->SetAttribute("nom",nom);
@@ -185,7 +188,7 @@ void Tache::addTacheInXmlTemplate(TiXmlDocument doc,TiXmlElement * element)
 
     for (int i=0 ; i<sousTaches.size() ; i++){
         Tache * sousTache = sousTaches.at(i);
-        sousTache->addTacheInXml(doc,newElement);
+        sousTache->addTacheInXml(newElement);
     }
 }
 

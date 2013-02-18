@@ -185,6 +185,7 @@ void Widget_ajout::addTache()
     newtache->afficherPreconds(); // VERIFICATION (test)
 
     newtache->setMatchingItem(item);
+    firstW->defineCurrentTache(item->parent(),firstW->racine);
     firstW->currentTache->addSousTache(newtache);
 
     // Fermeture de la fenêtre une fois la tâche ajoutée

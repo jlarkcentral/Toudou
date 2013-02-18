@@ -1,6 +1,7 @@
 #include <unistd.h>
 #include <iostream>
 
+#include <QtGui>
 #include <QLabel>
 #include <QLineEdit>
 #include <QTreeWidget>
@@ -384,7 +385,12 @@ void FirstWindow::defineCurrentTache(QTreeWidgetItem *item,Tache * tacheRef)
 // chargement de fichier xml en liste
 void FirstWindow::chargerXml()
 {
-    QString fileName = QFileDialog::getOpenFileName(this, tr("Charger une liste"), "",tr("Fichiers Xml (*.xml);"));
+    //QString fileName = QFileDialog::getOpenFileName(this, tr("Charger une liste"), "",tr("Fichiers Xml (*.xml);"));
+    QString fileName = QFileDialog::getOpenFileName(this,
+                                                    "Charger une liste",
+                                                    "../Toudou/xml",
+                                                    "Fichiers xml (*.xml)",new QString(),
+                                                    QFileDialog::DontUseNativeDialog);
     if (fileName != "") {
         // code recopié : il faudra p-e l'utiliser pour plus de securité
         //QFile file(fileName);
@@ -452,13 +458,24 @@ void FirstWindow::xmlToTache(TiXmlElement * element,QTreeWidgetItem *item,Tache 
         }
         else newTache->setDate(3);
 
-        newTache->setFini(element->Attribute("checked"));
+        bool checked;
+
+        cout << "attribut checked : " << element->Attribute("checked") << endl;
+
+        if (element->Attribute("checked")=="1"){
+            cout << "TRUE" << endl;
+            checked = true;
+        }
+        else checked = false;
+
+
+
+        newTache->setFini(checked);
         cout << "toto " << newTache->getFini() << endl;
 
         tache->addSousTache(newTache);
         QTreeWidgetItem * newItem = new QTreeWidgetItem(item);
         item->addChild(newItem);
-        //item->setCheckState(0,Qt::Unchecked);
         newTache->setMatchingItem(newItem);
         newItem->setText(0,QString(newTache->getNom().c_str()));
         if(newTache->getDate()==1){
@@ -478,6 +495,7 @@ void FirstWindow::xmlToTache(TiXmlElement * element,QTreeWidgetItem *item,Tache 
             cout << "pas fini" << endl;
             newItem->setCheckState(0,Qt::Unchecked);
         }
+        newItem->setCheckState(0,Qt::Unchecked);
 
         xmlToTache(element->FirstChildElement(),newItem,newTache);
 
