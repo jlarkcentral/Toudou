@@ -395,12 +395,15 @@ void FirstWindow::chargerXml()
                                                     QFileDialog::DontUseNativeDialog);
     if (fileName != "") {
         // code recopié : il faudra p-e l'utiliser pour plus de securité
-        //QFile file(fileName);
-        /*if (!file.open(QIODevice::ReadOnly)) {
+        QFile file(fileName);
+        if (!file.open(QIODevice::ReadOnly)) {
             QMessageBox::critical(this, tr("Error"),
                                   tr("Could not open file"));
             return;
-        }*/
+        }
+
+        cout << "ouvre : " << fileName.toStdString() << endl;
+
         TiXmlDocument doc(fileName.toStdString());
         doc.LoadFile();
         TiXmlElement * element = doc.FirstChildElement()->FirstChildElement()->FirstChildElement();
@@ -421,12 +424,15 @@ void FirstWindow::chargerXmlTemplate()
                                                     QFileDialog::DontUseNativeDialog);
     if (fileName != "") {
         // code recopié : il faudra p-e l'utiliser pour plus de securité
-        //QFile file(fileName);
-        /*if (!file.open(QIODevice::ReadOnly)) {
+        QFile file(fileName);
+        if (!file.open(QIODevice::ReadOnly)) {
             QMessageBox::critical(this, tr("Error"),
                                   tr("Could not open file"));
             return;
-        }*/
+        }
+
+
+
         TiXmlDocument doc(fileName.toStdString());
         doc.LoadFile();
         TiXmlElement * element = doc.FirstChildElement()->FirstChildElement();
@@ -451,7 +457,12 @@ void FirstWindow::chargerXml(string fileName)
 // ancienne fonction de Tache : xml vers une structure de Tache, ajout dans l'arbre
 void FirstWindow::xmlToTache(TiXmlElement * element,QTreeWidgetItem *item,Tache * tache)
 {
+    cout << "XML TO TACHE" << endl;
+
     while(element){
+
+        cout << "while element" << endl;
+
         Tache * newTache = new Tache(element->Attribute("nom"));
 
         if(element->Attribute("dateAbs")){
@@ -467,14 +478,21 @@ void FirstWindow::xmlToTache(TiXmlElement * element,QTreeWidgetItem *item,Tache 
 
         bool checked;
 
-        string attributChecked = element->Attribute("checked");
 
-        if (attributChecked=="1"){
-            checked = true;
+
+
+
+        if(element->Attribute("checked")){
+            string attributChecked = element->Attribute("checked");
+            if (attributChecked=="1"){
+                checked = true;
+            }
         }
         else checked = false;
 
         newTache->setFini(checked);
+
+        cout << "youpi" << endl;
 
         tache->addSousTache(newTache);
         QTreeWidgetItem * newItem = new QTreeWidgetItem(item);
@@ -500,6 +518,8 @@ void FirstWindow::xmlToTache(TiXmlElement * element,QTreeWidgetItem *item,Tache 
         xmlToTache(element->FirstChildElement(),newItem,newTache);
 
         element = element->NextSiblingElement();
+
+
     }
 }
 
