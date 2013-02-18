@@ -61,6 +61,7 @@ public:
     void addItemInXml(TiXmlDocument doc,TiXmlElement * element,QTreeWidgetItem * item);
     void xmlToTacheFinished(TiXmlElement * element,QTreeWidgetItem *item);
     void chargerXmlFinished(string fileName);
+    void popupDeleteList();
 
     // Enlever les checkboxes des sous-taches
     void removeCheckboxes(QTreeWidgetItem * item);
@@ -91,6 +92,8 @@ public slots:
     void contextMenuAction(QAction * action);
     void creerTemplateSous();
     void showLineTabFinished(QTreeWidgetItem*,int);
+    void deleteList();
+    void deleteFinished();
 protected:
     void closeEvent(QCloseEvent *event);
 };

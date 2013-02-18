@@ -47,6 +47,8 @@ FirstWindow::FirstWindow(QWidget *parent) :
     menuListe->addSeparator();
     menuListe->addAction("Charger un type de tache");
     menuListe->addSeparator();
+    menuListe->addAction("Supprimer la liste");
+    menuListe->addSeparator();
     menuListe->addAction("Quitter");
 
     QObject::connect(menuListe,SIGNAL(triggered(QAction*)),this,SLOT(menuAction(QAction*)));
@@ -146,6 +148,10 @@ FirstWindow::FirstWindow(QWidget *parent) :
     page2->setLayout(pagelayout2);
     pagelayout2->addWidget(arboAchevees);
     onglets->addTab(page2,"Taches finies");
+    QPushButton * viderListe = new QPushButton("Vider la liste des tâches finies");
+    pagelayout2->addWidget(viderListe);
+    viderListe->setStyleSheet("QPushButton {font-size : 18px;}");
+    QObject::connect(viderListe,SIGNAL(clicked()),this,SLOT(deleteFinished()));
 
     // Bouton Nouveau
     newbutton = new QPushButton("Nouvelle tache");
@@ -511,6 +517,9 @@ void FirstWindow::menuAction(QAction * action)
     else if(text=="Charger un type de tache"){
         chargerXmlTemplate();
     }
+    else if(text=="Supprimer la liste"){
+        popupDeleteList();
+    }
     else if(text=="Quitter"){
         close();
     }
@@ -659,5 +668,39 @@ void FirstWindow::addItemInXml(TiXmlDocument doc,TiXmlElement * element,QTreeWid
     for (int i=0 ; i<item->childCount() ; i++){
         QTreeWidgetItem * subItem = item->child(i);
         addItemInXml(doc,newElement,subItem);
+    }
+}
+
+void FirstWindow::deleteList()
+{
+    for (int i = 0; i < arbo->topLevelItemCount(); ++i)
+    {
+        qDeleteAll(arbo->topLevelItem(i)->takeChildren());
+        delete(arbo->topLevelItem(i));
+        i--;
+    }
+    racine = new Tache("Toutes les taches");
+    racine->setMatchingItem(arbo->invisibleRootItem());
+}
+
+void FirstWindow::popupDeleteList()
+{
+    QMessageBox * supprDiag = new QMessageBox();
+    supprDiag->setWindowTitle("Supprimer la liste");
+    supprDiag->addButton("Supprimer",QMessageBox::RejectRole);
+    supprDiag->addButton("Annuler",QMessageBox::AcceptRole);
+    supprDiag->setText("Attention, toutes les taches de la liste vont être supprimées !");
+    supprDiag->show();
+    // le signal est bien "rejected", c est un bug Qt
+    QObject::connect(supprDiag,SIGNAL(rejected()),this,SLOT(deleteList()));
+}
+
+void FirstWindow::deleteFinished()
+{
+    for (int i = 0; i < arboAchevees->topLevelItemCount(); ++i)
+    {
+        qDeleteAll(arboAchevees->topLevelItem(i)->takeChildren());
+        delete(arboAchevees->topLevelItem(i));
+        i--;
     }
 }
