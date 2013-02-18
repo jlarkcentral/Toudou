@@ -478,10 +478,6 @@ void FirstWindow::xmlToTache(TiXmlElement * element,QTreeWidgetItem *item,Tache 
 
         bool checked;
 
-
-
-
-
         if(element->Attribute("checked")){
             string attributChecked = element->Attribute("checked");
             if (attributChecked=="1"){
@@ -491,8 +487,6 @@ void FirstWindow::xmlToTache(TiXmlElement * element,QTreeWidgetItem *item,Tache 
         else checked = false;
 
         newTache->setFini(checked);
-
-        cout << "youpi" << endl;
 
         tache->addSousTache(newTache);
         QTreeWidgetItem * newItem = new QTreeWidgetItem(item);
@@ -518,8 +512,6 @@ void FirstWindow::xmlToTache(TiXmlElement * element,QTreeWidgetItem *item,Tache 
         xmlToTache(element->FirstChildElement(),newItem,newTache);
 
         element = element->NextSiblingElement();
-
-
     }
 }
 

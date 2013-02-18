@@ -42,6 +42,16 @@ void Tache::setFini(bool unBool)
     fini = unBool;
 }
 
+bool Tache::getOrdonnee()
+{
+    return ordonnee;
+}
+
+void Tache::setOrdonnee(bool ordre)
+{
+    ordonnee = ordre;
+}
+
 int Tache::getDate()
 {
     return date;

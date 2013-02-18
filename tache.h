@@ -26,6 +26,9 @@ public:
     bool getFini();
     void setFini(bool unBool);
 
+    bool getOrdonnee();
+    void setOrdonnee(bool ordre);
+
     int getDate();
     void setDate(int i);
 
@@ -70,6 +73,7 @@ private:
     vector<Tache> preconditions;
     vector<Tache*> sousTaches;
     Tache * tacheParent;
+    bool ordonnee;
 };
 
 #endif // TACHE_H

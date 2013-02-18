@@ -151,9 +151,16 @@ Widget_ajout::~Widget_ajout()
 // fonction d ajout dans le modele et dans l arborescence de la nouvelle tache
 void Widget_ajout::addTache()
 {
+    firstW->defineCurrentTache(item->parent(),firstW->racine);
+
+    bool ordre = firstW->currentTache->getOrdonnee();
+
     QTreeWidgetItem * item = new QTreeWidgetItem(firstW->currentItem);
     item->setCheckState(0,Qt::Unchecked);
-    item->setText(0,name->text());
+    if(ordre){
+        item->setText(0,"1. "+name->text());
+    }
+    else item->setText(0,name->text());
     if (dates->typeDate() == 1){
         item->setText(1,dates->getDateabs().toString());
         item->setTextColor(1,QColor(152,152,152));
@@ -185,7 +192,7 @@ void Widget_ajout::addTache()
     newtache->afficherPreconds(); // VERIFICATION (test)
 
     newtache->setMatchingItem(item);
-    firstW->defineCurrentTache(item->parent(),firstW->racine);
+
     firstW->currentTache->addSousTache(newtache);
 
     // Fermeture de la fenêtre une fois la tâche ajoutée
