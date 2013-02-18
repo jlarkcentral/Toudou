@@ -19,7 +19,11 @@ SOURCES += main.cpp\
     widget_sauvegarde.cpp \
     widget_modif.cpp \
     widget_template.cpp \
-    widget_precond.cpp 
+    widget_precond.cpp \
+    tinyxml/tinyxml.cpp \
+    tinyxml/tinystr.cpp \
+    tinyxml/tinyxmlerror.cpp \
+    tinyxml/tinyxmlparser.cpp
 
 HEADERS  += tache.h \
     firstwindow.h \
@@ -29,7 +33,8 @@ HEADERS  += tache.h \
     widget_sauvegarde.h \ 
     widget_modif.h \
     widget_template.h \
-    widget_precond.h 
+    widget_precond.h \
+    tinyxml/tinyxml.h \
+    tinyxml/tinystr.h
 
 FORMS += 
-

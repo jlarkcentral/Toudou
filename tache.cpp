@@ -152,7 +152,9 @@ void Tache::afficherPreconds()
 // initialiser le fichier xml
 void Tache::createXml(string nomFichier)
 {
-    TiXmlDocument doc("../Toudou/xml/"+nomFichier+".xml");
+    string stringnom = "../Toudou/xml/"+nomFichier+".xml";
+    const char * charnom = stringnom.c_str();
+    TiXmlDocument doc(charnom);
 
     TiXmlDeclaration * decl = new TiXmlDeclaration( "1.0", "", "" );
     doc.LinkEndChild( decl );
@@ -168,18 +170,28 @@ void Tache::createXml(string nomFichier)
 // remplir le fichier xml tache par tache
 void Tache::addTacheInXml(TiXmlElement * element)
 {
-    TiXmlElement * newElement = new TiXmlElement("tache");
-    newElement->SetAttribute("nom",nom);
+    const char * chartache("tache");
+    TiXmlElement * newElement = new TiXmlElement(chartache);
+    const char * charnom("nom");
+    const char * chardateAbs("dateAbs");
+    const char * chardateRel("dateRel");
+    const char * charchecked("checked");
+    const char * charordonnee("ordonnee");
+
+    const char * nomtache = nom.c_str();
+    newElement->SetAttribute(charnom,nomtache);
 
     if(date==1){
-        newElement->SetAttribute("dateAbs",dateabs.toString().toStdString());
+        const char * dateAbstache = dateabs.toString().toStdString().c_str();
+        newElement->SetAttribute(chardateAbs,dateAbstache);
     }
     else if(date==2){
-        newElement->SetAttribute("dateRel",daterel);
+        const char * dateReltache = daterel.c_str();
+        newElement->SetAttribute(chardateRel,dateReltache);
     }
 
-    newElement->SetAttribute("checked",fini);
-    newElement->SetAttribute("ordonnee",ordon);
+    newElement->SetAttribute(charchecked,fini);
+    newElement->SetAttribute(charordonnee,ordon);
 
     element->LinkEndChild( newElement );
 
@@ -193,7 +205,8 @@ void Tache::addTacheInXml(TiXmlElement * element)
 void Tache::addTacheInXmlTemplate(TiXmlDocument doc, TiXmlElement * element)
 {
     TiXmlElement * newElement = new TiXmlElement("tache");
-    newElement->SetAttribute("nom",nom);
+    const char * charnom = nom.c_str();
+    newElement->SetAttribute("nom",charnom);
 
     element->LinkEndChild( newElement );
 

@@ -404,7 +404,8 @@ void FirstWindow::chargerXml()
 
         cout << "ouvre : " << fileName.toStdString() << endl;
 
-        TiXmlDocument doc(fileName.toStdString());
+        const char * charfilename = fileName.toStdString().c_str();
+        TiXmlDocument doc(charfilename);
         doc.LoadFile();
         TiXmlElement * element = doc.FirstChildElement()->FirstChildElement()->FirstChildElement();
         if(element){
@@ -432,8 +433,8 @@ void FirstWindow::chargerXmlTemplate()
         }
 
 
-
-        TiXmlDocument doc(fileName.toStdString());
+        const char * charfilename = fileName.toStdString().c_str();
+        TiXmlDocument doc(charfilename);
         doc.LoadFile();
         TiXmlElement * element = doc.FirstChildElement()->FirstChildElement();
         if(element){
@@ -445,7 +446,8 @@ void FirstWindow::chargerXmlTemplate()
 
 void FirstWindow::chargerXml(string fileName)
 {
-    TiXmlDocument doc(fileName);
+    const char * charfilename = fileName.c_str();
+    TiXmlDocument doc(charfilename);
     doc.LoadFile();
     TiXmlElement * element = doc.FirstChildElement()->FirstChildElement()->FirstChildElement();
     if(element){
@@ -529,7 +531,8 @@ void FirstWindow::xmlToTache(TiXmlElement * element,QTreeWidgetItem *item,Tache 
 
 void FirstWindow::chargerXmlFinished(string fileName)
 {
-    TiXmlDocument doc(fileName);
+    const char * charfilename = fileName.c_str();
+    TiXmlDocument doc(charfilename);
     doc.LoadFile();
     TiXmlElement * element = doc.FirstChildElement()->FirstChildElement()->FirstChildElement();
     if(element){
@@ -667,7 +670,9 @@ void FirstWindow::closeEvent(QCloseEvent *event)
 // initialiser le fichier xml
 void FirstWindow::createXmlforTree(string nomFichier)
 {
-    TiXmlDocument doc("../Toudou/xml/"+nomFichier+".xml");
+    string stringnomFichier = "../Toudou/xml/"+nomFichier+".xml";
+    const char * charnomfichier = stringnomFichier.c_str();
+    TiXmlDocument doc(charnomfichier);
 
     TiXmlDeclaration * decl = new TiXmlDeclaration( "1.0", "", "" );
     doc.LinkEndChild( decl );
@@ -684,8 +689,12 @@ void FirstWindow::createXmlforTree(string nomFichier)
 void FirstWindow::addItemInXml(TiXmlDocument doc,TiXmlElement * element,QTreeWidgetItem * item)
 {
     TiXmlElement * newElement = new TiXmlElement("tache");
-    newElement->SetAttribute("nom",item->text(0).toStdString());
-    newElement->SetAttribute("date",item->text(1).toStdString());
+    const char * charnom("nom");
+    const char * charnomvalue = item->text(0).toStdString().c_str();
+    const char * chardate("date");
+    const char * chardatevalue = item->text(1).toStdString().c_str();
+    newElement->SetAttribute(charnom,charnomvalue);
+    newElement->SetAttribute(chardate,chardatevalue);
     // TODO : modif avec les nouvelles dates
     // newElement->SetAttribute("date",date.toString().toStdString());
     element->LinkEndChild( newElement );
