@@ -99,7 +99,7 @@ Widget_ajout::Widget_ajout(FirstWindow *fw,QWidget *parent) :
     widget_template_plus->setLayout(layout_template_plus);
     mainlayout->addWidget(widget_template_plus);
 
-    mainlayout->addStretch();
+    //mainlayout->addStretch();
 
     // Widgets dépliables
     dates = new widget_date(firstW);

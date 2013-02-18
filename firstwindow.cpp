@@ -101,6 +101,7 @@ FirstWindow::FirstWindow(QWidget *parent) :
     QAction * modifAction = new QAction("Modifier...",contextMenu);
     QAction * templateAction = new QAction("Créer un type de tache...",contextMenu);
     QAction * addAction = new QAction("Ajouter une étape",contextMenu);
+    addAction->setIcon(QIcon("img/pluslarge.png"));
     QAction * deleteAction = new QAction("Supprimer",contextMenu);
     contextMenu->addAction(addAction);
     contextMenu->addSeparator();
