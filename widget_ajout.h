@@ -13,6 +13,7 @@
 #include "tache.h"
 #include "firstwindow.h"
 #include "widget_date.h"
+#include "widget_precond.h"
 
 #include <iostream>
 
@@ -52,6 +53,10 @@ private:
     QLabel * afficher_date;
     bool date_aff;
     widget_date * dates;
+    QPushButton * precond_plus;
+    QLabel * afficher_precond;
+    bool precond_aff;
+    widget_precond * preconds;
 
 signals:
     void WidgetClosed();
@@ -60,6 +65,7 @@ public slots:
     void addTache();
     void afficherDate();
     void textEdited(QString s);
+    void afficherPrecond();
 
 protected:
     void closeEvent(QCloseEvent *event);

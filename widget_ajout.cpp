@@ -15,6 +15,7 @@ Widget_ajout::Widget_ajout(FirstWindow *fw,QWidget *parent) :
     firstW = fw;
 
     date_aff = false;
+    precond_aff = false;
 
     // seul le widget_ajout a le focus
     firstW->setDisabled(true);
@@ -64,6 +65,25 @@ Widget_ajout::Widget_ajout(FirstWindow *fw,QWidget *parent) :
 
     QObject::connect(date_plus,SIGNAL(clicked()),this,SLOT(afficherDate()));
     QObject::connect(dates->nodatebut,SIGNAL(clicked()),this,SLOT(afficherDate()));
+
+    // menu précond dépliable
+    QWidget * widget_precond_plus = new QWidget();
+    QHBoxLayout * layout_precond_plus = new QHBoxLayout();
+    precond_plus = new QPushButton("+");
+    precond_plus->setStyleSheet("QPushButton {font-weight : bold;}");
+    precond_plus->setFixedWidth(20);
+    precond_plus->setToolTip("Indiquer si certaines taches doivent être réalisées avant celles-ci");
+    layout_precond_plus->addWidget(precond_plus);
+    afficher_precond = new QLabel("Ajouter une ou des précondition(s)");
+    layout_precond_plus->addWidget(afficher_precond);
+    widget_precond_plus->setLayout(layout_precond_plus);
+    mainlayout->addWidget(widget_precond_plus);
+
+    preconds = new widget_precond(firstW);
+    mainlayout->addWidget(preconds);
+    preconds->setVisible(false);
+
+    QObject::connect(precond_plus,SIGNAL(clicked()),this,SLOT(afficherPrecond()));
 
     // Bouton Annuler
     QWidget * buttonsWidget = new QWidget();
@@ -153,12 +173,44 @@ void Widget_ajout::afficherDate()
         date_aff = true;
         this->setFixedHeight(500);
         this->setFixedWidth(600);
+        if (precond_aff)
+        {
+            preconds->setVisible(false);
+            precond_plus->setText("+");
+            precond_aff = false;
+        }
     }
     else
     {
         dates->setVisible(false);
         date_plus->setText("+");
         date_aff = false;
+        this->setFixedHeight(200);
+        this->setFixedWidth(300);
+    }
+}
+
+void Widget_ajout::afficherPrecond()
+{
+    if (!precond_aff)
+    {
+        preconds->setVisible(true);
+        precond_plus->setText("-");
+        precond_aff = true;
+        this->setFixedHeight(500);
+        this->setFixedWidth(600);
+        if (date_aff)
+        {
+            dates->setVisible(false);
+            date_plus->setText("+");
+            date_plus = false;
+        }
+    }
+    else
+    {
+        preconds->setVisible(false);
+        precond_plus->setText("+");
+        precond_aff = false;
         this->setFixedHeight(200);
         this->setFixedWidth(300);
     }

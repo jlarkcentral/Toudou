@@ -10,16 +10,6 @@ LIBS  = $(SUBLIBS)  -L/usr/lib/i386-linux-gnu -lQtGui -lQtCore -lpthread /usr/li
 
 
 	
-- Ouverture d'une liste de tâches avec double-clic (onglet?)
-- Bouton Nouveau, puis proposition : tâche simple, liste, liste ordonnée, template
-- Les options s'affichent au fur et à mesure des choix
-	-> nom
-	-> racine
-	-> type ?
-		tâche :			autres :
-		-> date			-> ouvre l'arborescence de la nouvelle liste
-		(absolue
-		ou relative)
 - Onglets Toutes les tâches, tâches effectuées, templates?, listes cliquées
 - Dans l'écran des templates, bouton : créer une liste à partir de ce template
 - Case à cocher
@@ -55,6 +45,16 @@ PLUS RETENUS :
 => INUTILE car plus d'affichage infos
 - Bouton retour à toutes les tâches
 - possibilité de transformer une tâche simple en liste : dans le tiroir d'édition, bouton "ajouter sous-tâche" avec un linedit "Nouvelle tâche" et le tiroir s'actualise sur cette nouvelle tâche en question
+- Ouverture d'une liste de tâches avec double-clic (onglet?)
+- Bouton Nouveau, puis proposition : tâche simple, liste, liste ordonnée, template
+- Les options s'affichent au fur et à mesure des choix
+	-> nom
+	-> racine
+	-> type ?
+		tâche :			autres :
+		-> date			-> ouvre l'arborescence de la nouvelle liste
+		(absolue
+		ou relative)
 
 
 A FAIRE CE WEEK END :
