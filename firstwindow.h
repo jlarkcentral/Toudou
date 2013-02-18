@@ -43,7 +43,7 @@ public:
 
     QPushButton * newbutton;
     QPushButton * finishedbutton;
-    QPushButton * displaybutton;
+    QPushButton * saveButton;
 
     // menu clic droit
     QMenu * contextMenu;
@@ -53,7 +53,6 @@ public:
 
     void defineCurrentTache(QTreeWidgetItem * item, Tache *tacheRef);
     void confirmFinishedSubItems(QTreeWidgetItem * item);
-    void developOrReduceRecursion(QTreeWidgetItem* item);
     bool areSubItemsChecked(QTreeWidgetItem* item);
     void xmlToTache(TiXmlElement * element,QTreeWidgetItem *item,Tache * tache);
     void chargerXml(string fileName);
@@ -62,6 +61,8 @@ public:
     void xmlToTacheFinished(TiXmlElement * element,QTreeWidgetItem *item);
     void chargerXmlFinished(string fileName);
     void popupDeleteList();
+    void todoToday();
+    void todoToday(QTreeWidgetItem *item);
 
     // Enlever les checkboxes des sous-taches
     void removeCheckboxes(QTreeWidgetItem * item);
@@ -87,7 +88,6 @@ public slots:
     void chargerXmlTemplate();
     void menuAction(QAction* action);
     void confirmFinished();
-    void developOrReduce();
     void enableButtons();
     void contextMenuAction(QAction * action);
     void creerTemplateSous();

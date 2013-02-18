@@ -66,10 +66,6 @@ FirstWindow::FirstWindow(QWidget *parent) :
     menuAffichage->addAction("Developper la liste");
     menuAffichage->addAction("Reduire la liste");
     menuAffichage->addSeparator();
-    QAction * affAide = new QAction("Afficher les bulles d'aide",0);
-    affAide->setCheckable(true);
-    affAide->setChecked(true);
-    menuAffichage->addAction(affAide);
 
     QObject::connect(menuAffichage,SIGNAL(triggered(QAction*)),this,SLOT(menuAction(QAction*)));
 
@@ -171,15 +167,15 @@ FirstWindow::FirstWindow(QWidget *parent) :
 
     // Bouton Develloper/Reduire
     expand = true;
-    displaybutton = new QPushButton("Reduire la liste");
-    displaybutton->setStyleSheet("QPushButton {font-size : 18px;}");
-    displaybutton->setEnabled(true); // changer avec l'ajout...
-    QObject::connect(displaybutton,SIGNAL(clicked()),this,SLOT(developOrReduce()));
-    displaybutton->setToolTip("Cacher les étapes des taches");
+    saveButton = new QPushButton("Sauvegarder la liste");
+    saveButton->setStyleSheet("QPushButton {font-size : 18px;}");
+    saveButton->setEnabled(true); // changer avec l'ajout...
+    QObject::connect(saveButton,SIGNAL(clicked()),this,SLOT(sauvegarderSous()));
+    saveButton->setToolTip("Sauvegarder cette liste sous un nom");
 
     QHBoxLayout * buttonsLayout = new QHBoxLayout();
     buttonsLayout->addWidget(finishedbutton);
-    buttonsLayout->addWidget(displaybutton);
+    buttonsLayout->addWidget(saveButton);
 
     pagelayout->addLayout(buttonsLayout);
 
@@ -200,6 +196,8 @@ FirstWindow::FirstWindow(QWidget *parent) :
         chargerXmlFinished("../Toudou/xml/saveFinished.xml");
     }
     arboAchevees->expandAll();
+
+    todoToday();
 
     // sauvegarder pour prochaine session
     QObject::connect(this,SIGNAL(appClosed()),this,SLOT(sauvegarderSession()));
@@ -556,24 +554,10 @@ void FirstWindow::menuAction(QAction * action)
         close();
     }
     else if(text=="Developper la liste"){
-        developOrReduce();
+        arbo->expandAll();
     }
     else if(text=="Reduire la liste"){
-        developOrReduce();
-    }
-    else if(text=="Afficher les bulles d'aide"){
-        if(!action->isChecked()){
-            newbutton->setToolTip("");
-            finishedbutton->setToolTip("");
-            displaybutton->setToolTip("");
-            action->setChecked(false);
-        }
-        else{
-            newbutton->setToolTip("Ajouter une nouvelle tache à la liste");
-            finishedbutton->setToolTip("Basculer toutes les taches achevées vers l'onglet \"Taches finies\"");
-            displaybutton->setToolTip("Cacher les étapes des taches");
-            action->setChecked(true);
-        }
+        arbo->collapseAll();
     }
 }
 
@@ -608,38 +592,10 @@ void FirstWindow::confirmFinishedSubItems(QTreeWidgetItem * item)
     }
 }
 
-// developpe ou reduit l'arbre entier depuis le meme bouton
-void FirstWindow::developOrReduce()
-{
-    for(int i=0 ; i<arbo->topLevelItemCount() ; i++){
-        QTreeWidgetItem * itemCourant = arbo->topLevelItem(i);
-        itemCourant->setExpanded(!expand);
-        developOrReduceRecursion(itemCourant);
-    }
-    if(expand){
-        displaybutton->setText("Développer la liste");
-        displaybutton->setToolTip("Faire apparaitre toutes les étapes des taches");
-    }
-    else{
-        displaybutton->setText("Réduire la liste");
-        displaybutton->setToolTip("Cacher les étapes des taches");
-    }
-    expand = !expand;
-}
-
-void FirstWindow::developOrReduceRecursion(QTreeWidgetItem *item)
-{
-    for(int j=0 ; j<item->childCount() ; j++){
-        QTreeWidgetItem * subItemCourant = item->child(j);
-        subItemCourant->setExpanded(!expand);
-        developOrReduceRecursion(subItemCourant);
-    }
-}
-
 void FirstWindow::enableButtons()
 {
     finishedbutton->setEnabled(true);
-    displaybutton->setEnabled(true);
+    saveButton->setEnabled(true);
 }
 
 void FirstWindow::contextMenuAction(QAction *action)
@@ -734,5 +690,26 @@ void FirstWindow::deleteFinished()
         qDeleteAll(arboAchevees->topLevelItem(i)->takeChildren());
         delete(arboAchevees->topLevelItem(i));
         i--;
+    }
+}
+
+void FirstWindow::todoToday()
+{
+    for (int i = 0; i < arbo->topLevelItemCount(); ++i)
+    {
+        QTreeWidgetItem * item = arbo->topLevelItem(i);
+        todoToday(item);
+    }
+}
+
+void FirstWindow::todoToday(QTreeWidgetItem * item)
+{
+    QDate qdt = qdt.fromString(item->text(1));
+    if(qdt==QDate::currentDate()){
+        item->setTextColor(1,QColor(229,93,93));
+    }
+    for (int i=0 ; i<item->childCount() ; i++){
+        QTreeWidgetItem * subItem = item->child(i);
+        todoToday(subItem);
     }
 }
