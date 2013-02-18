@@ -1,7 +1,6 @@
 #include <unistd.h>
 #include <iostream>
 
-#include <QtGui>
 #include <QLabel>
 #include <QLineEdit>
 #include <QTreeWidget>
@@ -42,12 +41,9 @@ FirstWindow::FirstWindow(QWidget *parent) :
     menuListe->addAction("Nouvelle tache");
     menuListe->addSeparator();
     menuListe->addAction("Valider les taches finies");
-    menuListe->addSeparator();
     menuListe->addAction("Sauvegarder la liste");
     menuListe->addAction("Charger une liste");
-    menuListe->addSeparator();
     menuListe->addAction("Charger un type de tache");
-    menuListe->addSeparator();
     menuListe->addAction("Supprimer la liste");
     menuListe->addSeparator();
     menuListe->addAction("Quitter");
