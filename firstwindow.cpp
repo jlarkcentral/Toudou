@@ -104,11 +104,19 @@ FirstWindow::FirstWindow(QWidget *parent) :
     contextMenu = new QMenu(arbo);
     QAction * modifAction = new QAction("Modifier...",contextMenu);
     QAction * templateAction = new QAction("Créer un type de tache...",contextMenu);
+    QAction * addAction = new QAction("Ajouter une étape",contextMenu);
+    QAction * deleteAction = new QAction("Supprimer",contextMenu);
+    contextMenu->addAction(addAction);
+    contextMenu->addSeparator();
     contextMenu->addAction(modifAction);
     contextMenu->addSeparator();
     contextMenu->addAction(templateAction);
+    contextMenu->addAction(modifAction);
+    contextMenu->addSeparator();
+    arbo->addAction(addAction);
     arbo->addAction(modifAction);
     arbo->addAction(templateAction);
+    arbo->addAction(deleteAction);
 
     QObject::connect(contextMenu,SIGNAL(triggered(QAction*)),this,SLOT(contextMenuAction(QAction*)));
 
@@ -617,6 +625,16 @@ void FirstWindow::contextMenuAction(QAction *action)
             widget_template * wt = new widget_template(currentTache,this,0);
             wt->show();
             currentTache = racine;
+        }
+    }
+    else if(text=="Ajouter une étape"){
+        if (item){
+            popup(item,2);
+        }
+    }
+    else if(text=="Supprimer"){
+        if (item){
+            popup(item,3);
         }
     }
 }
