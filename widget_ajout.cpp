@@ -156,10 +156,22 @@ void Widget_ajout::addTache()
     firstW->defineCurrentTache(item->parent(),firstW->racine);
 
     bool ordre = firstW->currentTache->getOrdon();
+    int numberOrd = firstW->currentTache->getSousTaches().size() + 1;
+
+    cout << "currentTache ordonnee : " << ordre << endl;
 
     item->setCheckState(0,Qt::Unchecked);
     if(ordre){
-        item->setText(0,"1. "+name->text());
+
+        cout << "ordre" << endl;
+
+        ostringstream number;
+
+        number << numberOrd;
+
+        string numberString = number.str();
+
+        item->setText(0,QString(numberString.c_str())+". "+name->text());
     }
     else item->setText(0,name->text());
     if (dates->typeDate() == 1){
@@ -194,7 +206,7 @@ void Widget_ajout::addTache()
     newtache->setOrdon(ordon->isChecked());
 
     newtache->setMatchingItem(item);
-
+    firstW->defineCurrentTache(item->parent(),firstW->racine);
     firstW->currentTache->addSousTache(newtache);
 
     // Fermeture de la fenêtre une fois la tâche ajoutée
@@ -302,8 +314,8 @@ void Widget_ajout::afficherOrdon()
 
 void Widget_ajout::closeEvent(QCloseEvent *event)
 {
-      emit WidgetClosed();
-      event->accept();
+    emit WidgetClosed();
+    event->accept();
 }
 
 // desactiver le bouton Ajouter quand le nom de la tache est vide

@@ -457,11 +457,7 @@ void FirstWindow::chargerXml(string fileName)
 // ancienne fonction de Tache : xml vers une structure de Tache, ajout dans l'arbre
 void FirstWindow::xmlToTache(TiXmlElement * element,QTreeWidgetItem *item,Tache * tache)
 {
-    cout << "XML TO TACHE" << endl;
-
     while(element){
-
-        cout << "while element" << endl;
 
         Tache * newTache = new Tache(element->Attribute("nom"));
 
@@ -476,7 +472,7 @@ void FirstWindow::xmlToTache(TiXmlElement * element,QTreeWidgetItem *item,Tache 
         }
         else newTache->setDate(3);
 
-        bool checked;
+        bool checked = false;
 
         if(element->Attribute("checked")){
             string attributChecked = element->Attribute("checked");
@@ -484,7 +480,6 @@ void FirstWindow::xmlToTache(TiXmlElement * element,QTreeWidgetItem *item,Tache 
                 checked = true;
             }
         }
-        else checked = false;
 
         newTache->setFini(checked);
 
