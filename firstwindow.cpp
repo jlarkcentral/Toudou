@@ -191,7 +191,7 @@ FirstWindow::FirstWindow(QWidget *parent) :
     racine->setMatchingItem(arbo->invisibleRootItem());
 
     // ouvrir le backup
-    /*QFile file("../Toudou/xml/backup.xml");
+    QFile file("../Toudou/xml/backup.xml");
     if (file.open(QIODevice::ReadOnly)) {
         chargerXml("../Toudou/xml/backup.xml");
     }
@@ -203,7 +203,7 @@ FirstWindow::FirstWindow(QWidget *parent) :
         chargerXmlFinished("../Toudou/xml/saveFinished.xml");
     }
     arboAchevees->expandAll();
-*/
+
     todoToday();
 
     // sauvegarder pour prochaine session
@@ -460,11 +460,7 @@ void FirstWindow::chargerXml(string fileName)
 // ancienne fonction de Tache : xml vers une structure de Tache, ajout dans l'arbre
 void FirstWindow::xmlToTache(TiXmlElement * element,QTreeWidgetItem *item,Tache * tache)
 {
-    cout << "XML TO TACHE" << endl;
-
     while(element){
-
-        cout << "while element" << endl;
 
         Tache * newTache = new Tache(element->Attribute("nom"));
 
@@ -479,29 +475,38 @@ void FirstWindow::xmlToTache(TiXmlElement * element,QTreeWidgetItem *item,Tache 
         }
         else newTache->setDate(3);
 
-        bool checked;
-
-
-
-
-
+        bool checked = false;
         if(element->Attribute("checked")){
             string attributChecked = element->Attribute("checked");
             if (attributChecked=="1"){
                 checked = true;
             }
         }
-        else checked = false;
-
         newTache->setFini(checked);
 
-        cout << "youpi" << endl;
+        bool ordonnee = false;
+        if(element->Attribute("ordonnee")){
+            string attributOrdonnee = element->Attribute("ordonnee");
+            if (attributOrdonnee=="1"){
+                ordonnee = true;
+            }
+        }
+        newTache->setOrdon(ordonnee);
 
         tache->addSousTache(newTache);
         QTreeWidgetItem * newItem = new QTreeWidgetItem(item);
         item->addChild(newItem);
         newTache->setMatchingItem(newItem);
-        newItem->setText(0,QString(newTache->getNom().c_str()));
+
+        if(tache->getOrdon()){
+            ostringstream number;
+            number << tache->getSousTaches().size();
+            string numberString = number.str();
+
+            newItem->setText(0,QString(numberString.c_str())+". "+QString(newTache->getNom().c_str()));
+        }
+        else newItem->setText(0,QString(newTache->getNom().c_str()));
+
         if(newTache->getDate()==1){
             newItem->setText(1,QString(newTache->getDateabs().toString()));
             newItem->setTextColor(1,QColor(152,152,152));
@@ -521,8 +526,6 @@ void FirstWindow::xmlToTache(TiXmlElement * element,QTreeWidgetItem *item,Tache 
         xmlToTache(element->FirstChildElement(),newItem,newTache);
 
         element = element->NextSiblingElement();
-
-
     }
 }
 

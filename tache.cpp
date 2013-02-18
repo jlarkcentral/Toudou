@@ -43,6 +43,7 @@ void Tache::setFini(bool unBool)
     fini = unBool;
 }
 
+
 int Tache::getDate()
 {
     return date;
@@ -178,6 +179,8 @@ void Tache::addTacheInXml(TiXmlElement * element)
     }
 
     newElement->SetAttribute("checked",fini);
+    newElement->SetAttribute("ordonnee",ordon);
+
     element->LinkEndChild( newElement );
 
     for (int i=0 ; i<sousTaches.size() ; i++){

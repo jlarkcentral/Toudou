@@ -26,6 +26,7 @@ public:
     bool getFini();
     void setFini(bool unBool);
 
+
     int getDate();
     void setDate(int i);
 
@@ -56,8 +57,8 @@ public:
     // Pour les tests
     void afficherPreconds();
 
-    //void xmlToTache(TiXmlElement *element, QTreeWidgetItem *item);
-    //void parseElementToTache(TiXmlElement * element, Tache *tache,QTreeWidgetItem * item);
+    void xmlToTache(TiXmlElement *element, QTreeWidgetItem *item);
+    void parseElementToTache(TiXmlElement * element, Tache *tache,QTreeWidgetItem * item);
 
     void createXml(string nomFichier);
     void addTacheInXml(TiXmlElement *element);
@@ -73,6 +74,7 @@ private:
     vector<Tache> preconditions;
     vector<Tache*> sousTaches;
     Tache * tacheParent;
+
     bool ordon;
 };
 

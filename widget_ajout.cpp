@@ -170,8 +170,24 @@ Widget_ajout::~Widget_ajout()
 void Widget_ajout::addTache()
 {
     QTreeWidgetItem * item = new QTreeWidgetItem(firstW->currentItem);
+
+    firstW->defineCurrentTache(item->parent(),firstW->racine);
+
+    bool ordre = firstW->currentTache->getOrdon();
+    int numberOrd = firstW->currentTache->getSousTaches().size() + 1;
+
+    cout << "currentTache ordonnee : " << ordre << endl;
+
     item->setCheckState(0,Qt::Unchecked);
-    item->setText(0,name->text());
+    if(ordre){
+
+        ostringstream number;
+        number << numberOrd;
+        string numberString = number.str();
+
+        item->setText(0,QString(numberString.c_str())+". "+name->text());
+    }
+    else item->setText(0,name->text());
     if (dates->typeDate() == 1){
         item->setText(1,dates->getDateabs().toString());
         item->setTextColor(1,QColor(152,152,152));
@@ -314,8 +330,8 @@ void Widget_ajout::afficherOrdon()
 
 void Widget_ajout::closeEvent(QCloseEvent *event)
 {
-      emit WidgetClosed();
-      event->accept();
+    emit WidgetClosed();
+    event->accept();
 }
 
 // desactiver le bouton Ajouter quand le nom de la tache est vide
