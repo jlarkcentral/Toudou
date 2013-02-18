@@ -65,6 +65,9 @@ private:
     bool ordon_aff;
     QCheckBox * ordon;
     QLabel * ordon_expl;
+    QPushButton * template_plus;
+    QLabel * afficher_template;
+    bool template_aff;
 
 signals:
     void WidgetClosed();

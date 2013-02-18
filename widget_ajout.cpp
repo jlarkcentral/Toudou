@@ -86,6 +86,22 @@ Widget_ajout::Widget_ajout(FirstWindow *fw,QWidget *parent) :
     widget_ordon_plus->setLayout(layout_ordon_plus);
     mainlayout->addWidget(widget_ordon_plus);
 
+    // menu template dépliable
+    QWidget * widget_template_plus = new QWidget();
+    QHBoxLayout * layout_template_plus = new QHBoxLayout();
+    template_plus = new QPushButton("+");
+    template_plus->setStyleSheet("QPushButton {font-weight : bold;}");
+    template_plus->setFixedWidth(20);
+    template_plus->setToolTip("Charger un type de tâche préalablement enregistré");
+    layout_template_plus->addWidget(template_plus);
+    afficher_template = new QLabel("<b> Charger une tâche enregistrée");
+    layout_template_plus->addWidget(afficher_template);
+    widget_template_plus->setLayout(layout_template_plus);
+    mainlayout->addWidget(widget_template_plus);
+
+    mainlayout->addStretch();
+
+    // Widgets dépliables
     dates = new widget_date(firstW);
     mainlayout->addWidget(dates);
     dates->setVisible(false);
@@ -108,6 +124,8 @@ Widget_ajout::Widget_ajout(FirstWindow *fw,QWidget *parent) :
     ordon->setVisible(false);
 
     QObject::connect(ordon_plus,SIGNAL(clicked()),this,SLOT(afficherOrdon()));
+
+    mainlayout->addStretch();
 
     // Bouton Annuler
     QWidget * buttonsWidget = new QWidget();
@@ -203,7 +221,7 @@ void Widget_ajout::afficherDate()
         dates->setVisible(true);
         date_plus->setText("-");
         date_aff = true;
-        this->setFixedHeight(500);
+        this->setFixedHeight(600);
         this->setFixedWidth(600);
         if (precond_aff)
         {
@@ -236,12 +254,13 @@ void Widget_ajout::afficherPrecond()
         preconds->setVisible(true);
         precond_plus->setText("-");
         precond_aff = true;
-        this->setFixedHeight(500);
+        this->setFixedHeight(600);
         if (date_aff)
         {
             dates->setVisible(false);
             date_plus->setText("+");
             date_aff = false;
+            this->setFixedWidth(350);
         }
         if (ordon_aff)
         {
@@ -268,12 +287,13 @@ void Widget_ajout::afficherOrdon()
         ordon->setVisible(true);
         ordon_plus->setText("-");
         ordon_aff = true;
-        this->setFixedHeight(500);
+        this->setFixedHeight(600);
         if (date_aff)
         {
             dates->setVisible(false);
             date_plus->setText("+");
             date_aff = false;
+            this->setFixedWidth(350);
         }
         if (precond_aff)
         {
