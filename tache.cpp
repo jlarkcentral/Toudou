@@ -6,6 +6,7 @@ Tache::Tache(string uneTache)
 {
     nom = uneTache;
     fini = false;
+    ordon = false;
 }
 
 Tache::Tache(QTreeWidgetItem *item,bool withSousTaches)
@@ -42,15 +43,6 @@ void Tache::setFini(bool unBool)
     fini = unBool;
 }
 
-bool Tache::getOrdonnee()
-{
-    return ordonnee;
-}
-
-void Tache::setOrdonnee(bool ordre)
-{
-    ordonnee = ordre;
-}
 
 int Tache::getDate()
 {
@@ -136,6 +128,16 @@ Tache* Tache::getTacheParent()
 void Tache::setTacheParent(Tache *uneTache)
 {
     tacheParent = uneTache;
+}
+
+bool Tache::getOrdon()
+{
+    return ordon;
+}
+
+void Tache::setOrdon(bool b)
+{
+    ordon = b;
 }
 
 // Pour les tests

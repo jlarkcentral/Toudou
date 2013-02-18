@@ -26,8 +26,6 @@ public:
     bool getFini();
     void setFini(bool unBool);
 
-    bool getOrdonnee();
-    void setOrdonnee(bool ordre);
 
     int getDate();
     void setDate(int i);
@@ -53,11 +51,14 @@ public:
     Tache* getTacheParent();
     void setTacheParent(Tache* uneTache);
 
+    bool getOrdon();
+    void setOrdon(bool b);
+
     // Pour les tests
     void afficherPreconds();
 
-    //void xmlToTache(TiXmlElement *element, QTreeWidgetItem *item);
-    //void parseElementToTache(TiXmlElement * element, Tache *tache,QTreeWidgetItem * item);
+    void xmlToTache(TiXmlElement *element, QTreeWidgetItem *item);
+    void parseElementToTache(TiXmlElement * element, Tache *tache,QTreeWidgetItem * item);
 
     void createXml(string nomFichier);
     void addTacheInXml(TiXmlElement *element);
@@ -73,7 +74,8 @@ private:
     vector<Tache> preconditions;
     vector<Tache*> sousTaches;
     Tache * tacheParent;
-    bool ordonnee;
+
+    bool ordon;
 };
 
 #endif // TACHE_H
