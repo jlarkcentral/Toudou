@@ -25,7 +25,7 @@ Widget_ajout::Widget_ajout(FirstWindow *fw,QWidget *parent) :
     this->setLayout(mainlayout);
     this->setWindowTitle("Ajout d'une tache");
     this->setFixedWidth(300);
-    this->setFixedHeight(200);
+    this->setFixedHeight(300);
 
     // centre le widget
     this->setWindowFlags(Qt::Sheet | Qt::WindowStaysOnTopHint);
@@ -90,12 +90,14 @@ Widget_ajout::Widget_ajout(FirstWindow *fw,QWidget *parent) :
     QHBoxLayout * buttonsLayout = new QHBoxLayout();
     boutonAnnul = new QPushButton("Annuler");
     boutonAnnul->setStyleSheet("QPushButton {background : #C60800 ; color : #FFFFFF ; font-weight : bold; font-size : 18px;}");
+    boutonAnnul->setFixedWidth(130);
     buttonsLayout->addWidget(boutonAnnul);
 
     // Bouton Nouveau
     boutonAjout = new QPushButton("Ajouter");
     boutonAjout->setDisabled(true);
-    boutonAjout->setStyleSheet("QPushButton {background : #3A9D23 ; color : #FFFFFF ; font-weight : bold; font-size : 18px;}");
+    boutonAjout->setStyleSheet("QPushButton {background : #3A9D23 ; color : #FFFFFF ; font-weight : bold; font-size : 18px;} QPushButton:disabled{background : #CECECE;}");
+    boutonAjout->setFixedWidth(130);
     buttonsLayout->addWidget(boutonAjout);
     buttonsWidget->setLayout(buttonsLayout);
     mainlayout->addWidget(buttonsWidget);
@@ -187,7 +189,7 @@ void Widget_ajout::afficherDate()
         dates->setVisible(false);
         date_plus->setText("+");
         date_aff = false;
-        this->setFixedHeight(200);
+        this->setFixedHeight(300);
         this->setFixedWidth(300);
     }
 }
@@ -205,7 +207,7 @@ void Widget_ajout::afficherPrecond()
         {
             dates->setVisible(false);
             date_plus->setText("+");
-            date_plus = false;
+            date_aff = false;
         }
     }
     else
@@ -213,7 +215,7 @@ void Widget_ajout::afficherPrecond()
         preconds->setVisible(false);
         precond_plus->setText("+");
         precond_aff = false;
-        this->setFixedHeight(200);
+        this->setFixedHeight(300);
         this->setFixedWidth(300);
     }
 }

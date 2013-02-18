@@ -26,15 +26,21 @@ widget_precond::widget_precond(FirstWindow * fw, QWidget *parent) :
     for(int i=0 ; i<FirstW->arbo->topLevelItemCount() ; i++){
         QTreeWidgetItem * itemCourant = FirstW->arbo->topLevelItem(i);
         QTreeWidgetItem * toAdd = itemCourant->clone();
-        toAdd->setFlags( Qt::ItemIsSelectable | Qt::ItemIsEnabled );
+        toAdd->setFlags( Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsUserCheckable);
         tree->addTopLevelItem(toAdd);
     }
-    //tree->set
     mainlayout->addWidget(tree);
+
+    //QObject::connect(tree,SIGNAL())
 }
 
 
 widget_precond::~widget_precond()
+{
+
+}
+
+void widget_precond::itemChecked()
 {
 
 }

@@ -149,7 +149,8 @@ FirstWindow::FirstWindow(QWidget *parent) :
 
     // Bouton Nouveau
     newbutton = new QPushButton("Nouvelle tache");
-    newbutton->setStyleSheet("QPushButton {background : #3A9D23 ; color : #FFFFFF ; font-weight : bold; font-size : 18px;}");
+    newbutton->setStyleSheet("QPushButton {background : #3A9D23 ; color : #FFFFFF ; font-weight : bold; font-size : 22px;}");
+    newbutton->setFixedHeight(50);
     pagelayout->addWidget(newbutton);
     QObject::connect(newbutton,SIGNAL(clicked()),this,SLOT(popup()));
     newbutton->setToolTip("Ajouter une nouvelle tache à la liste");

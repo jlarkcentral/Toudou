@@ -31,7 +31,7 @@ private:
     QTreeWidget * tree;
 
 public slots:
-
+    void itemChecked();
 };
 
 #endif // WIDGET_PRECOND_H
