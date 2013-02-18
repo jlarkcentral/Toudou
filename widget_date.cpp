@@ -27,8 +27,10 @@ widget_date::widget_date(FirstWindow * fw, QWidget *parent) :
     // Choix abs
     abswidget = new QWidget();
     QHBoxLayout * abslayout = new QHBoxLayout();
+    abslayout->addStretch();
     calendar = new QCalendarWidget();
     abslayout->addWidget(calendar);
+    abslayout->addStretch();
     abswidget->setLayout(abslayout);
     mainlayout->addWidget(abswidget);
     abswidget->setVisible(false);

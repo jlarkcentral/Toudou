@@ -40,7 +40,7 @@ FirstWindow::FirstWindow(QWidget *parent) :
     QMenu* menuListe = new QMenu("Liste");
     menuListe->addAction("Nouvelle tache");
     menuListe->addSeparator();
-    menuListe->addAction("Valider les taches finies");
+    menuListe->addAction(QIcon("img/checkbox-checked-th.png"),"Valider les taches finies");
     menuListe->addAction("Sauvegarder la liste");
     menuListe->addAction("Charger une liste");
     menuListe->addAction("Charger un type de tache");
@@ -156,8 +156,9 @@ FirstWindow::FirstWindow(QWidget *parent) :
 
     // Bouton Nouveau
     newbutton = new QPushButton("Nouvelle tache");
-    newbutton->setStyleSheet("QPushButton {background : #3A9D23 ; color : #FFFFFF ; font-weight : bold; font-size : 22px;}");
+    newbutton->setStyleSheet("QPushButton {color : #3A9D23 ; font-weight : bold; font-size : 22px;}");
     newbutton->setFixedHeight(50);
+    newbutton->setIcon(QIcon("img/pluslarge.png"));
     pagelayout->addWidget(newbutton);
     QObject::connect(newbutton,SIGNAL(clicked()),this,SLOT(popup()));
     newbutton->setToolTip("Ajouter une nouvelle tache à la liste");
@@ -168,14 +169,16 @@ FirstWindow::FirstWindow(QWidget *parent) :
     finishedbutton->setEnabled(true); // changer avec l'ajout...
     QObject::connect(finishedbutton,SIGNAL(clicked()),this,SLOT(confirmFinished()));
     finishedbutton->setToolTip("Basculer toutes les taches achevées vers l'onglet \"Taches finies\"");
+    finishedbutton->setIcon(QIcon("img/checkbox-checked-th.png"));
 
-    // Bouton Develloper/Reduire
+    // Bouton Sauvegarder
     expand = true;
     saveButton = new QPushButton("Sauvegarder la liste");
     saveButton->setStyleSheet("QPushButton {font-size : 18px;}");
     saveButton->setEnabled(true); // changer avec l'ajout...
     QObject::connect(saveButton,SIGNAL(clicked()),this,SLOT(sauvegarderSous()));
     saveButton->setToolTip("Sauvegarder cette liste sous un nom");
+    saveButton->setIcon(QIcon("img/document_save.png"));
 
     QHBoxLayout * buttonsLayout = new QHBoxLayout();
     buttonsLayout->addWidget(finishedbutton);

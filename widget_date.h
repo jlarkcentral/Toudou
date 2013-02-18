@@ -14,6 +14,7 @@
 #include <QSpinBox>
 #include <QTreeWidget>
 #include <QHeaderView>
+#include <QSizePolicy>
 #include "firstwindow.h"
 
 
