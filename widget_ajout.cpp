@@ -16,6 +16,7 @@ Widget_ajout::Widget_ajout(FirstWindow *fw,QWidget *parent) :
 
     date_aff = false;
     precond_aff = false;
+    ordon_aff = false;
 
     // seul le widget_ajout a le focus
     firstW->setDisabled(true);
@@ -24,7 +25,7 @@ Widget_ajout::Widget_ajout(FirstWindow *fw,QWidget *parent) :
     QVBoxLayout * mainlayout = new QVBoxLayout();
     this->setLayout(mainlayout);
     this->setWindowTitle("Ajout d'une tache");
-    this->setFixedWidth(300);
+    this->setFixedWidth(350);
     this->setFixedHeight(300);
 
     // centre le widget
@@ -54,7 +55,7 @@ Widget_ajout::Widget_ajout(FirstWindow *fw,QWidget *parent) :
     date_plus->setFixedWidth(20);
     date_plus->setToolTip("Définir une date limite pour la tache");
     layout_date_plus->addWidget(date_plus);
-    afficher_date = new QLabel("Ajouter une échéance");
+    afficher_date = new QLabel("<b>Ajouter une échéance</b>");
     layout_date_plus->addWidget(afficher_date);
     widget_date_plus->setLayout(layout_date_plus);
     mainlayout->addWidget(widget_date_plus);
@@ -74,7 +75,7 @@ Widget_ajout::Widget_ajout(FirstWindow *fw,QWidget *parent) :
     precond_plus->setFixedWidth(20);
     precond_plus->setToolTip("Indiquer si certaines taches doivent être réalisées avant celles-ci");
     layout_precond_plus->addWidget(precond_plus);
-    afficher_precond = new QLabel("Ajouter une ou des précondition(s)");
+    afficher_precond = new QLabel("<b>Ajouter une ou des précondition(s)</b>");
     layout_precond_plus->addWidget(afficher_precond);
     widget_precond_plus->setLayout(layout_precond_plus);
     mainlayout->addWidget(widget_precond_plus);
@@ -84,6 +85,29 @@ Widget_ajout::Widget_ajout(FirstWindow *fw,QWidget *parent) :
     preconds->setVisible(false);
 
     QObject::connect(precond_plus,SIGNAL(clicked()),this,SLOT(afficherPrecond()));
+
+    // menu liste ordonnee dépliable
+    QWidget * widget_ordon_plus = new QWidget();
+    QHBoxLayout * layout_ordon_plus = new QHBoxLayout();
+    ordon_plus = new QPushButton("+");
+    ordon_plus->setStyleSheet("QPushButton {font-weight : bold;}");
+    ordon_plus->setFixedWidth(20);
+    ordon_plus->setToolTip("Avec cette option, toutes les sous-taches seront classées dans un ordre précis");
+    layout_ordon_plus->addWidget(ordon_plus);
+    afficher_ordon = new QLabel("<b>Ajouter l'option de liste ordonnée</b>");
+    layout_ordon_plus->addWidget(afficher_ordon);
+    widget_ordon_plus->setLayout(layout_ordon_plus);
+    mainlayout->addWidget(widget_ordon_plus);
+
+    ordon_expl = new QLabel("En cochant cette option, toutes les sous-tâches seront ordonnées. Ainsi, il faudra effectuer la première sous-tache avant la deuxième, et ainsi de suite...");
+    ordon_expl->setWordWrap(true);
+    mainlayout->addWidget(ordon_expl);
+    ordon_expl->setVisible(false);
+    ordon = new QCheckBox("Liste ordonnée");
+    mainlayout->addWidget(ordon);
+    ordon->setVisible(false);
+
+    QObject::connect(ordon_plus,SIGNAL(clicked()),this,SLOT(afficherOrdon()));
 
     // Bouton Annuler
     QWidget * buttonsWidget = new QWidget();
@@ -158,7 +182,7 @@ void Widget_ajout::addTache()
     }
     else newtache->setDate(3);
     newtache->setPreconditions(preconds->getPreconditions());
-    newtache->afficherPreconds();
+    newtache->afficherPreconds(); // VERIFICATION (test)
 
     newtache->setMatchingItem(item);
     firstW->currentTache->addSousTache(newtache);
@@ -185,6 +209,13 @@ void Widget_ajout::afficherDate()
             precond_plus->setText("+");
             precond_aff = false;
         }
+        if (ordon_aff)
+        {
+            ordon_expl->setVisible(false);
+            ordon->setVisible(false);
+            ordon_plus->setText("+");
+            ordon_aff = false;
+        }
     }
     else
     {
@@ -192,7 +223,7 @@ void Widget_ajout::afficherDate()
         date_plus->setText("+");
         date_aff = false;
         this->setFixedHeight(300);
-        this->setFixedWidth(300);
+        this->setFixedWidth(350);
     }
 }
 
@@ -204,12 +235,18 @@ void Widget_ajout::afficherPrecond()
         precond_plus->setText("-");
         precond_aff = true;
         this->setFixedHeight(500);
-        this->setFixedWidth(600);
         if (date_aff)
         {
             dates->setVisible(false);
             date_plus->setText("+");
             date_aff = false;
+        }
+        if (ordon_aff)
+        {
+            ordon_expl->setVisible(false);
+            ordon->setVisible(false);
+            ordon_plus->setText("+");
+            ordon_aff = false;
         }
     }
     else
@@ -218,7 +255,38 @@ void Widget_ajout::afficherPrecond()
         precond_plus->setText("+");
         precond_aff = false;
         this->setFixedHeight(300);
-        this->setFixedWidth(300);
+    }
+}
+
+void Widget_ajout::afficherOrdon()
+{
+    if (!ordon_aff)
+    {
+        ordon_expl->setVisible(true);
+        ordon->setVisible(true);
+        ordon_plus->setText("-");
+        ordon_aff = true;
+        this->setFixedHeight(500);
+        if (date_aff)
+        {
+            dates->setVisible(false);
+            date_plus->setText("+");
+            date_aff = false;
+        }
+        if (precond_aff)
+        {
+            preconds->setVisible(false);
+            precond_plus->setText("+");
+            precond_aff = false;
+        }
+    }
+    else
+    {
+        ordon_expl->setVisible(false);
+        ordon->setVisible(false);
+        ordon_plus->setText("+");
+        ordon_aff = false;
+        this->setFixedHeight(300);
     }
 }
 

@@ -9,6 +9,7 @@
 #include <QFormLayout>
 #include <QCloseEvent>
 #include <QCalendarWidget>
+#include <QCheckBox>
 
 #include "tache.h"
 #include "firstwindow.h"
@@ -59,6 +60,11 @@ private:
     QLabel * afficher_precond;
     bool precond_aff;
     widget_precond * preconds;
+    QPushButton * ordon_plus;
+    QLabel * afficher_ordon;
+    bool ordon_aff;
+    QCheckBox * ordon;
+    QLabel * ordon_expl;
 
 signals:
     void WidgetClosed();
@@ -68,6 +74,7 @@ public slots:
     void afficherDate();
     void textEdited(QString s);
     void afficherPrecond();
+    void afficherOrdon();
 
 protected:
     void closeEvent(QCloseEvent *event);
