@@ -156,7 +156,7 @@ void Tache::createXml(string nomFichier)
     const char * charnom = stringnom.c_str();
     TiXmlDocument doc(charnom);
 
-    TiXmlDeclaration * decl = new TiXmlDeclaration( "1.0", "", "" );
+    TiXmlDeclaration * decl = new TiXmlDeclaration( "1.0", "UTF-8", "" );
     doc.LinkEndChild( decl );
     TiXmlElement * firstElement = new TiXmlElement( "racine" );
     doc.LinkEndChild( firstElement );

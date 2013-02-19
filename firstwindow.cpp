@@ -87,15 +87,15 @@ FirstWindow::FirstWindow(QWidget *parent) :
 
     QLabel * title = new QLabel(""); //("Gestionnaire de tâches");
     title->setAlignment(Qt::AlignCenter);
-    QFont titlefont("LMRomanUnsl10");
-    title->setFont(titlefont);
+    //QFont titlefont("LMRomanUnsl10");
+    //title->setFont(titlefont);
     title->setStyleSheet("font-size : 16px");
     mainLayout->addWidget(title,0,0,1,2);
 
     // Onglets
     QTabWidget * onglets = new QTabWidget();
-    onglets->setStyleSheet("QTabWidget{font-size : 20px ; font-weight : bold}");
-    onglets->setFont(titlefont);
+    onglets->setStyleSheet("QTabWidget{font-size : 16px}");
+    //onglets->setFont(titlefont);
     //onglets->setFixedWidth(400);
     mainLayout->addWidget(onglets,2,0,1,1);
 
@@ -110,7 +110,7 @@ FirstWindow::FirstWindow(QWidget *parent) :
     header->setStretchLastSection(false);
     arbo->setHeaderHidden(true);
     arbo->setMouseTracking(true);
-    arbo->setStyleSheet("font-weight : bold; font-size : 18px; ");
+    arbo->setStyleSheet("font-size : 18px; ");
     arbo->setColumnCount(4);
     arbo->setSelectionMode(QAbstractItemView::NoSelection);
 
@@ -157,7 +157,7 @@ FirstWindow::FirstWindow(QWidget *parent) :
     headerAchevees->setStretchLastSection(false);
     arboAchevees->setHeaderHidden(true);
     arboAchevees->setMouseTracking(true);
-    arboAchevees->setStyleSheet("font-weight : bold; font-size : 18px; ");
+    arboAchevees->setStyleSheet("font-size : 18px; ");
     arboAchevees->setColumnCount(2);
     arboAchevees->setSelectionMode(QAbstractItemView::NoSelection);
 
@@ -292,12 +292,13 @@ void FirstWindow::popup(QTreeWidgetItem* i,int n)
         // popup de confirmation
         QMessageBox * supprDiag = new QMessageBox();
         supprDiag->setWindowTitle("Supprimer...");
-        supprDiag->addButton("Ok",QMessageBox::RejectRole);
-        supprDiag->addButton("Annuler",QMessageBox::AcceptRole);
+        supprDiag->addButton("Annuler",QMessageBox::RejectRole);
+        supprDiag->addButton("Ok",QMessageBox::AcceptRole);
+
         supprDiag->setText("La tache " + i->text(0) + " va etre supprimee");
         supprDiag->show();
         // le signal est bien "rejected", c est un bug Qt
-        QObject::connect(supprDiag,SIGNAL(rejected()),this,SLOT(deleteItem()));
+        QObject::connect(supprDiag,SIGNAL(accepted()),this,SLOT(deleteItem()));
     }
 }
 
@@ -802,12 +803,13 @@ void FirstWindow::popupDeleteList()
 {
     QMessageBox * supprDiag = new QMessageBox();
     supprDiag->setWindowTitle("Supprimer la liste");
-    supprDiag->addButton("Supprimer",QMessageBox::RejectRole);
-    supprDiag->addButton("Annuler",QMessageBox::AcceptRole);
+    supprDiag->addButton("Annuler",QMessageBox::RejectRole);
+    supprDiag->addButton("Supprimer",QMessageBox::AcceptRole);
+
     supprDiag->setText("Attention, toutes les taches de la liste vont être supprimées !");
     supprDiag->show();
     // le signal est bien "rejected", c est un bug Qt
-    QObject::connect(supprDiag,SIGNAL(rejected()),this,SLOT(deleteList()));
+    QObject::connect(supprDiag,SIGNAL(accepted()),this,SLOT(deleteList()));
 }
 
 void FirstWindow::deleteFinished()
