@@ -22,7 +22,7 @@ Widget_ajout::Widget_ajout(FirstWindow *fw,QWidget *parent) :
     firstW->setDisabled(true);
 
     // Layout du widget ajout
-    QVBoxLayout * mainlayout = new QVBoxLayout();
+    QGridLayout * mainlayout = new QGridLayout();
     this->setLayout(mainlayout);
     this->setWindowTitle("Ajout d'une tache");
     this->setFixedWidth(350);
@@ -31,6 +31,7 @@ Widget_ajout::Widget_ajout(FirstWindow *fw,QWidget *parent) :
     // centre le widget
     this->setWindowFlags(Qt::Sheet | Qt::WindowStaysOnTopHint);
 
+    mainlayout->setRowStretch(11,5);
 
     // Titre pour le champ nom de la Tache - "tache" ou "sous tache de XXX"
     QLabel * nameLabel;
@@ -42,12 +43,14 @@ Widget_ajout::Widget_ajout(FirstWindow *fw,QWidget *parent) :
     }
     name = new QLineEdit();
     name->setMaxLength(100);
+    name->setFixedHeight(50);
+    name->setStyleSheet("QLineEdit{font-size : 18px;}");
     name->setPlaceholderText("Nouvelle tache");
-    mainlayout->addWidget(nameLabel);
-    mainlayout->addWidget(name);
+    mainlayout->addWidget(nameLabel,0,0,1,2);
+    mainlayout->addWidget(name,1,0,1,2);
     QObject::connect(name,SIGNAL(textEdited(QString)),this,SLOT(textEdited(QString)));
 
-    // menu date  dépliable
+    /*// menu date  dépliable
     QWidget * widget_date_plus= new QWidget();
     QHBoxLayout * layout_date_plus = new QHBoxLayout();
     date_plus = new QPushButton("+");
@@ -97,35 +100,84 @@ Widget_ajout::Widget_ajout(FirstWindow *fw,QWidget *parent) :
     afficher_template = new QLabel("<b> Charger une tâche enregistrée");
     layout_template_plus->addWidget(afficher_template);
     widget_template_plus->setLayout(layout_template_plus);
-    mainlayout->addWidget(widget_template_plus);
+    mainlayout->addWidget(widget_template_plus);*/
 
+    // menu date  dépliable
+    date_plus = new QPushButton("+");
+    date_plus->setStyleSheet("QPushButton {font-weight : bold;}");
+    date_plus->setFixedWidth(20);
+    date_plus->setToolTip("Définir une date limite pour la tache");
+    mainlayout->addWidget(date_plus,2,0);
+    afficher_date = new QLabel("Ajouter une échéance");
+    mainlayout->addWidget(afficher_date,2,1);
+
+    // menu précond dépliable
+    precond_plus = new QPushButton("+");
+    precond_plus->setStyleSheet("QPushButton {font-weight : bold;}");
+    precond_plus->setFixedWidth(20);
+    precond_plus->setToolTip("Indiquer si certaines taches doivent être réalisées avant celles-ci");
+    mainlayout->addWidget(precond_plus,3,0);
+    afficher_precond = new QLabel("Ajouter une ou des précondition(s)");
+    mainlayout->addWidget(afficher_precond,3,1);
+
+    // menu liste ordonnee dépliable
+    ordon_plus = new QPushButton("+");
+    ordon_plus->setStyleSheet("QPushButton {font-weight : bold;}");
+    ordon_plus->setFixedWidth(20);
+    ordon_plus->setToolTip("Avec cette option, toutes les sous-taches seront classées dans un ordre précis");
+    mainlayout->addWidget(ordon_plus,4,0);
+    afficher_ordon = new QLabel("Ajouter l'option de liste ordonnée");
+    mainlayout->addWidget(afficher_ordon,4,1);
+
+    // menu template dépliable
+    template_plus = new QPushButton("+");
+    template_plus->setStyleSheet("QPushButton {font-weight : bold;}");
+    template_plus->setFixedWidth(20);
+    template_plus->setToolTip("Charger un type de tâche préalablement enregistré");
+    mainlayout->addWidget(template_plus,5,0);
+    afficher_template = new QLabel("Charger une tâche enregistrée");
+    mainlayout->addWidget(afficher_template,5,1);
     //mainlayout->addStretch();
+
+    QFrame* line = new QFrame();
+    line->setGeometry(QRect(/* ... */));
+    line->setFrameShape(QFrame::HLine); // Replace by VLine for vertical line
+    line->setFrameShadow(QFrame::Sunken);
+    mainlayout->addWidget(line,6,0,1,2);
+
 
     // Widgets dépliables
     dates = new widget_date(firstW);
-    mainlayout->addWidget(dates);
+    mainlayout->addWidget(dates,7,0,1,2);
     dates->setVisible(false);
 
     QObject::connect(date_plus,SIGNAL(clicked()),this,SLOT(afficherDate()));
     QObject::connect(dates->nodatebut,SIGNAL(clicked()),this,SLOT(afficherDate()));
 
     preconds = new widget_precond(firstW);
-    mainlayout->addWidget(preconds);
+    mainlayout->addWidget(preconds,8,0,1,2);
     preconds->setVisible(false);
 
     QObject::connect(precond_plus,SIGNAL(clicked()),this,SLOT(afficherPrecond()));
 
     ordon_expl = new QLabel("En cochant cette option, toutes les sous-tâches seront ordonnées. Ainsi, il faudra effectuer la première sous-tache avant la deuxième, et ainsi de suite...");
     ordon_expl->setWordWrap(true);
-    mainlayout->addWidget(ordon_expl);
+    mainlayout->addWidget(ordon_expl,9,0,1,2);
     ordon_expl->setVisible(false);
-    ordon = new QCheckBox("Liste ordonnée");
-    mainlayout->addWidget(ordon);
+    ordon = new QWidget();
+    QHBoxLayout * ordon_layout = new QHBoxLayout();
+    ordon_layout->addStretch();
+    ordonch = new QCheckBox("Liste ordonnée");
+    ordonch->setStyleSheet("QCheckBox{font-size : 18px;}");
+    ordon_layout->addWidget(ordonch);
+    ordon_layout->addStretch();
+    ordon->setLayout(ordon_layout);
+    mainlayout->addWidget(ordon,10,0,1,2);
     ordon->setVisible(false);
 
     QObject::connect(ordon_plus,SIGNAL(clicked()),this,SLOT(afficherOrdon()));
 
-    mainlayout->addStretch();
+    //mainlayout->addStretch();
 
     // Bouton Annuler
     QWidget * buttonsWidget = new QWidget();
@@ -142,7 +194,7 @@ Widget_ajout::Widget_ajout(FirstWindow *fw,QWidget *parent) :
     boutonAjout->setFixedWidth(130);
     buttonsLayout->addWidget(boutonAjout);
     buttonsWidget->setLayout(buttonsLayout);
-    mainlayout->addWidget(buttonsWidget);
+    mainlayout->addWidget(buttonsWidget,11,0,1,2);
 
     QObject::connect(boutonAnnul,SIGNAL(clicked()),this,SLOT(close()));
     QObject::connect(boutonAjout,SIGNAL(clicked()),this,SLOT(addTache()));
@@ -217,7 +269,7 @@ void Widget_ajout::addTache()
     else newtache->setDate(3);
     newtache->setPreconditions(preconds->getPreconditions());
     newtache->afficherPreconds(); // VERIFICATION (test)
-    newtache->setOrdon(ordon->isChecked());
+    newtache->setOrdon(ordonch->isChecked());
 
     newtache->setMatchingItem(item);
     firstW->defineCurrentTache(item->parent(),firstW->racine);
@@ -239,11 +291,13 @@ void Widget_ajout::afficherDate()
         date_aff = true;
         this->setFixedHeight(600);
         this->setFixedWidth(350);
+        afficher_date->setStyleSheet("QLabel{font-weight : bold;}");
         if (precond_aff)
         {
             preconds->setVisible(false);
             precond_plus->setText("+");
             precond_aff = false;
+            afficher_precond->setStyleSheet("");
         }
         if (ordon_aff)
         {
@@ -251,6 +305,7 @@ void Widget_ajout::afficherDate()
             ordon->setVisible(false);
             ordon_plus->setText("+");
             ordon_aff = false;
+            afficher_ordon->setStyleSheet("");
         }
     }
     else
@@ -260,6 +315,7 @@ void Widget_ajout::afficherDate()
         date_aff = false;
         this->setFixedHeight(300);
         this->setFixedWidth(350);
+        afficher_date->setStyleSheet("");
     }
 }
 
@@ -271,12 +327,14 @@ void Widget_ajout::afficherPrecond()
         precond_plus->setText("-");
         precond_aff = true;
         this->setFixedHeight(600);
+        afficher_precond->setStyleSheet("QLabel{font-weight : bold;}");
         if (date_aff)
         {
             dates->setVisible(false);
             date_plus->setText("+");
             date_aff = false;
             this->setFixedWidth(350);
+            afficher_date->setStyleSheet("");
         }
         if (ordon_aff)
         {
@@ -284,6 +342,7 @@ void Widget_ajout::afficherPrecond()
             ordon->setVisible(false);
             ordon_plus->setText("+");
             ordon_aff = false;
+            afficher_ordon->setStyleSheet("");
         }
     }
     else
@@ -292,6 +351,7 @@ void Widget_ajout::afficherPrecond()
         precond_plus->setText("+");
         precond_aff = false;
         this->setFixedHeight(300);
+        afficher_precond->setStyleSheet("");
     }
 }
 
@@ -304,18 +364,21 @@ void Widget_ajout::afficherOrdon()
         ordon_plus->setText("-");
         ordon_aff = true;
         this->setFixedHeight(600);
+        afficher_ordon->setStyleSheet("QLabel{font-weight : bold;}");
         if (date_aff)
         {
             dates->setVisible(false);
             date_plus->setText("+");
             date_aff = false;
             this->setFixedWidth(350);
+            afficher_date->setStyleSheet("");
         }
         if (precond_aff)
         {
             preconds->setVisible(false);
             precond_plus->setText("+");
             precond_aff = false;
+            afficher_precond->setStyleSheet("");
         }
     }
     else
@@ -325,6 +388,7 @@ void Widget_ajout::afficherOrdon()
         ordon_plus->setText("+");
         ordon_aff = false;
         this->setFixedHeight(300);
+        afficher_ordon->setStyleSheet("");
     }
 }
 

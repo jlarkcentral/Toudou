@@ -10,6 +10,7 @@
 #include <QCloseEvent>
 #include <QCalendarWidget>
 #include <QCheckBox>
+#include <QFrame>
 
 #include "tache.h"
 #include "firstwindow.h"
@@ -63,7 +64,8 @@ private:
     QPushButton * ordon_plus;
     QLabel * afficher_ordon;
     bool ordon_aff;
-    QCheckBox * ordon;
+    QWidget * ordon;
+    QCheckBox * ordonch;
     QLabel * ordon_expl;
     QPushButton * template_plus;
     QLabel * afficher_template;
