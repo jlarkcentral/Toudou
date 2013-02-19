@@ -23,8 +23,9 @@ widget_templ_aff::widget_templ_aff(FirstWindow * fw, QWidget *parent) :
     tree->setHeaderHidden(true);
     tree->setMouseTracking(true);
     tree->setStyleSheet("font-weight : bold; font-size : 18px; ");
-    for(int i=0 ; i<FirstW->arbo->topLevelItemCount() ; i++){
-        QTreeWidgetItem * itemCourant = FirstW->arbo->topLevelItem(i);
+    for(int i=0 ; i<FirstW->templatesTree->topLevelItemCount() ; i++){
+    // ICI
+        QTreeWidgetItem * itemCourant = FirstW->templatesTree->topLevelItem(i);
         QTreeWidgetItem * toAdd = itemCourant->clone();
         FirstW->disableSubtasks(toAdd);
         toAdd->setFlags( Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsUserCheckable);
