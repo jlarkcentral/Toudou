@@ -38,15 +38,30 @@ FirstWindow::FirstWindow(QWidget *parent) :
     QMenuBar * bar = new QMenuBar(this);
     bar->setFixedWidth(200);
     QMenu* menuListe = new QMenu("Liste");
-    menuListe->addAction("Nouvelle tache");
+    QAction * nouvelletache = new QAction("Nouvelle tache",menuListe);
+    nouvelletache->setShortcut(Qt::Key_Space);
+    menuListe->addAction(nouvelletache);
     menuListe->addSeparator();
-    menuListe->addAction(QIcon("../Toudou/img/checkbox-checked-th.png"),"Valider les taches finies");
-    menuListe->addAction("Sauvegarder la liste");
-    menuListe->addAction("Charger une liste");
-    menuListe->addAction("Charger un type de tache");
-    menuListe->addAction("Supprimer la liste");
+    QAction * validerfinies = new QAction("Valider les taches finies",menuListe);
+    validerfinies->setShortcut(QKeySequence("Ctrl+V"));
+    validerfinies->setIcon(QIcon("../Toudou/img/checkbox-checked-th.png"));
+    menuListe->addAction(validerfinies);
+    QAction * sauverliste = new QAction("Sauvegarder la liste",menuListe);
+    sauverliste->setShortcut(QKeySequence("Ctrl+S"));
+    menuListe->addAction(sauverliste);
+    QAction * chargerliste = new QAction("Charger une liste",menuListe);
+    chargerliste->setShortcut(QKeySequence("Ctrl+O"));
+    menuListe->addAction(chargerliste);
+    QAction * chargertemplate = new QAction("Charger un type de tache",menuListe);
+    chargertemplate->setShortcut(QKeySequence("Ctrl+T"));
+    menuListe->addAction(chargertemplate);
+    QAction * supprliste = new QAction("Supprimer la liste",menuListe);
+    supprliste->setShortcut(Qt::Key_Delete);
+    menuListe->addAction(supprliste);
     menuListe->addSeparator();
-    menuListe->addAction("Quitter");
+    QAction * quitter = new QAction("Quitter",menuListe);
+    quitter->setShortcut(QKeySequence("Ctrl+Q"));
+    menuListe->addAction(quitter);
 
     QObject::connect(menuListe,SIGNAL(triggered(QAction*)),this,SLOT(menuAction(QAction*)));
 
