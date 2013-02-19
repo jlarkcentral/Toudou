@@ -25,7 +25,7 @@ Widget_ajout::Widget_ajout(FirstWindow *fw,QWidget *parent) :
     // Layout du widget ajout
     QGridLayout * mainlayout = new QGridLayout();
     this->setLayout(mainlayout);
-    this->setWindowTitle("Ajout d'une tache");
+    this->setWindowTitle("Ajout d'une tâche");
     this->setFixedWidth(350);
     this->setFixedHeight(300);
 
@@ -37,16 +37,16 @@ Widget_ajout::Widget_ajout(FirstWindow *fw,QWidget *parent) :
     // Titre pour le champ nom de la Tache - "tache" ou "sous tache de XXX"
     QLabel * nameLabel;
     if (firstW->currentItem == firstW->arbo->invisibleRootItem()){
-        nameLabel = new QLabel("Nouvelle tache : ");
+        nameLabel = new QLabel("Nouvelle tâche : ");
     }
     else{
-        nameLabel = new QLabel("Sous-tache de <b>" + firstW->currentItem->text(0) + "</b> :");
+        nameLabel = new QLabel("Sous-tâche de <b>" + firstW->currentItem->text(0) + "</b> :");
     }
     name = new QLineEdit();
     name->setMaxLength(100);
     name->setFixedHeight(50);
     name->setStyleSheet("QLineEdit{font-size : 18px;}");
-    name->setPlaceholderText("Nouvelle tache");
+    name->setPlaceholderText("Nouvelle tâche");
     mainlayout->addWidget(nameLabel,0,0,1,2);
     mainlayout->addWidget(name,1,0,1,2);
     QObject::connect(name,SIGNAL(textEdited(QString)),this,SLOT(textEdited(QString)));
@@ -55,7 +55,7 @@ Widget_ajout::Widget_ajout(FirstWindow *fw,QWidget *parent) :
     date_plus = new QPushButton("+");
     date_plus->setStyleSheet("QPushButton {font-weight : bold;}");
     date_plus->setFixedWidth(20);
-    date_plus->setToolTip("Définir une date limite pour la tache");
+    date_plus->setToolTip("Définir une date limite pour la tâche");
     mainlayout->addWidget(date_plus,2,0);
     afficher_date = new QLabel("Ajouter une échéance");
     mainlayout->addWidget(afficher_date,2,1);
@@ -64,7 +64,7 @@ Widget_ajout::Widget_ajout(FirstWindow *fw,QWidget *parent) :
     precond_plus = new QPushButton("+");
     precond_plus->setStyleSheet("QPushButton {font-weight : bold;}");
     precond_plus->setFixedWidth(20);
-    precond_plus->setToolTip("Indiquer si certaines taches doivent être réalisées avant celles-ci");
+    precond_plus->setToolTip("Indiquer si certaines tâches doivent être réalisées avant celles-ci");
     mainlayout->addWidget(precond_plus,3,0);
     afficher_precond = new QLabel("Ajouter une ou des précondition(s)");
     mainlayout->addWidget(afficher_precond,3,1);
@@ -73,7 +73,7 @@ Widget_ajout::Widget_ajout(FirstWindow *fw,QWidget *parent) :
     ordon_plus = new QPushButton("+");
     ordon_plus->setStyleSheet("QPushButton {font-weight : bold;}");
     ordon_plus->setFixedWidth(20);
-    ordon_plus->setToolTip("Avec cette option, toutes les sous-taches seront classées dans un ordre précis");
+    ordon_plus->setToolTip("Avec cette option, toutes les sous-tâches seront classées dans un ordre précis");
     mainlayout->addWidget(ordon_plus,4,0);
     afficher_ordon = new QLabel("Ajouter l'option de liste ordonnée");
     mainlayout->addWidget(afficher_ordon,4,1);
@@ -109,7 +109,7 @@ Widget_ajout::Widget_ajout(FirstWindow *fw,QWidget *parent) :
 
     QObject::connect(precond_plus,SIGNAL(clicked()),this,SLOT(afficherPrecond()));
 
-    ordon_expl = new QLabel("En cochant cette option, toutes les sous-tâches seront ordonnées. Ainsi, il faudra effectuer la première sous-tache avant la deuxième, et ainsi de suite...");
+    ordon_expl = new QLabel("En cochant cette option, toutes les sous-tâches seront ordonnées. Ainsi, il faudra effectuer la première sous-tâche avant la deuxième, et ainsi de suite...");
     ordon_expl->setWordWrap(true);
     mainlayout->addWidget(ordon_expl,9,0,1,2);
     ordon_expl->setVisible(false);

@@ -38,11 +38,11 @@ FirstWindow::FirstWindow(QWidget *parent) :
     QMenuBar * bar = new QMenuBar(this);
     bar->setFixedWidth(200);
     QMenu* menuListe = new QMenu("&Liste");
-    QAction * nouvelletache = new QAction("Nouvelle tache",menuListe);
+    QAction * nouvelletache = new QAction("Nouvelle tâche",menuListe);
     nouvelletache->setShortcut(Qt::Key_Space);
     menuListe->addAction(nouvelletache);
     menuListe->addSeparator();
-    QAction * validerfinies = new QAction("Valider les taches finies",menuListe);
+    QAction * validerfinies = new QAction("Valider les tâches finies",menuListe);
     validerfinies->setShortcut(QKeySequence("Ctrl+V"));
     validerfinies->setIcon(QIcon("../Toudou/img/checkbox-checked-th.png"));
     menuListe->addAction(validerfinies);
@@ -52,7 +52,7 @@ FirstWindow::FirstWindow(QWidget *parent) :
     QAction * chargerliste = new QAction("Charger une liste",menuListe);
     chargerliste->setShortcut(QKeySequence("Ctrl+O"));
     menuListe->addAction(chargerliste);
-    /*QAction * chargertemplate = new QAction("Charger un type de tache",menuListe);
+    /*QAction * chargertemplate = new QAction("Charger un type de tâche",menuListe);
     chargertemplate->setShortcut(QKeySequence("Ctrl+T"));
     menuListe->addAction(chargertemplate);*/
     QAction * supprliste = new QAction("Supprimer la liste",menuListe);
@@ -117,7 +117,7 @@ FirstWindow::FirstWindow(QWidget *parent) :
     // menu contextuel de l'arbre
     contextMenu = new QMenu(arbo);
     QAction * modifAction = new QAction("Modifier...",contextMenu);
-    QAction * templateAction = new QAction("Créer un type de tache...",contextMenu);
+    QAction * templateAction = new QAction("Créer un type de tâche...",contextMenu);
     QAction * addAction = new QAction("Ajouter une étape",contextMenu);
     addAction->setIcon(QIcon("../Toudou/img/pluslarge.png"));
     QAction * deleteAction = new QAction("Supprimer",contextMenu);
@@ -167,27 +167,27 @@ FirstWindow::FirstWindow(QWidget *parent) :
     QVBoxLayout * pagelayout2 = new QVBoxLayout();
     page2->setLayout(pagelayout2);
     pagelayout2->addWidget(arboAchevees);
-    onglets->addTab(page2,"Taches finies");
+    onglets->addTab(page2,"Tâches finies");
     QPushButton * viderListe = new QPushButton("Vider la liste des tâches finies");
     pagelayout2->addWidget(viderListe);
     viderListe->setStyleSheet("QPushButton {font-size : 18px;}");
     QObject::connect(viderListe,SIGNAL(clicked()),this,SLOT(deleteFinished()));
 
     // Bouton Nouveau
-    newbutton = new QPushButton("Nouvelle tache");
+    newbutton = new QPushButton("Nouvelle tâche");
     newbutton->setStyleSheet("QPushButton {color : #3A9D23 ; font-weight : bold; font-size : 22px;}");
     newbutton->setFixedHeight(50);
     newbutton->setIcon(QIcon("../Toudou/img/pluslarge.png"));
     pagelayout->addWidget(newbutton);
     QObject::connect(newbutton,SIGNAL(clicked()),this,SLOT(popup()));
-    newbutton->setToolTip("Ajouter une nouvelle tache à la liste");
+    newbutton->setToolTip("Ajouter une nouvelle tâche à la liste");
 
     // Bouton Valider la tache finie
-    finishedbutton = new QPushButton("Valider les taches finies");
+    finishedbutton = new QPushButton("Valider les tâches finies");
     finishedbutton->setStyleSheet("QPushButton {font-size : 18px;}");
     finishedbutton->setEnabled(true); // changer avec l'ajout...
     QObject::connect(finishedbutton,SIGNAL(clicked()),this,SLOT(confirmFinished()));
-    finishedbutton->setToolTip("Basculer toutes les taches achevées vers l'onglet \"Taches finies\"");
+    finishedbutton->setToolTip("Basculer toutes les tâches achevées vers l'onglet \"Tâches finies\"");
     finishedbutton->setIcon(QIcon("../Toudou/img/checkbox-checked-th.png"));
 
     // Bouton Sauvegarder
@@ -206,7 +206,7 @@ FirstWindow::FirstWindow(QWidget *parent) :
     pagelayout->addLayout(buttonsLayout);
 
     // initialisation de la tache racine
-    racine = new Tache("Toutes les taches");
+    racine = new Tache("Toutes les tâches");
     racine->setMatchingItem(arbo->invisibleRootItem());
 
     // ouvrir le backup
@@ -295,7 +295,7 @@ void FirstWindow::popup(QTreeWidgetItem* i,int n)
         supprDiag->addButton("Annuler",QMessageBox::RejectRole);
         supprDiag->addButton("Ok",QMessageBox::AcceptRole);
 
-        supprDiag->setText("La tache " + i->text(0) + " va etre supprimee");
+        supprDiag->setText("La tâche " + i->text(0) + " va etre supprimee");
         supprDiag->show();
         // le signal est bien "rejected", c est un bug Qt
         QObject::connect(supprDiag,SIGNAL(accepted()),this,SLOT(deleteItem()));
@@ -373,8 +373,8 @@ void FirstWindow::showIcons(QTreeWidgetItem *item, int n)
     }
     item->setIcon(2,QIcon("../Toudou/img/pluslarge.png"));
     item->setIcon(3,QIcon("../Toudou/img/deletelarge.png"));
-    item->setToolTip(2,"Ajouter une étape à cette tache");
-    item->setToolTip(3,"Supprimer cette tache");
+    item->setToolTip(2,"Ajouter une étape à cette tâche");
+    item->setToolTip(3,"Supprimer cette tâche");
     for(int r=0 ; r<4 ; r++){
         item->setBackgroundColor(r,QColor(230,230,230));
     }
@@ -486,7 +486,7 @@ void FirstWindow::chargerXml()
 void FirstWindow::chargerXmlTemplate()
 {
     QString fileName = QFileDialog::getOpenFileName(this,
-                                                   "Charger un type de tache",
+                                                   "Charger un type de tâche",
                                                    "../Toudou/xml",
                                                    "Fichiers xml (*.xml)",new QString(),
                                                    QFileDialog::DontUseNativeDialog);
@@ -644,10 +644,10 @@ void FirstWindow::xmlToTacheFinished(TiXmlElement * element,QTreeWidgetItem *ite
 void FirstWindow::menuAction(QAction * action)
 {
     QString text = action->text();
-    if(text=="Nouvelle tache"){
+    if(text=="Nouvelle tâche"){
         popup();
     }
-    if(text=="Valider les taches finies"){
+    if(text=="Valider les tâches finies"){
         confirmFinished();
     }
     else if(text=="Sauvegarder la liste"){
@@ -656,7 +656,7 @@ void FirstWindow::menuAction(QAction * action)
     else if(text=="Charger une liste"){
         chargerXml();
     }
-    /*else if(text=="Charger un type de tache"){
+    /*else if(text=="Charger un type de tâche"){
         chargerXmlTemplate();
     }*/
     else if(text=="Supprimer la liste"){
@@ -723,7 +723,7 @@ void FirstWindow::contextMenuAction(QAction *action)
             }
         }
     }
-    else if (text=="Créer un type de tache..."){
+    else if (text=="Créer un type de tâche..."){
         if(item){
             defineCurrentTache(item,racine);
             widget_template * wt = new widget_template(currentTache,this,0);
@@ -806,7 +806,7 @@ void FirstWindow::popupDeleteList()
     supprDiag->addButton("Annuler",QMessageBox::RejectRole);
     supprDiag->addButton("Supprimer",QMessageBox::AcceptRole);
 
-    supprDiag->setText("Attention, toutes les taches de la liste vont être supprimées !");
+    supprDiag->setText("Attention, toutes les tâches de la liste vont être supprimées !");
     supprDiag->show();
     // le signal est bien "rejected", c est un bug Qt
     QObject::connect(supprDiag,SIGNAL(accepted()),this,SLOT(deleteList()));

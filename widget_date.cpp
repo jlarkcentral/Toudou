@@ -16,10 +16,10 @@ widget_date::widget_date(FirstWindow * fw, QWidget *parent) :
     dateabsbut->setToolTip("Attribuer une date absolue sur le calendrier");
     choicelayout->addWidget(dateabsbut);
     daterelbut = new QRadioButton("Date relative à une autre tâche");
-    daterelbut->setToolTip("L'échéance de la tache dépend d'une autre tache de la liste");
+    daterelbut->setToolTip("L'échéance de la tâche dépend d'une autre tâche de la liste");
     choicelayout->addWidget(daterelbut);
     nodatebut = new QRadioButton("Aucune date");
-    nodatebut->setToolTip("Pas de date pour cette tache");
+    nodatebut->setToolTip("Pas de date pour cette tâche");
     choicelayout->addWidget(nodatebut);
     choicewidget->setLayout(choicelayout);
     mainlayout->addWidget(choicewidget);

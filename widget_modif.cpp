@@ -26,7 +26,7 @@ Widget_modif::Widget_modif(QTreeWidgetItem *item,FirstWindow *fw, QWidget *paren
     // Layout du widget ajout
     QGridLayout * mainlayout = new QGridLayout();
     this->setLayout(mainlayout);
-    this->setWindowTitle("Ajout d'une tache");
+    this->setWindowTitle("Ajout d'une tâche");
     this->setFixedWidth(350);
     this->setFixedHeight(300);
 
@@ -48,42 +48,23 @@ Widget_modif::Widget_modif(QTreeWidgetItem *item,FirstWindow *fw, QWidget *paren
     QObject::connect(name,SIGNAL(textEdited(QString)),this,SLOT(textEdited(QString)));
 
 
-    // menu date  dÃ©pliable
+    // menu date  dépliable
     date_plus = new QPushButton("+");
     date_plus->setStyleSheet("QPushButton {font-weight : bold;}");
     date_plus->setFixedWidth(20);
-    date_plus->setToolTip("DÃ©finir une date limite pour la tache");
+    date_plus->setToolTip("Définir une date limite pour la tâche");
     mainlayout->addWidget(date_plus,2,0);
-    afficher_date = new QLabel("Ajouter une Ã©chÃ©ance");
+    afficher_date = new QLabel("Ajouter une échéance");
     mainlayout->addWidget(afficher_date,2,1);
 
-    // menu prÃ©cond dÃ©pliable
+    // menu précond dépliable
     precond_plus = new QPushButton("+");
     precond_plus->setStyleSheet("QPushButton {font-weight : bold;}");
     precond_plus->setFixedWidth(20);
-    precond_plus->setToolTip("Indiquer si certaines taches doivent Ãªtre rÃ©alisÃ©es avant celles-ci");
+    precond_plus->setToolTip("Indiquer si certaines tâches doivent être réalisées avant celles-ci");
     mainlayout->addWidget(precond_plus,3,0);
-    afficher_precond = new QLabel("Ajouter une ou des prÃ©condition(s)");
+    afficher_precond = new QLabel("Ajouter une ou des précondition(s)");
     mainlayout->addWidget(afficher_precond,3,1);
-
-    // menu liste ordonnee dÃ©pliable
-//    ordon_plus = new QPushButton("+");
-//    ordon_plus->setStyleSheet("QPushButton {font-weight : bold;}");
-//    ordon_plus->setFixedWidth(20);
-//    ordon_plus->setToolTip("Avec cette option, toutes les sous-taches seront classÃ©es dans un ordre prÃ©cis");
-//    mainlayout->addWidget(ordon_plus,4,0);
-//    afficher_ordon = new QLabel("Ajouter l'option de liste ordonnÃ©e");
-//    mainlayout->addWidget(afficher_ordon,4,1);
-
-    // menu template dÃ©pliable
-//    template_plus = new QPushButton("+");
-//    template_plus->setStyleSheet("QPushButton {font-weight : bold;}");
-//    template_plus->setFixedWidth(20);
-//    template_plus->setToolTip("Charger un type de tÃ¢che prÃ©alablement enregistrÃ©");
-//    mainlayout->addWidget(template_plus,5,0);
-//    afficher_template = new QLabel("Charger une tÃ¢che enregistrÃ©e");
-//    mainlayout->addWidget(afficher_template,5,1);
-    //mainlayout->addStretch();
 
     QFrame* line = new QFrame();
     line->setGeometry(QRect(/* ... */));
@@ -105,29 +86,6 @@ Widget_modif::Widget_modif(QTreeWidgetItem *item,FirstWindow *fw, QWidget *paren
     preconds->setVisible(false);
 
     QObject::connect(precond_plus,SIGNAL(clicked()),this,SLOT(afficherPrecond()));
-
-//    ordon_expl = new QLabel("En cochant cette option, toutes les sous-tÃ¢ches seront ordonnÃ©es. Ainsi, il faudra effectuer la premiÃ¨re sous-tache avant la deuxiÃ¨me, et ainsi de suite...");
-//    ordon_expl->setWordWrap(true);
-//    mainlayout->addWidget(ordon_expl,9,0,1,2);
-//    ordon_expl->setVisible(false);
-//    ordon = new QWidget();
-//    QHBoxLayout * ordon_layout = new QHBoxLayout();
-//    ordon_layout->addStretch();
-//    ordonch = new QCheckBox("Liste ordonnÃ©e");
-//    ordonch->setStyleSheet("QCheckBox{font-size : 18px;}");
-//    ordon_layout->addWidget(ordonch);
-//    ordon_layout->addStretch();
-//    ordon->setLayout(ordon_layout);
-//    mainlayout->addWidget(ordon,10,0,1,2);
-//    ordon->setVisible(false);
-
- //   QObject::connect(ordon_plus,SIGNAL(clicked()),this,SLOT(afficherOrdon()));
-
-//    templ = new widget_templ_aff(firstW);
-//    mainlayout->addWidget(templ,11,0,1,2);
-//    templ->setVisible(false);
-
-//    QObject::connect(template_plus,SIGNAL(clicked()),this,SLOT(afficherTempl()));
 
     //mainlayout->addStretch();
 
@@ -152,13 +110,6 @@ Widget_modif::Widget_modif(QTreeWidgetItem *item,FirstWindow *fw, QWidget *paren
     QObject::connect(boutonAjout,SIGNAL(clicked()),this,SLOT(close()));
     QObject::connect(name,SIGNAL(returnPressed()),this,SLOT(addTache()));
     QObject::connect(name,SIGNAL(returnPressed()),this,SLOT(close()));
-
-    // essais groupbox
-    /*groupbox_date = new QGroupBox("Gestion de date");
-    groupbox_date->setLayout(dateLayout);
-    groupbox_date->setFlat(true);
-    groupbox_date->setVisible(false);
-    mainlayout->addWidget(groupbox_date);*/
 
     QObject::connect(this,SIGNAL(WidgetClosed()),firstW,SLOT(resetDisable()));
 
@@ -226,7 +177,7 @@ void Widget_modif::addTache()
 //            item->addChild(checkedItemClone);
 //        }
 
-        // Fermeture de la fenÃªtre une fois la tÃ¢che ajoutÃ©e
+        // Fermeture de la fenêtre une fois la tâche ajoutée
         firstW->currentTache = firstW->racine;
         firstW->currentItem = firstW->arbo->invisibleRootItem();
         firstW->setDisabled(false);
