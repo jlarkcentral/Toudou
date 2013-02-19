@@ -1,34 +1,12 @@
-<?xml version="1.0" ?>
+<?xml version="1.0" encoding="ISO-8859-1" ?>
 <racine>
     <tache nom="Toutes les taches" checked="0" ordonnee="0">
-        <tache nom="Les Açores en voilier" dateAbs="Thu Aug 1 &#x00;013" checked="0" ordonnee="0">
-            <tache nom="Réserver le bateau" dateAbs="" checked="0" ordonnee="0" />
-            <tache nom="Vérifier Sécurité" dateRel="1 semaine(s) avant Les Açores en voilier" checked="0" ordonnee="0">
-                <tache nom="Manivelle de winch" dateAbs="" checked="0" ordonnee="0" />
-                <tache nom="Gilet de sauvetage" dateAbs="" checked="0" ordonnee="0" />
-                <tache nom="Feu de signalisation/réflecteurs" dateAbs="" checked="0" ordonnee="0" />
-                <tache nom="bombard" dateAbs="" checked="0" ordonnee="0" />
-                <tache nom="Outillage moteur" dateAbs="" checked="0" ordonnee="0" />
-                <tache nom="Test moteur" dateAbs="" checked="0" ordonnee="0" />
-                <tache nom="Remplir nourrice annexe" dateAbs="" checked="0" ordonnee="0" />
-                <tache nom="Piles" dateAbs="" checked="0" ordonnee="0" />
-                <tache nom="Carte de navigation" dateAbs="" checked="0" ordonnee="0" />
-            </tache>
-            <tache nom="Approvisionnement repas" dateAbs="" checked="0" ordonnee="1">
-                <tache nom="Course" dateRel="1 semaine(s) avant Les Açores en voilier" checked="0" ordonnee="0" />
-                <tache nom="Charger non périssable dans le bateau" dateAbs="" checked="0" ordonnee="0" />
-                <tache nom="Charger périssable dans le bateau" dateRel="1 jour(s) avant Les Açores en voilier" checked="0" ordonnee="0" />
-            </tache>
-            <tache nom="Remplissage ponton" dateAbs="" checked="0" ordonnee="0">
-                <tache nom="Eau/électricité" dateAbs="" checked="0" ordonnee="0" />
-                <tache nom="Fuel" dateAbs="" checked="0" ordonnee="0" />
-            </tache>
-            <tache nom="Sac perso" dateAbs="" checked="0" ordonnee="0">
-                <tache nom="Veste de quart" dateAbs="" checked="0" ordonnee="0" />
-                <tache nom="Bottes" dateAbs="" checked="0" ordonnee="0" />
-                <tache nom="Pull" dateAbs="" checked="0" ordonnee="0" />
-                <tache nom="Crème solaire" dateAbs="" checked="0" ordonnee="0" />
-                <tache nom="Lunettes de soleil" dateAbs="" checked="0" ordonnee="0" />
+        <tache nom="fdsfs" dateAbs="" checked="0" ordonnee="0">
+            <tache nom="lkjlkj" dateAbs="" checked="0" ordonnee="0" />
+        </tache>
+        <tache nom="fdfsd" dateAbs="" checked="1" ordonnee="0">
+            <tache nom="fdsfsdf" dateAbs="" checked="0" ordonnee="0">
+                <tache nom="fdfds" dateAbs="" checked="0" ordonnee="0" />
             </tache>
         </tache>
     </tache>
