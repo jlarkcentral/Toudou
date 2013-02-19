@@ -52,9 +52,9 @@ FirstWindow::FirstWindow(QWidget *parent) :
     QAction * chargerliste = new QAction("Charger une liste",menuListe);
     chargerliste->setShortcut(QKeySequence("Ctrl+O"));
     menuListe->addAction(chargerliste);
-    QAction * chargertemplate = new QAction("Charger un type de tache",menuListe);
+    /*QAction * chargertemplate = new QAction("Charger un type de tache",menuListe);
     chargertemplate->setShortcut(QKeySequence("Ctrl+T"));
-    menuListe->addAction(chargertemplate);
+    menuListe->addAction(chargertemplate);*/
     QAction * supprliste = new QAction("Supprimer la liste",menuListe);
     supprliste->setShortcut(Qt::Key_Delete);
     menuListe->addAction(supprliste);
@@ -89,11 +89,13 @@ FirstWindow::FirstWindow(QWidget *parent) :
     title->setAlignment(Qt::AlignCenter);
     QFont titlefont("LMRomanUnsl10");
     title->setFont(titlefont);
-    title->setStyleSheet("font-size : 28px");
+    title->setStyleSheet("font-size : 16px");
     mainLayout->addWidget(title,0,0,1,2);
 
     // Onglets
     QTabWidget * onglets = new QTabWidget();
+    onglets->setStyleSheet("QTabWidget{font-size : 20px ; font-weight : bold}");
+    onglets->setFont(titlefont);
     //onglets->setFixedWidth(400);
     mainLayout->addWidget(onglets,2,0,1,1);
 
@@ -656,9 +658,9 @@ void FirstWindow::menuAction(QAction * action)
     else if(text=="Charger une liste"){
         chargerXml();
     }
-    else if(text=="Charger un type de tache"){
+    /*else if(text=="Charger un type de tache"){
         chargerXmlTemplate();
-    }
+    }*/
     else if(text=="Supprimer la liste"){
         popupDeleteList();
     }
