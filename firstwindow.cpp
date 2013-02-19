@@ -10,6 +10,7 @@
 #include <QDialog>
 #include <QMessageBox>
 #include <QFileDialog>
+#include <QStatusBar>
 
 #include "firstwindow.h"
 #include "widget_infos.h"
@@ -29,6 +30,9 @@ FirstWindow::FirstWindow(QWidget *parent) :
     setCentralWidget(centralwidget);
     mainLayout = new QGridLayout();
     centralwidget->setLayout(mainLayout);
+
+    statbar = new QStatusBar(this);
+    setStatusBar(statbar);
 
     // Entête fenêtre (title + icon)
     //setWindowTitle("Gestionnaire de taches Toudou");
@@ -338,6 +342,20 @@ void FirstWindow::tacheChecked(QTreeWidgetItem * item, int n)
 {
     if (n==0){
         if (item->checkState(0)==Qt::Checked){
+            //            defineCurrentTache(item,racine);
+            //            Tache * ct = currentTache;
+            bool subitemscheck = true;
+            //            for(int i=0 ; ct->getSousTaches().size() ; i++){
+            //                Tache * cti = ct->getSousTaches().at(i);
+            //                if(!cti->getFini()){
+            //                    precondConflit = true;
+            //                }
+            //            }
+            subitemscheck = areSubItemsChecked(item);
+            if(!subitemscheck){
+                statbar->showMessage("La tache " +item->text(0)+ " ne respecte pas les preconditions !");
+            }
+            else statbar->showMessage("");
             item->setTextColor(0,QColor(58,157,35));
             defineCurrentTache(item,racine);
             currentTache->setFini(true);
@@ -455,10 +473,10 @@ void FirstWindow::chargerXml()
 {
     //QString fileName = QFileDialog::getOpenFileName(this, tr("Charger une liste"), "",tr("Fichiers Xml (*.xml);"));
     QString fileName = QFileDialog::getOpenFileName(this,
-                                                   "Charger une liste",
-                                                   "../Toudou/xml",
-                                                   "Fichiers xml (*.xml)",new QString(),
-                                                   QFileDialog::DontUseNativeDialog);
+                                                    "Charger une liste",
+                                                    "../Toudou/xml",
+                                                    "Fichiers xml (*.xml)",new QString(),
+                                                    QFileDialog::DontUseNativeDialog);
     if (fileName != "") {
         // code recopié : il faudra p-e l'utiliser pour plus de securité
         QFile file(fileName);
@@ -486,10 +504,17 @@ void FirstWindow::chargerXml()
 void FirstWindow::chargerXmlTemplate()
 {
     QString fileName = QFileDialog::getOpenFileName(this,
+<<<<<<< HEAD
                                                    "Charger un type de tâche",
                                                    "../Toudou/xml",
                                                    "Fichiers xml (*.xml)",new QString(),
                                                    QFileDialog::DontUseNativeDialog);
+=======
+                                                    "Charger un type de tache",
+                                                    "../Toudou/xml",
+                                                    "Fichiers xml (*.xml)",new QString(),
+                                                    QFileDialog::DontUseNativeDialog);
+>>>>>>> b52894cb0c2f87bf5b94494267f2746c84c78fa1
     if (fileName != "") {
         // code recopié : il faudra p-e l'utiliser pour plus de securité
         QFile file(fileName);

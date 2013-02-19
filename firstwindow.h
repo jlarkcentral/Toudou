@@ -52,6 +52,8 @@ public:
     Tache * templates;
     QTreeWidget * templatesTree;
 
+    QStatusBar * statbar;
+
     // effacer les icones
     void eraseIcons(QTreeWidgetItem * item);
 
