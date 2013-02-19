@@ -478,14 +478,12 @@ void FirstWindow::chargerXml()
                                                     "Fichiers xml (*.xml)",new QString(),
                                                     QFileDialog::DontUseNativeDialog);
     if (fileName != "") {
-        // code recopié : il faudra p-e l'utiliser pour plus de securité
         QFile file(fileName);
         if (!file.open(QIODevice::ReadOnly)) {
             QMessageBox::critical(this, tr("Error"),
                                   tr("Could not open file"));
             return;
         }
-    }
 
     string fileNameString = fileName.toStdString();
 
@@ -497,6 +495,7 @@ void FirstWindow::chargerXml()
         xmlToTache(element,arbo->invisibleRootItem(),racine);
     }
     currentItem = arbo->invisibleRootItem();
+    }
 
 }
 
