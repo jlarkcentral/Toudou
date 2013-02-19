@@ -409,10 +409,10 @@ void FirstWindow::chargerXml()
 {
     //QString fileName = QFileDialog::getOpenFileName(this, tr("Charger une liste"), "",tr("Fichiers Xml (*.xml);"));
     QString fileName = QFileDialog::getOpenFileName(this,
-                                                    "Charger une liste",
-                                                    "../Toudou/xml",
-                                                    "Fichiers xml (*.xml)",new QString(),
-                                                    QFileDialog::DontUseNativeDialog);
+                                                   "Charger une liste",
+                                                   "../Toudou/xml",
+                                                   "Fichiers xml (*.xml)",new QString(),
+                                                   QFileDialog::DontUseNativeDialog);
     if (fileName != "") {
         // code recopié : il faudra p-e l'utiliser pour plus de securité
         QFile file(fileName);
@@ -421,28 +421,32 @@ void FirstWindow::chargerXml()
                                   tr("Could not open file"));
             return;
         }
-
-        cout << "ouvre : " << fileName.toStdString() << endl;
-
-        const char * charfilename = fileName.toStdString().c_str();
-        TiXmlDocument doc(charfilename);
-        doc.LoadFile();
-        TiXmlElement * element = doc.FirstChildElement()->FirstChildElement()->FirstChildElement();
-        if(element){
-            xmlToTache(element,arbo->invisibleRootItem(),racine);
-        }
-        currentItem = arbo->invisibleRootItem();
     }
+
+    string fileNameString = fileName.toStdString();
+    cout << "ouvre : " << fileNameString << endl;
+
+    const char * charfilename = fileNameString.c_str();
+    TiXmlDocument doc(charfilename);
+    doc.LoadFile();
+    cout << "file loaded" << endl;
+    TiXmlElement * element = doc.FirstChildElement()->FirstChildElement()->FirstChildElement();
+    cout << "element" << endl;
+    if(element){
+        xmlToTache(element,arbo->invisibleRootItem(),racine);
+    }
+    currentItem = arbo->invisibleRootItem();
+
 }
 
 // chargement de type de tache : fichier xml en liste avec 1er noeud
 void FirstWindow::chargerXmlTemplate()
 {
     QString fileName = QFileDialog::getOpenFileName(this,
-                                                    "Charger un type de tache",
-                                                    "../Toudou/xml",
-                                                    "Fichiers xml (*.xml)",new QString(),
-                                                    QFileDialog::DontUseNativeDialog);
+                                                   "Charger un type de tache",
+                                                   "../Toudou/xml",
+                                                   "Fichiers xml (*.xml)",new QString(),
+                                                   QFileDialog::DontUseNativeDialog);
     if (fileName != "") {
         // code recopié : il faudra p-e l'utiliser pour plus de securité
         QFile file(fileName);
@@ -451,17 +455,19 @@ void FirstWindow::chargerXmlTemplate()
                                   tr("Could not open file"));
             return;
         }
-
-
-        const char * charfilename = fileName.toStdString().c_str();
-        TiXmlDocument doc(charfilename);
-        doc.LoadFile();
-        TiXmlElement * element = doc.FirstChildElement()->FirstChildElement();
-        if(element){
-            xmlToTache(element,arbo->invisibleRootItem(),racine);
-        }
-        currentItem = arbo->invisibleRootItem();
     }
+
+
+    string fileNameString = fileName.toStdString();
+    const char * charfilename = fileNameString.c_str();
+    TiXmlDocument doc(charfilename);
+    doc.LoadFile();
+    TiXmlElement * element = doc.FirstChildElement()->FirstChildElement();
+    if(element){
+        xmlToTache(element,arbo->invisibleRootItem(),racine);
+    }
+    currentItem = arbo->invisibleRootItem();
+
 }
 
 void FirstWindow::chargerXml(string fileName)
@@ -469,7 +475,9 @@ void FirstWindow::chargerXml(string fileName)
     const char * charfilename = fileName.c_str();
     TiXmlDocument doc(charfilename);
     doc.LoadFile();
+
     TiXmlElement * element = doc.FirstChildElement()->FirstChildElement()->FirstChildElement();
+    cout << "element" << endl;
     if(element){
         xmlToTache(element,arbo->invisibleRootItem(),racine);
     }
