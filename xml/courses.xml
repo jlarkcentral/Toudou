@@ -1,0 +1,7 @@
+<?xml version="1.0" ?>
+<racine>
+    <tache nom="Faire les courses" dateAbs="Mon Feb 4 2013">
+        <tache nom="jj" dateAbs="" />
+        <tache nom="dddd" dateAbs="Tue Feb 12 2013" />
+    </tache>
+</racine>
