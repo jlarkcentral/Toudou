@@ -389,7 +389,7 @@ void Widget_ajout::afficherOrdon()
         ordon->setVisible(true);
         ordon_plus->setText("-");
         ordon_aff = true;
-        this->setFixedHeight(600);
+        this->setFixedHeight(450);
         afficher_ordon->setStyleSheet("QLabel{font-weight : bold;}");
         if (date_aff)
         {
