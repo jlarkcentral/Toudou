@@ -292,6 +292,7 @@ void Widget_ajout::addTache()
                 QTreeWidgetItem * subItem = templ->getTempl()->child(i)->clone();
                 item->addChild(subItem);
                 Tache * soustache = new Tache(subItem->text(0).toStdString());
+                soustache->setMatchingItem(subItem);
                 newtache->addSousTache(soustache);
             }
         }
@@ -301,6 +302,7 @@ void Widget_ajout::addTache()
 
         newtache->setMatchingItem(item);
         firstW->defineCurrentTache(item->parent(),firstW->racine);
+        cout << "currentTache = " << firstW->currentTache->getNom() << endl;
         firstW->currentTache->addSousTache(newtache);
 
         // Fermeture de la fenêtre une fois la tâche ajoutée
