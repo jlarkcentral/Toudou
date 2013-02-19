@@ -37,7 +37,7 @@ FirstWindow::FirstWindow(QWidget *parent) :
     //Barre des menus
     QMenuBar * bar = new QMenuBar(this);
     bar->setFixedWidth(200);
-    QMenu* menuListe = new QMenu("Liste");
+    QMenu* menuListe = new QMenu("&Liste");
     QAction * nouvelletache = new QAction("Nouvelle tache",menuListe);
     nouvelletache->setShortcut(Qt::Key_Space);
     menuListe->addAction(nouvelletache);
@@ -65,7 +65,7 @@ FirstWindow::FirstWindow(QWidget *parent) :
 
     QObject::connect(menuListe,SIGNAL(triggered(QAction*)),this,SLOT(menuAction(QAction*)));
 
-    QMenu* menuAffichage = new QMenu("Affichage");
+    QMenu* menuAffichage = new QMenu("&Affichage");
     QMenu* menuLangue = new QMenu("Langue");
     menuLangue->addAction("Francais");
     menuLangue->addAction("English");
@@ -84,7 +84,7 @@ FirstWindow::FirstWindow(QWidget *parent) :
     bar->addMenu(menuAffichage);
 
     // Titre
-    QLabel * title = new QLabel("");
+    QLabel * title = new QLabel("Gestionnaire de tâches");
     title->setAlignment(Qt::AlignCenter);
     QFont titlefont("LMRomanUnsl10");
     title->setFont(titlefont);
