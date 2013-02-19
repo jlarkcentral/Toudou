@@ -5,6 +5,7 @@
 #include <QTreeWidget>
 #include <QLabel>
 #include <QHeaderView>
+#include <QTreeWidgetItem>
 
 class widget_templ_aff : public QWidget
 {
@@ -13,10 +14,15 @@ class widget_templ_aff : public QWidget
 public:
     explicit widget_templ_aff(FirstWindow * fw, QWidget *parent = 0);
     ~widget_templ_aff();
+    QTreeWidgetItem * getTempl();
 
 private:
     FirstWindow * FirstW;
     QTreeWidget * tree;
+    QTreeWidgetItem * templ;
+
+public slots:
+    void itemChecked(QTreeWidgetItem* item, int n);
 };
 
 #endif // WIDGET_TEMPL_AFF_H

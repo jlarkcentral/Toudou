@@ -32,9 +32,41 @@ widget_templ_aff::widget_templ_aff(FirstWindow * fw, QWidget *parent) :
         tree->addTopLevelItem(toAdd);
     }
     mainlayout->addWidget(tree);
+
+    QObject::connect(tree,SIGNAL(itemChanged(QTreeWidgetItem*,int)),this,SLOT(itemChecked(QTreeWidgetItem*,int)));
 }
 
 widget_templ_aff::~widget_templ_aff()
 {
 
+}
+
+QTreeWidgetItem * widget_templ_aff::getTempl()
+{
+    for (int i=0 ; i<tree->topLevelItemCount() ; ++i)
+    {
+        if (tree->topLevelItem(i)->checkState(0) == Qt::Checked)
+        {
+            return tree->topLevelItem(i);
+        }
+    }
+}
+
+
+// SLOTS
+
+void widget_templ_aff::itemChecked(QTreeWidgetItem* item, int n)
+{
+    if (n == 0)
+    {
+        if (item->checkState(0)==Qt::Checked)
+        {
+            for (int i = 0 ; i<tree->topLevelItemCount() ; ++i)
+            {
+                if (tree->topLevelItem(i) != item)
+                tree->topLevelItem(i)->setCheckState(0,Qt::Unchecked);
+            }
+            //item->setCheckState(0,Qt::Checked);
+        }
+    }
 }
