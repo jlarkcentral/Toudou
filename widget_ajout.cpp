@@ -238,7 +238,7 @@ void Widget_ajout::afficherDate()
         date_plus->setText("-");
         date_aff = true;
         this->setFixedHeight(600);
-        this->setFixedWidth(600);
+        this->setFixedWidth(350);
         if (precond_aff)
         {
             preconds->setVisible(false);
