@@ -51,58 +51,6 @@ Widget_ajout::Widget_ajout(FirstWindow *fw,QWidget *parent) :
     mainlayout->addWidget(name,1,0,1,2);
     QObject::connect(name,SIGNAL(textEdited(QString)),this,SLOT(textEdited(QString)));
 
-    /*// menu date  dépliable
-    QWidget * widget_date_plus= new QWidget();
-    QHBoxLayout * layout_date_plus = new QHBoxLayout();
-    date_plus = new QPushButton("+");
-    date_plus->setStyleSheet("QPushButton {font-weight : bold;}");
-    date_plus->setFixedWidth(20);
-    date_plus->setToolTip("Définir une date limite pour la tache");
-    layout_date_plus->addWidget(date_plus);
-    afficher_date = new QLabel("<b>Ajouter une échéance</b>");
-    layout_date_plus->addWidget(afficher_date);
-    widget_date_plus->setLayout(layout_date_plus);
-    mainlayout->addWidget(widget_date_plus);
-
-    // menu précond dépliable
-    QWidget * widget_precond_plus = new QWidget();
-    QHBoxLayout * layout_precond_plus = new QHBoxLayout();
-    precond_plus = new QPushButton("+");
-    precond_plus->setStyleSheet("QPushButton {font-weight : bold;}");
-    precond_plus->setFixedWidth(20);
-    precond_plus->setToolTip("Indiquer si certaines taches doivent être réalisées avant celles-ci");
-    layout_precond_plus->addWidget(precond_plus);
-    afficher_precond = new QLabel("<b>Ajouter une ou des précondition(s)</b>");
-    layout_precond_plus->addWidget(afficher_precond);
-    widget_precond_plus->setLayout(layout_precond_plus);
-    mainlayout->addWidget(widget_precond_plus);
-
-    // menu liste ordonnee dépliable
-    QWidget * widget_ordon_plus = new QWidget();
-    QHBoxLayout * layout_ordon_plus = new QHBoxLayout();
-    ordon_plus = new QPushButton("+");
-    ordon_plus->setStyleSheet("QPushButton {font-weight : bold;}");
-    ordon_plus->setFixedWidth(20);
-    ordon_plus->setToolTip("Avec cette option, toutes les sous-taches seront classées dans un ordre précis");
-    layout_ordon_plus->addWidget(ordon_plus);
-    afficher_ordon = new QLabel("<b>Ajouter l'option de liste ordonnée</b>");
-    layout_ordon_plus->addWidget(afficher_ordon);
-    widget_ordon_plus->setLayout(layout_ordon_plus);
-    mainlayout->addWidget(widget_ordon_plus);
-
-    // menu template dépliable
-    QWidget * widget_template_plus = new QWidget();
-    QHBoxLayout * layout_template_plus = new QHBoxLayout();
-    template_plus = new QPushButton("+");
-    template_plus->setStyleSheet("QPushButton {font-weight : bold;}");
-    template_plus->setFixedWidth(20);
-    template_plus->setToolTip("Charger un type de tâche préalablement enregistré");
-    layout_template_plus->addWidget(template_plus);
-    afficher_template = new QLabel("<b> Charger une tâche enregistrée");
-    layout_template_plus->addWidget(afficher_template);
-    widget_template_plus->setLayout(layout_template_plus);
-    mainlayout->addWidget(widget_template_plus);*/
-
     // menu date  dépliable
     date_plus = new QPushButton("+");
     date_plus->setStyleSheet("QPushButton {font-weight : bold;}");
@@ -229,16 +177,6 @@ Widget_ajout::~Widget_ajout()
 void Widget_ajout::addTache()
 {
     if(name->text()!=""){
-
-        if(templ->hasTemplate())
-        {
-            cout << "Template " << templ->getTempl()->text(0).toStdString() << endl;
-        }
-        else
-        {
-            cout << "Pas de template" << endl;
-        }
-
         QTreeWidgetItem * item = new QTreeWidgetItem(firstW->currentItem);
 
         firstW->defineCurrentTache(item->parent(),firstW->racine);
@@ -282,6 +220,11 @@ void Widget_ajout::addTache()
         }
         else newtache->setDate(3);
         newtache->setPreconditions(preconds->getPreconditions());
+        if (ordre && item->parent()->childCount() > 1) // Si c'est une sous-tache de liste ordonnee
+        {
+            Tache tacheprecedente(firstW->arbo->itemAbove(item),false);
+            newtache->addPrecondition(tacheprecedente);
+        }
         newtache->afficherPreconds(); // VERIFICATION (test)
         newtache->setOrdon(ordonch->isChecked());
 
@@ -292,6 +235,7 @@ void Widget_ajout::addTache()
                 QTreeWidgetItem * subItem = templ->getTempl()->child(i)->clone();
                 item->addChild(subItem);
                 Tache * soustache = new Tache(subItem->text(0).toStdString());
+                soustache->setMatchingItem(subItem);
                 newtache->addSousTache(soustache);
             }
         }
