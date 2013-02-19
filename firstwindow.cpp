@@ -470,14 +470,11 @@ void FirstWindow::chargerXml()
     }
 
     string fileNameString = fileName.toStdString();
-    cout << "ouvre : " << fileNameString << endl;
 
     const char * charfilename = fileNameString.c_str();
     TiXmlDocument doc(charfilename);
     doc.LoadFile();
-    cout << "file loaded" << endl;
     TiXmlElement * element = doc.FirstChildElement()->FirstChildElement()->FirstChildElement();
-    cout << "element" << endl;
     if(element){
         xmlToTache(element,arbo->invisibleRootItem(),racine);
     }
@@ -523,7 +520,6 @@ void FirstWindow::chargerXml(string fileName)
     doc.LoadFile();
 
     TiXmlElement * element = doc.FirstChildElement()->FirstChildElement()->FirstChildElement();
-    cout << "element" << endl;
     if(element){
         xmlToTache(element,arbo->invisibleRootItem(),racine);
     }
@@ -537,7 +533,6 @@ void FirstWindow::chargerXml(string fileName,QTreeWidgetItem * item,Tache * tach
     doc.LoadFile();
 
     TiXmlElement * element = doc.FirstChildElement()->FirstChildElement()->FirstChildElement();
-    cout << "element" << endl;
     if(element){
         xmlToTache(element,item,tacheRacine);
     }
@@ -845,4 +840,14 @@ void FirstWindow::todoToday(QTreeWidgetItem * item)
         QTreeWidgetItem * subItem = item->child(i);
         todoToday(subItem);
     }
+}
+
+QTreeWidgetItem* FirstWindow::checkedItem(QTreeWidget *tree)
+{
+    for(int i=0 ; tree->topLevelItemCount() ; i++){
+        if(tree->topLevelItem(i)->checkState(0)==Qt::Checked){
+            return tree->topLevelItem(i);
+        }
+    }
+    return 0;
 }

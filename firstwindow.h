@@ -76,6 +76,8 @@ public:
     // Disable les sous-taches pour une meilleure visibilité des templates
     void disableSubtasks(QTreeWidgetItem * item);
 
+    QTreeWidgetItem *checkedItem(QTreeWidget * tree);
+
 signals:
     void appClosed();
 private:

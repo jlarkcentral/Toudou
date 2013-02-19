@@ -237,8 +237,6 @@ void Widget_ajout::addTache()
         bool ordre = firstW->currentTache->getOrdon();
         int numberOrd = firstW->currentTache->getSousTaches().size() + 1;
 
-        cout << "currentTache ordonnee : " << ordre << endl;
-
         item->setCheckState(0,Qt::Unchecked);
         if(ordre){
 
@@ -283,6 +281,15 @@ void Widget_ajout::addTache()
         newtache->setMatchingItem(item);
         firstW->defineCurrentTache(item->parent(),firstW->racine);
         firstW->currentTache->addSousTache(newtache);
+
+
+        // AJOUT avec template
+
+//        if(firstW->checkedItem(firstW->templatesTree)){
+//            cout << "check" << endl;
+//            QTreeWidgetItem * checkedItemClone = firstW->checkedItem(firstW->templatesTree)->clone();
+//            item->addChild(checkedItemClone);
+//        }
 
         // Fermeture de la fenêtre une fois la tâche ajoutée
         firstW->currentTache = firstW->racine;
