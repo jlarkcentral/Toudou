@@ -49,6 +49,10 @@ void widget_template::closeEvent(QCloseEvent *event)
 
 void widget_template::saveXml()
 {
-    root->createXml(nomFichierEdit->text().toStdString());
+    root->setNom(nomFichierEdit->text().toStdString());
+    firstW->templates->addSousTache(root);
+
+    firstW->sauvegarderTemplates();
+    firstW->chargerXml("../Toudou/xml/templates.xml",firstW->templatesTree->invisibleRootItem(),firstW->templates);
     this->close();
 }

@@ -48,6 +48,10 @@ public:
     // menu clic droit
     QMenu * contextMenu;
 
+    // liste templates
+    Tache * templates;
+    QTreeWidget * templatesTree;
+
     // effacer les icones
     void eraseIcons(QTreeWidgetItem * item);
 
@@ -56,6 +60,7 @@ public:
     bool areSubItemsChecked(QTreeWidgetItem* item);
     void xmlToTache(TiXmlElement * element,QTreeWidgetItem *item,Tache * tache);
     void chargerXml(string fileName);
+    void chargerXml(string fileName,QTreeWidgetItem * item,Tache * tacheRacine);
     void createXmlforTree(string nomFichier);
     void addItemInXml(TiXmlDocument doc,TiXmlElement * element,QTreeWidgetItem * item);
     void xmlToTacheFinished(TiXmlElement * element,QTreeWidgetItem *item);
@@ -63,6 +68,7 @@ public:
     void popupDeleteList();
     void todoToday();
     void todoToday(QTreeWidgetItem *item);
+    void sauvegarderTemplates();
 
     // Enlever les checkboxes des sous-taches
     void removeCheckboxes(QTreeWidgetItem * item);

@@ -221,7 +221,18 @@ FirstWindow::FirstWindow(QWidget *parent) :
     }
     arboAchevees->expandAll();
 
+    // verifier si il y a des taches pour ce jour
     todoToday();
+
+    // chargement des templates
+    templates = new Tache("templates");
+    templatesTree = new QTreeWidget();
+    QFile fileTemplates("../Toudou/xml/templates.xml");
+    if (fileTemplates.open(QIODevice::ReadOnly)) {
+        chargerXml("../Toudou/xml/templates.xml",templatesTree->invisibleRootItem(),templates);
+    }
+
+
 
     // sauvegarder pour prochaine session
     QObject::connect(this,SIGNAL(appClosed()),this,SLOT(sauvegarderSession()));
@@ -404,6 +415,10 @@ void FirstWindow::sauvegarderSession()
     createXmlforTree("saveFinished");
 }
 
+void FirstWindow::sauvegarderTemplates()
+{
+    templates->createXml("templates");
+}
 
 // retrouve la tache associée à un element de l'arbre
 void FirstWindow::defineCurrentTache(QTreeWidgetItem *item,Tache * tacheRef)
@@ -497,6 +512,19 @@ void FirstWindow::chargerXml(string fileName)
         xmlToTache(element,arbo->invisibleRootItem(),racine);
     }
     currentItem = arbo->invisibleRootItem();
+}
+
+void FirstWindow::chargerXml(string fileName,QTreeWidgetItem * item,Tache * tacheRacine)
+{
+    const char * charfilename = fileName.c_str();
+    TiXmlDocument doc(charfilename);
+    doc.LoadFile();
+
+    TiXmlElement * element = doc.FirstChildElement()->FirstChildElement()->FirstChildElement();
+    cout << "element" << endl;
+    if(element){
+        xmlToTache(element,item,tacheRacine);
+    }
 }
 
 // ancienne fonction de Tache : xml vers une structure de Tache, ajout dans l'arbre
