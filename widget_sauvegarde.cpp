@@ -4,6 +4,7 @@
 #include <QPushButton>
 #include <QWidget>
 #include <QCloseEvent>
+#include <QStatusBar>
 
 #include "widget_sauvegarde.h"
 
@@ -20,9 +21,9 @@ widget_sauvegarde::widget_sauvegarde(FirstWindow *fw, QWidget *parent) :
     QPushButton * annuler = new QPushButton("Annuler");
 
     sauvGrid->addWidget(nomFichier,0,0);
-    sauvGrid->addWidget(nomFichierEdit,1,0);
-    sauvGrid->addWidget(ok,2,0);
-    sauvGrid->addWidget(annuler,2,2);
+    sauvGrid->addWidget(nomFichierEdit,1,0,1,3);
+    sauvGrid->addWidget(ok,2,2);
+    sauvGrid->addWidget(annuler,2,0);
 
     this->setLayout(sauvGrid);
     this->setWindowTitle("Sauvegarder sous...");
@@ -32,6 +33,7 @@ widget_sauvegarde::widget_sauvegarde(FirstWindow *fw, QWidget *parent) :
     firstW->setDisabled(true);
 
     QObject::connect(ok,SIGNAL(clicked()),this,SLOT(saveXml()));
+    QObject::connect(nomFichierEdit,SIGNAL(returnPressed()),this,SLOT(saveXml()));
     QObject::connect(annuler,SIGNAL(clicked()),this,SLOT(close()));
 
     QObject::connect(this,SIGNAL(WidgetClosed()),firstW,SLOT(resetDisable()));
@@ -49,5 +51,6 @@ void widget_sauvegarde::closeEvent(QCloseEvent *event)
 void widget_sauvegarde::saveXml()
 {
     firstW->racine->createXml(nomFichierEdit->text().toStdString());
+    firstW->statbar->showMessage("La liste de taches " +nomFichierEdit->text()+ " a ete sauvegardee",3000);
     this->close();
 }

@@ -12,6 +12,7 @@ widget_templ_aff::widget_templ_aff(FirstWindow * fw, QWidget *parent) :
 
     QLabel * explications = new QLabel();
     explications->setWordWrap(true);
+    explications->setAlignment(Qt::AlignJustify);
     explications->setText("Sélectionnez une de vos tâches pré-enregistrées. Votre nouvelle tâche aura alors le même squelette (même nom et même sous-tâches).");
     mainlayout->addWidget(explications);
 

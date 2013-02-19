@@ -111,6 +111,7 @@ Widget_ajout::Widget_ajout(FirstWindow *fw,QWidget *parent) :
 
     ordon_expl = new QLabel("En cochant cette option, toutes les sous-tâches seront ordonnées. Ainsi, il faudra effectuer la première sous-tâche avant la deuxième, et ainsi de suite...");
     ordon_expl->setWordWrap(true);
+    ordon_expl->setAlignment(Qt::AlignJustify);
     mainlayout->addWidget(ordon_expl,9,0,1,2);
     ordon_expl->setVisible(false);
     ordon = new QWidget();

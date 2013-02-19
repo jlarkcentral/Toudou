@@ -35,7 +35,7 @@ FirstWindow::FirstWindow(QWidget *parent) :
     setStatusBar(statbar);
 
     // Entête fenêtre (title + icon)
-    //setWindowTitle("Gestionnaire de taches Toudou");
+    setWindowTitle("Gestionnaire de tâches Toudou");
     setWindowIcon(QIcon("../Toudou/img/toudouIcon.gif"));
 
     //Barre des menus
@@ -53,8 +53,8 @@ FirstWindow::FirstWindow(QWidget *parent) :
     QAction * sauverliste = new QAction("Sauvegarder la liste",menuListe);
     sauverliste->setShortcut(QKeySequence("Ctrl+S"));
     menuListe->addAction(sauverliste);
-    QAction * chargerliste = new QAction("Charger une liste",menuListe);
-    chargerliste->setShortcut(QKeySequence("Ctrl+O"));
+    QAction * chargerliste = new QAction("Importer une liste",menuListe);
+    chargerliste->setShortcut(QKeySequence("Ctrl+I"));
     menuListe->addAction(chargerliste);
     /*QAction * chargertemplate = new QAction("Charger un type de tâche",menuListe);
     chargertemplate->setShortcut(QKeySequence("Ctrl+T"));
@@ -213,14 +213,14 @@ FirstWindow::FirstWindow(QWidget *parent) :
     racine = new Tache("Toutes les tâches");
     racine->setMatchingItem(arbo->invisibleRootItem());
 
-    // ouvrir le backup
+    // Importer le backup
     QFile file("../Toudou/xml/backup.xml");
     if (file.open(QIODevice::ReadOnly)) {
         chargerXml("../Toudou/xml/backup.xml");
     }
     arbo->expandAll();
 
-    // ouvrir les taches finies
+    // Importer les taches finies
     QFile fileFinished("../Toudou/xml/saveFinished.xml");
     if (fileFinished.open(QIODevice::ReadOnly)) {
         chargerXmlFinished("../Toudou/xml/saveFinished.xml");
@@ -353,9 +353,9 @@ void FirstWindow::tacheChecked(QTreeWidgetItem * item, int n)
             //            }
             subitemscheck = areSubItemsChecked(item);
             if(!subitemscheck){
-                statbar->showMessage("La tache " +item->text(0)+ " ne respecte pas les preconditions !");
+                statbar->showMessage("Attention, certaines tâches sont à effectuer avant " +item->text(0)+ " !",3000);
             }
-            else statbar->showMessage("");
+            //else statbar->showMessage("");
             item->setTextColor(0,QColor(58,157,35));
             defineCurrentTache(item,racine);
             currentTache->setFini(true);
@@ -363,6 +363,7 @@ void FirstWindow::tacheChecked(QTreeWidgetItem * item, int n)
 
         }
         else if (item->checkState(0)==Qt::Unchecked){
+            statbar->showMessage("");
             item->setTextColor(0,QColor(0,0,0));
             defineCurrentTache(item,racine);
             currentTache->setFini(false);
@@ -473,41 +474,41 @@ void FirstWindow::chargerXml()
 {
     //QString fileName = QFileDialog::getOpenFileName(this, tr("Charger une liste"), "",tr("Fichiers Xml (*.xml);"));
     QString fileName = QFileDialog::getOpenFileName(this,
-                                                    "Charger une liste",
+                                                    "Importer une liste",
                                                     "../Toudou/xml",
                                                     "Fichiers xml (*.xml)",new QString(),
                                                     QFileDialog::DontUseNativeDialog);
     if (fileName != "") {
-        // code recopié : il faudra p-e l'utiliser pour plus de securité
         QFile file(fileName);
         if (!file.open(QIODevice::ReadOnly)) {
             QMessageBox::critical(this, tr("Error"),
                                   tr("Could not open file"));
             return;
         }
+
+
+        string fileNameString = fileName.toStdString();
+
+        const char * charfilename = fileNameString.c_str();
+        TiXmlDocument doc(charfilename);
+        doc.LoadFile();
+        TiXmlElement * element = doc.FirstChildElement()->FirstChildElement()->FirstChildElement();
+        if(element){
+            xmlToTache(element,arbo->invisibleRootItem(),racine);
+        }
+        currentItem = arbo->invisibleRootItem();
+
     }
-
-    string fileNameString = fileName.toStdString();
-
-    const char * charfilename = fileNameString.c_str();
-    TiXmlDocument doc(charfilename);
-    doc.LoadFile();
-    TiXmlElement * element = doc.FirstChildElement()->FirstChildElement()->FirstChildElement();
-    if(element){
-        xmlToTache(element,arbo->invisibleRootItem(),racine);
-    }
-    currentItem = arbo->invisibleRootItem();
-
 }
 
 // chargement de type de tache : fichier xml en liste avec 1er noeud
 void FirstWindow::chargerXmlTemplate()
 {
     QString fileName = QFileDialog::getOpenFileName(this,
-                                                   "Charger un type de tâche",
-                                                   "../Toudou/xml",
-                                                   "Fichiers xml (*.xml)",new QString(),
-                                                   QFileDialog::DontUseNativeDialog);
+                                                    "Importer un type de tâche",
+                                                    "../Toudou/xml",
+                                                    "Fichiers xml (*.xml)",new QString(),
+                                                    QFileDialog::DontUseNativeDialog);
 
     if (fileName != "") {
         // code recopié : il faudra p-e l'utiliser pour plus de securité
@@ -672,7 +673,7 @@ void FirstWindow::menuAction(QAction * action)
     else if(text=="Sauvegarder la liste"){
         sauvegarderSous();
     }
-    else if(text=="Charger une liste"){
+    else if(text=="Importer une liste"){
         chargerXml();
     }
     /*else if(text=="Charger un type de tâche"){
@@ -710,6 +711,7 @@ void FirstWindow::confirmFinished()
             currentTacheParent->delSousTache(currentTache);
             delete(itemCourant);
             i--;
+            statbar->showMessage("Les tâches terminées sont maintenant dans l'onglet \"Tâches finies\"",3000);
         }
     }
 }

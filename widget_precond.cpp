@@ -11,6 +11,7 @@ widget_precond::widget_precond(FirstWindow * fw, QWidget *parent) :
     QLabel * explications = new QLabel();
     explications->setWordWrap(true);
     explications->setText("Indiquez quelles tâches devront être effectuées avant cette nouvelle tâche. Il est possible d'en spécifier plusieurs.");
+    explications->setAlignment(Qt::AlignJustify);
     mainlayout->addWidget(explications);
 
     tree = new QTreeWidget();
