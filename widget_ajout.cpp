@@ -230,6 +230,15 @@ void Widget_ajout::addTache()
 {
     if(name->text()!=""){
 
+        if(templ->hasTemplate())
+        {
+            cout << "Template " << templ->getTempl()->text(0).toStdString() << endl;
+        }
+        else
+        {
+            cout << "Pas de template" << endl;
+        }
+
         QTreeWidgetItem * item = new QTreeWidgetItem(firstW->currentItem);
 
         firstW->defineCurrentTache(item->parent(),firstW->racine);
@@ -257,8 +266,6 @@ void Widget_ajout::addTache()
             item->setTextColor(1,QColor(152,152,152));
         }
 
-        firstW->arbo->addTopLevelItem(item);
-
 
         // ajout de la tache dans le modele
         Tache * newtache = new Tache(name->text().toStdString());
@@ -278,18 +285,23 @@ void Widget_ajout::addTache()
         newtache->afficherPreconds(); // VERIFICATION (test)
         newtache->setOrdon(ordonch->isChecked());
 
+        // AJOUT avec template
+        if(templ->hasTemplate()){
+            for (int i=0 ; i<templ->getTempl()->childCount() ; i++)
+            {
+                QTreeWidgetItem * subItem = templ->getTempl()->child(i)->clone();
+                item->addChild(subItem);
+                Tache * soustache = new Tache(subItem->text(0).toStdString());
+                newtache->addSousTache(soustache);
+            }
+        }
+
+        firstW->arbo->addTopLevelItem(item);
+
+
         newtache->setMatchingItem(item);
         firstW->defineCurrentTache(item->parent(),firstW->racine);
         firstW->currentTache->addSousTache(newtache);
-
-
-        // AJOUT avec template
-
-//        if(firstW->checkedItem(firstW->templatesTree)){
-//            cout << "check" << endl;
-//            QTreeWidgetItem * checkedItemClone = firstW->checkedItem(firstW->templatesTree)->clone();
-//            item->addChild(checkedItemClone);
-//        }
 
         // Fermeture de la fenêtre une fois la tâche ajoutée
         firstW->currentTache = firstW->racine;

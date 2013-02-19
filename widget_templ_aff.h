@@ -15,10 +15,12 @@ public:
     explicit widget_templ_aff(FirstWindow * fw, QWidget *parent = 0);
     ~widget_templ_aff();
     QTreeWidgetItem * getTempl();
+    bool hasTemplate();
 
 private:
     FirstWindow * FirstW;
     QTreeWidget * tree;
+    bool hasTempl;
     QTreeWidgetItem * templ;
 
 public slots:

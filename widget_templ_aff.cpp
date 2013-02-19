@@ -5,6 +5,8 @@ widget_templ_aff::widget_templ_aff(FirstWindow * fw, QWidget *parent) :
 {
     FirstW = fw;
 
+    hasTempl = false;
+
     QVBoxLayout * mainlayout = new QVBoxLayout();
     this->setLayout(mainlayout);
 
@@ -52,6 +54,11 @@ QTreeWidgetItem * widget_templ_aff::getTempl()
     }
 }
 
+bool widget_templ_aff::hasTemplate()
+{
+    return hasTempl;
+}
+
 
 // SLOTS
 
@@ -64,9 +71,15 @@ void widget_templ_aff::itemChecked(QTreeWidgetItem* item, int n)
             for (int i = 0 ; i<tree->topLevelItemCount() ; ++i)
             {
                 if (tree->topLevelItem(i) != item)
-                tree->topLevelItem(i)->setCheckState(0,Qt::Unchecked);
+                {
+                    tree->topLevelItem(i)->setCheckState(0,Qt::Unchecked);
+                }
             }
-            //item->setCheckState(0,Qt::Checked);
+            hasTempl = true;
+        }
+        else
+        {
+            hasTempl = false;
         }
     }
 }
