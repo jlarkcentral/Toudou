@@ -335,10 +335,7 @@ void FirstWindow::tacheChecked(QTreeWidgetItem * item, int n)
 {
     if (n==0){
         if (item->checkState(0)==Qt::Checked){
-            //if(areSubItemsChecked(item)){
             item->setTextColor(0,QColor(58,157,35));
-            //}
-            //else item->setCheckState(0,Qt::Unchecked); // pas forcement pertinent
             defineCurrentTache(item,racine);
             currentTache->setFini(true);
             currentTache = racine;
