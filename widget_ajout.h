@@ -10,11 +10,13 @@
 #include <QCloseEvent>
 #include <QCalendarWidget>
 #include <QCheckBox>
+#include <QFrame>
 
 #include "tache.h"
 #include "firstwindow.h"
 #include "widget_date.h"
 #include "widget_precond.h"
+#include "widget_templ_aff.h"
 
 #include <iostream>
 
@@ -63,11 +65,13 @@ private:
     QPushButton * ordon_plus;
     QLabel * afficher_ordon;
     bool ordon_aff;
-    QCheckBox * ordon;
+    QWidget * ordon;
+    QCheckBox * ordonch;
     QLabel * ordon_expl;
     QPushButton * template_plus;
     QLabel * afficher_template;
     bool template_aff;
+    widget_templ_aff * templ;
 
 signals:
     void WidgetClosed();
@@ -78,6 +82,7 @@ public slots:
     void textEdited(QString s);
     void afficherPrecond();
     void afficherOrdon();
+    void afficherTempl();
 
 protected:
     void closeEvent(QCloseEvent *event);

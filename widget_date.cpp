@@ -11,7 +11,7 @@ widget_date::widget_date(FirstWindow * fw, QWidget *parent) :
 
     // Boutons choix date absolue/relative
     QWidget * choicewidget = new QWidget();
-    QHBoxLayout * choicelayout = new QHBoxLayout();
+    QVBoxLayout * choicelayout = new QVBoxLayout();
     dateabsbut = new QRadioButton("Date précise",this);
     dateabsbut->setToolTip("Attribuer une date absolue sur le calendrier");
     choicelayout->addWidget(dateabsbut);
