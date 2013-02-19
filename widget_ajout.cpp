@@ -229,16 +229,6 @@ Widget_ajout::~Widget_ajout()
 void Widget_ajout::addTache()
 {
     if(name->text()!=""){
-
-        if(templ->hasTemplate())
-        {
-            cout << "Template " << templ->getTempl()->text(0).toStdString() << endl;
-        }
-        else
-        {
-            cout << "Pas de template" << endl;
-        }
-
         QTreeWidgetItem * item = new QTreeWidgetItem(firstW->currentItem);
 
         firstW->defineCurrentTache(item->parent(),firstW->racine);
@@ -282,6 +272,11 @@ void Widget_ajout::addTache()
         }
         else newtache->setDate(3);
         newtache->setPreconditions(preconds->getPreconditions());
+        if (ordre && item->parent()->childCount() > 1) // Si c'est une sous-tache de liste ordonnee
+        {
+            Tache tacheprecedente(firstW->arbo->itemAbove(item),false);
+            newtache->addPrecondition(tacheprecedente);
+        }
         newtache->afficherPreconds(); // VERIFICATION (test)
         newtache->setOrdon(ordonch->isChecked());
 
@@ -302,7 +297,6 @@ void Widget_ajout::addTache()
 
         newtache->setMatchingItem(item);
         firstW->defineCurrentTache(item->parent(),firstW->racine);
-        cout << "currentTache = " << firstW->currentTache->getNom() << endl;
         firstW->currentTache->addSousTache(newtache);
 
         // Fermeture de la fenêtre une fois la tâche ajoutée
