@@ -1,0 +1,12 @@
+<?xml version="1.0" ?>
+<racine>
+    <tache nom="Toutes les taches" date="">
+        <tache nom="Piscine" date="Date">
+            <tache nom="Construire" date="Date">
+                <tache nom="Creuser" date="Date" />
+                <tache nom="Remplir" date="Date" />
+            </tache>
+            <tache nom="Nager" date="Date" />
+        </tache>
+    </tache>
+</racine>
