@@ -26,6 +26,7 @@ widget_templ_aff::widget_templ_aff(FirstWindow * fw, QWidget *parent) :
     for(int i=0 ; i<FirstW->arbo->topLevelItemCount() ; i++){
         QTreeWidgetItem * itemCourant = FirstW->arbo->topLevelItem(i);
         QTreeWidgetItem * toAdd = itemCourant->clone();
+        FirstW->disableSubtasks(toAdd);
         toAdd->setFlags( Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsUserCheckable);
         tree->addTopLevelItem(toAdd);
     }

@@ -244,9 +244,11 @@ void FirstWindow::removeCheckboxes(QTreeWidgetItem *item)
 // Disable les sous-taches d'un template
 void FirstWindow::disableSubtasks(QTreeWidgetItem *item)
 {
-    item->setDisabled(true);
+    //item->setDisabled(true);
     for (int i = 0; i < item->childCount(); i++)
     {
+        item->child(i)->setDisabled(true);
+        item->child(i)->setTextColor(0,QColor(152,152,152));
         disableSubtasks(item->child(i));
     }
 }
