@@ -290,12 +290,26 @@ void FirstWindow::deleteItem()
 {
     defineCurrentTache(currentItem,racine);
     currentTache->getTacheParent()->delSousTache(currentTache);
-    bool ordre = currentTache->getOrdon();
+    bool ordre = currentTache->getTacheParent()->getOrdon();
+    delete(currentItem);
     if (ordre)
     {
-
+        QTreeWidgetItem * parent = currentItem->parent();
+        QString oldname;
+        QString newname;
+        ostringstream number;
+        string numberString;
+        for (int i = 0; i < parent->childCount(); i++)
+        {
+            oldname = parent->child(i)->text(0);
+            newname = oldname.remove(0,1);
+            number << i+1;
+            numberString = number.str();
+            newname = QString(numberString.c_str()) + newname;
+            parent->child(i)->setText(0,newname);
+            number.str("");
+        }
     }
-    delete(currentItem);
 }
 
 void FirstWindow::resetDisable()
