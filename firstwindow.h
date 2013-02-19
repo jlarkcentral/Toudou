@@ -67,6 +67,9 @@ public:
     // Enlever les checkboxes des sous-taches
     void removeCheckboxes(QTreeWidgetItem * item);
 
+    // Disable les sous-taches pour une meilleure visibilité des templates
+    void disableSubtasks(QTreeWidgetItem * item);
+
 signals:
     void appClosed();
 private:
