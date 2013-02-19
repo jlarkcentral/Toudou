@@ -15,8 +15,9 @@ widget_template::widget_template(Tache * tacheRacine,FirstWindow *fw, QWidget *p
     root = tacheRacine;
 
     QGridLayout * sauvGrid = new QGridLayout();
-    QLabel * nomFichier = new QLabel("Creer un type de tache...");
+    QLabel * nomFichier = new QLabel("Creer un type de tâche...");
     nomFichierEdit = new QLineEdit();
+    nomFichierEdit->setPlaceholderText("Nouveau template de tâches");
     QPushButton * ok = new QPushButton("Sauvegarder");
     QPushButton * annuler = new QPushButton("Annuler");
 

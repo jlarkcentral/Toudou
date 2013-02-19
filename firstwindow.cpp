@@ -504,17 +504,10 @@ void FirstWindow::chargerXml()
 void FirstWindow::chargerXmlTemplate()
 {
     QString fileName = QFileDialog::getOpenFileName(this,
-<<<<<<< HEAD
                                                    "Charger un type de tâche",
                                                    "../Toudou/xml",
                                                    "Fichiers xml (*.xml)",new QString(),
                                                    QFileDialog::DontUseNativeDialog);
-=======
-                                                    "Charger un type de tache",
-                                                    "../Toudou/xml",
-                                                    "Fichiers xml (*.xml)",new QString(),
-                                                    QFileDialog::DontUseNativeDialog);
->>>>>>> b52894cb0c2f87bf5b94494267f2746c84c78fa1
     if (fileName != "") {
         // code recopié : il faudra p-e l'utiliser pour plus de securité
         QFile file(fileName);
