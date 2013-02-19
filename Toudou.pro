@@ -23,7 +23,8 @@ SOURCES += main.cpp\
     tinyxml/tinyxml.cpp \
     tinyxml/tinystr.cpp \
     tinyxml/tinyxmlerror.cpp \
-    tinyxml/tinyxmlparser.cpp
+    tinyxml/tinyxmlparser.cpp \
+    widget_templ_aff.cpp
 
 HEADERS  += tache.h \
     firstwindow.h \
@@ -35,6 +36,7 @@ HEADERS  += tache.h \
     widget_template.h \
     widget_precond.h \
     tinyxml/tinyxml.h \
-    tinyxml/tinystr.h
+    tinyxml/tinystr.h \
+    widget_templ_aff.h
 
 FORMS += 

@@ -16,6 +16,7 @@
 #include "firstwindow.h"
 #include "widget_date.h"
 #include "widget_precond.h"
+#include "widget_templ_aff.h"
 
 #include <iostream>
 
@@ -70,6 +71,7 @@ private:
     QPushButton * template_plus;
     QLabel * afficher_template;
     bool template_aff;
+    widget_templ_aff * templ;
 
 signals:
     void WidgetClosed();
@@ -80,6 +82,7 @@ public slots:
     void textEdited(QString s);
     void afficherPrecond();
     void afficherOrdon();
+    void afficherTempl();
 
 protected:
     void closeEvent(QCloseEvent *event);

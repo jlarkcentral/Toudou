@@ -17,6 +17,7 @@ Widget_ajout::Widget_ajout(FirstWindow *fw,QWidget *parent) :
     date_aff = false;
     precond_aff = false;
     ordon_aff = false;
+    template_aff = false;
 
     // seul le widget_ajout a le focus
     firstW->setDisabled(true);
@@ -31,7 +32,7 @@ Widget_ajout::Widget_ajout(FirstWindow *fw,QWidget *parent) :
     // centre le widget
     this->setWindowFlags(Qt::Sheet | Qt::WindowStaysOnTopHint);
 
-    mainlayout->setRowStretch(11,5);
+    mainlayout->setRowStretch(12,5);
 
     // Titre pour le champ nom de la Tache - "tache" ou "sous tache de XXX"
     QLabel * nameLabel;
@@ -177,6 +178,12 @@ Widget_ajout::Widget_ajout(FirstWindow *fw,QWidget *parent) :
 
     QObject::connect(ordon_plus,SIGNAL(clicked()),this,SLOT(afficherOrdon()));
 
+    templ = new widget_templ_aff(firstW);
+    mainlayout->addWidget(templ,11,0,1,2);
+    templ->setVisible(false);
+
+    QObject::connect(template_plus,SIGNAL(clicked()),this,SLOT(afficherTempl()));
+
     //mainlayout->addStretch();
 
     // Bouton Annuler
@@ -194,7 +201,7 @@ Widget_ajout::Widget_ajout(FirstWindow *fw,QWidget *parent) :
     boutonAjout->setFixedWidth(130);
     buttonsLayout->addWidget(boutonAjout);
     buttonsWidget->setLayout(buttonsLayout);
-    mainlayout->addWidget(buttonsWidget,11,0,1,2);
+    mainlayout->addWidget(buttonsWidget,12,0,1,2);
 
     QObject::connect(boutonAnnul,SIGNAL(clicked()),this,SLOT(close()));
     QObject::connect(boutonAjout,SIGNAL(clicked()),this,SLOT(addTache()));
@@ -307,6 +314,13 @@ void Widget_ajout::afficherDate()
             ordon_aff = false;
             afficher_ordon->setStyleSheet("");
         }
+        if (template_aff)
+        {
+            templ->setVisible(false);
+            template_plus->setText("+");
+            template_aff = false;
+            afficher_template->setStyleSheet("");
+        }
     }
     else
     {
@@ -344,6 +358,13 @@ void Widget_ajout::afficherPrecond()
             ordon_aff = false;
             afficher_ordon->setStyleSheet("");
         }
+        if (template_aff)
+        {
+            templ->setVisible(false);
+            template_plus->setText("+");
+            template_aff = false;
+            afficher_template->setStyleSheet("");
+        }
     }
     else
     {
@@ -380,6 +401,13 @@ void Widget_ajout::afficherOrdon()
             precond_aff = false;
             afficher_precond->setStyleSheet("");
         }
+        if (template_aff)
+        {
+            templ->setVisible(false);
+            template_plus->setText("+");
+            template_aff = false;
+            afficher_template->setStyleSheet("");
+        }
     }
     else
     {
@@ -389,6 +417,49 @@ void Widget_ajout::afficherOrdon()
         ordon_aff = false;
         this->setFixedHeight(300);
         afficher_ordon->setStyleSheet("");
+    }
+}
+
+void Widget_ajout::afficherTempl()
+{
+    if (!template_aff)
+    {
+        templ->setVisible(true);
+        template_plus->setText("-");
+        template_aff = true;
+        this->setFixedHeight(600);
+        afficher_template->setStyleSheet("QLabel{font-weight : bold;}");
+        if (date_aff)
+        {
+            dates->setVisible(false);
+            date_plus->setText("+");
+            date_aff = false;
+            this->setFixedWidth(350);
+            afficher_date->setStyleSheet("");
+        }
+        if (precond_aff)
+        {
+            preconds->setVisible(false);
+            precond_plus->setText("+");
+            precond_aff = false;
+            afficher_precond->setStyleSheet("");
+        }
+        if (ordon_aff)
+        {
+            ordon_expl->setVisible(false);
+            ordon->setVisible(false);
+            ordon_plus->setText("+");
+            ordon_aff = false;
+            afficher_ordon->setStyleSheet("");
+        }
+    }
+    else
+    {
+        templ->setVisible(false);
+        template_plus->setText("+");
+        template_aff = false;
+        this->setFixedHeight(300);
+        afficher_template->setStyleSheet("");
     }
 }
 
