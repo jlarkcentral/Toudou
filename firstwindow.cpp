@@ -104,7 +104,7 @@ FirstWindow::FirstWindow(QWidget *parent) :
     header->setResizeMode(QHeaderView::ResizeToContents);
     header->setResizeMode(0,QHeaderView::Stretch);
     header->setResizeMode(2,QHeaderView::Fixed);
-    header->setResizeMode(3,QHeaderView::Fixed);
+    header->setResizeMode(3,QHeaderView::ResizeToContents);
     header->setStretchLastSection(false);
     arbo->setHeaderHidden(true);
     arbo->setMouseTracking(true);
@@ -241,6 +241,16 @@ void FirstWindow::removeCheckboxes(QTreeWidgetItem *item)
     }
 }
 
+// Disable les sous-taches d'un template
+void FirstWindow::disableSubtasks(QTreeWidgetItem *item)
+{
+    item->setDisabled(true);
+    for (int i = 0; i < item->childCount(); i++)
+    {
+        disableSubtasks(item->child(i));
+    }
+}
+
 // popup ajout d une nouvelle tache "topLevel"
 void FirstWindow::popup()
 {
@@ -280,6 +290,11 @@ void FirstWindow::deleteItem()
 {
     defineCurrentTache(currentItem,racine);
     currentTache->getTacheParent()->delSousTache(currentTache);
+    bool ordre = currentTache->getOrdon();
+    if (ordre)
+    {
+
+    }
     delete(currentItem);
 }
 

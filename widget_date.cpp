@@ -29,6 +29,7 @@ widget_date::widget_date(FirstWindow * fw, QWidget *parent) :
     QHBoxLayout * abslayout = new QHBoxLayout();
     abslayout->addStretch();
     calendar = new QCalendarWidget();
+    calendar->setMinimumDate(QDate::currentDate());
     abslayout->addWidget(calendar);
     abslayout->addStretch();
     abswidget->setLayout(abslayout);
